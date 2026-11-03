@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Another Mod Dev Wiki</title>
+<link rel="stylesheet" href="lib/hl-dark.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <button id="menu" aria-label="Menu">☰</button>
+  <a href="#/" class="brand">Another Mod Dev Wiki</a>
+  <input id="search" type="search" placeholder="Search… (titles and content)" autocomplete="off">
+  <button id="theme" title="Toggle theme">☀️</button>
+</header>
+<div id="results" hidden></div>
+<div class="layout">
+  <nav id="sidebar"></nav>
+  <main><article id="content">Loading…</article><footer id="footer"></footer></main>
+</div>
+<script src="lib/marked.min.js"></script>
+<script>window.marked || document.write('<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"><\/script>')</script>
+<script src="lib/highlight.min.js"></script>
+<script src="js/resolve.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

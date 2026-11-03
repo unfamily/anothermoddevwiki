@@ -1,0 +1,248 @@
+{
+  "title": "Another Mod Dev Wiki",
+  "links": [
+    {
+      "label": "Wiki on GitHub",
+      "url": "https://github.com/unfamily/anothermoddevwiki"
+    },
+    {
+      "label": "unfamily on GitHub",
+      "url": "https://github.com/unfamily"
+    }
+  ],
+  "mods": [
+    {
+      "name": "Another Config Manager",
+      "slug": "another-config-manager",
+      "pages": [
+        {
+          "page": "Home",
+          "title": "Home"
+        }
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/unfamily/AnotherConfigManager"
+        },
+        {
+          "label": "CurseForge",
+          "url": "https://www.curseforge.com/minecraft/mc-mods/another-config-manager"
+        }
+      ],
+      "logo": "docs/another-config-manager/logo.png"
+    },
+    {
+      "name": "Another Dynaimics",
+      "slug": "another-dynaimics",
+      "pages": [
+        {
+          "page": "Home",
+          "title": "Home"
+        },
+        {
+          "page": "Configuration",
+          "title": "Configuration"
+        },
+        {
+          "page": "Declare-Duct",
+          "title": "Declare Duct"
+        },
+        {
+          "page": "Declare-Module",
+          "title": "Declare Module"
+        },
+        {
+          "page": "Tags-and-Compatibility",
+          "title": "Tags and Compatibility"
+        }
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/unfamily/Another-Dynaimics"
+        },
+        {
+          "label": "CurseForge",
+          "url": "https://www.curseforge.com/minecraft/mc-mods/another-dynamics"
+        }
+      ],
+      "logo": "docs/another-dynaimics/logo.png"
+    },
+    {
+      "name": "Colossal Reactors",
+      "slug": "colossal-reactors",
+      "pages": [
+        {
+          "page": "Home",
+          "title": "Home"
+        },
+        {
+          "page": "Heating-Coils",
+          "title": "Heating Coils"
+        },
+        {
+          "page": "Melter-Heats",
+          "title": "Melter Heats"
+        },
+        {
+          "page": "Melter-Recipes",
+          "title": "Melter Recipes"
+        },
+        {
+          "page": "Radiation-Scrubber-Catalysts",
+          "title": "Radiation Scrubber Catalysts"
+        },
+        {
+          "page": "Reactor-Coolant",
+          "title": "Reactor Coolant"
+        },
+        {
+          "page": "Reactor-Fuel",
+          "title": "Reactor Fuel"
+        },
+        {
+          "page": "Reactor-Heat-Sinks",
+          "title": "Reactor Heat Sinks"
+        },
+        {
+          "page": "Reactor-Website-Seeds",
+          "title": "Reactor Website Seeds"
+        },
+        {
+          "page": "Turbine-Builder",
+          "title": "Turbine Builder"
+        },
+        {
+          "page": "Turbine-electromagnetic-coils",
+          "title": "Turbine electromagnetic coils"
+        },
+        {
+          "page": "Turbine-Generation",
+          "title": "Turbine Generation"
+        },
+        {
+          "page": "Turbine-Website-Seeds",
+          "title": "Turbine Website Seeds"
+        }
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/unfamily/Colossal-Reactors"
+        },
+        {
+          "label": "CurseForge",
+          "url": "https://www.curseforge.com/minecraft/mc-mods/colossal-reactors"
+        }
+      ],
+      "logo": "docs/colossal-reactors/logo.png"
+    },
+    {
+      "name": "Iskandert Utilities & Library",
+      "slug": "iskandert-utilities",
+      "pages": [
+        {
+          "page": "Home",
+          "title": "Home"
+        },
+        {
+          "page": "Ancient-Tablet-and-Table",
+          "title": "Ancient Tablet and Table"
+        },
+        {
+          "page": "Arcane-Dictionary",
+          "title": "Arcane Dictionary"
+        },
+        {
+          "page": "Command-Items",
+          "title": "Command Items"
+        },
+        {
+          "page": "Command-Macros",
+          "title": "Command Macros"
+        },
+        {
+          "page": "Currencies",
+          "title": "Currencies"
+        },
+        {
+          "page": "Factory",
+          "title": "Factory"
+        },
+        {
+          "page": "Liquid-&-Gas-Declare",
+          "title": "Liquid & Gas Declare"
+        },
+        {
+          "page": "Potion-Plates",
+          "title": "Potion Plates"
+        },
+        {
+          "page": "Shop",
+          "title": "Shop"
+        },
+        {
+          "page": "Stage-Actions",
+          "title": "Stage Actions"
+        },
+        {
+          "page": "Stage-Items",
+          "title": "Stage Items"
+        },
+        {
+          "page": "Structure-System",
+          "title": "Structure System"
+        },
+        {
+          "page": "Suspicious-Delivery",
+          "title": "Suspicious Delivery"
+        },
+        {
+          "page": "Tools-Declare",
+          "title": "Tools Declare"
+        }
+      ],
+      "links": [
+        {
+          "label": "GitHub Utilities",
+          "url": "https://github.com/unfamily/Iskandert_Utilities"
+        },
+        {
+          "label": "CurseForge Utilities",
+          "url": "https://www.curseforge.com/minecraft/mc-mods/iskanderts-utilities"
+        },
+        {
+          "label": "GitHub Library",
+          "url": "https://github.com/unfamily/Iskandert-Library"
+        },
+        {
+          "label": "CurseForge Library",
+          "url": "https://www.curseforge.com/minecraft/mc-mods/iskanderts-library"
+        }
+      ],
+      "logo": "docs/iskandert-utilities/logo.png"
+    },
+    {
+      "name": "Replication AE2 Bridge",
+      "slug": "replication-ae2-bridge",
+      "pages": [
+        {
+          "page": "Home",
+          "title": "Home"
+        }
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/unfamily/Replication-AE2-Bridge"
+        },
+        {
+          "label": "CurseForge",
+          "url": "https://www.curseforge.com/minecraft/mc-mods/replication-ae2-bridge"
+        }
+      ],
+      "logo": "docs/replication-ae2-bridge/logo.png"
+    }
+  ]
+}
