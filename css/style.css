@@ -27,3 +27,4 @@ blockquote{margin:0;padding:0 1em;color:var(--muted);border-left:4px solid var(-
 #footer { max-width:960px; margin-top:48px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 24px; padding:14px 0; border-top:1px solid var(--border, #333); font-size:.9em; opacity:.85; }
 #footer a { color:inherit; text-decoration:underline; text-underline-offset:2px; }
 #footer .f-mod { font-weight:600; }
+pre code.hljs{background:transparent}

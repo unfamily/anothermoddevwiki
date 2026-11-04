@@ -8,7 +8,7 @@
   const modBy = slug => manifest.mods.find(m => m.slug === slug);
 
   // Theme
-  const setTheme = t => { document.documentElement.dataset.theme = t; localStorage.theme = t; $('theme').textContent = t === 'dark' ? '☀️' : '🌙'; };
+  const setTheme = t => { document.documentElement.dataset.theme = t; $('hl-dark').disabled = t !== 'dark'; $('hl-light').disabled = t === 'dark'; localStorage.theme = t; $('theme').textContent = t === 'dark' ? '☀️' : '🌙'; };
   setTheme(localStorage.theme || 'dark');
   $('theme').onclick = () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
   $('menu').onclick = () => document.body.classList.toggle('nav-open');

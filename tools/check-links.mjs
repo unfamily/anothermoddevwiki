@@ -15,4 +15,4 @@ for (const m of wiki.mods) { const pages = m.pages.map(p => p.page); const src =
     if (t && target.toLowerCase().replace(/[-_]/g,'') !== t.toLowerCase().replace(/[-_]/g,'')) fuzzy.push(`${t} -> ${target}`);
     if (a) { const ii = [...ids(src[target])], r = resolveAnchor(a, ii); if (!r) { bad++; console.log(`ANCHOR? ${m.slug}/${p}: ${href}`); continue; } if (r !== a.toLowerCase()) fuzzy.push(`#${a} -> #${r}`); }
     ok++; } }
-console.log(`OK ${ok}, problemi ${bad}`); console.log('Fuzzy:', [...new Set(fuzzy)].join(', ') || 'nessuno');
+console.log(`OK ${ok}, issues ${bad}`); console.log('Fuzzy:', [...new Set(fuzzy)].join(', ') || 'none');
