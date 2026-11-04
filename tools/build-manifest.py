@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Rigenera wiki.json scansionando docs/<slug>/*.md. Uso: python3 tools/build-manifest.py"""
+"""Rigenera wiki.json scansionando docs/<slug>/*.md. Usage: python3 tools/build-manifest.py"""
 import json, os, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS = os.path.join(ROOT, "docs")
-# Nomi visualizzati opzionali: docs/<slug>/_meta.json {"name": "..."} altrimenti derivato dallo slug
+# Optional display names and links: docs/<slug>/_meta.json, otherwise derived from the slug
 mods = []
 for slug in sorted(os.listdir(DOCS)):
     d = os.path.join(DOCS, slug)
@@ -25,4 +25,4 @@ for slug in sorted(os.listdir(DOCS)):
     mods.append(entry)
 with open(os.path.join(ROOT, "wiki.json"), "w", encoding="utf-8") as fh:
     json.dump({"title": "Another Mod Dev Wiki", "links": [{"label": "Wiki on GitHub", "url": "https://github.com/unfamily/anothermoddevwiki"}, {"label": "unfamily on GitHub", "url": "https://github.com/unfamily"}], "mods": mods}, fh, indent=2, ensure_ascii=False)
-print(f"wiki.json: {len(mods)} mod, {sum(len(m['pages']) for m in mods)} pagine")
+print(f"wiki.json: {len(mods)} mod, {sum(len(m['pages']) for m in mods)} pages")

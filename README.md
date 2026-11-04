@@ -1,45 +1,44 @@
 # Another Mod Dev Wiki
 
-Wiki unica e statica per tutte le mod. I file `.md` restano invariati e vengono renderizzati nel browser con JavaScript ([marked](https://marked.js.org) + highlight.js, inclusi in `lib/`, funziona offline). Nessuna build necessaria.
-
-## Struttura
+## Structure
 
 ```
-index.html            pagina unica (routing a hash: #/colossal-reactors/Reactor-Fuel)
-css/style.css         stile (tema scuro di default, toggle in alto)
-js/app.js             caricamento, sidebar, ricerca, riscrittura link
-js/resolve.js         risoluzione link stile GitHub wiki (anche fuzzy)
+index.html            single page (hash routing: #/colossal-reactors/Reactor-Fuel)
+css/style.css         styles (dark theme by default, toggle in the header)
+js/app.js             loading, sidebar, search, footer, link rewriting
+js/resolve.js         GitHub-wiki-style link resolution (with fuzzy matching)
 lib/                  marked, highlight.js
-docs/<mod-slug>/      i file .md della wiki di ogni mod (Home.md = pagina iniziale)
-docs/<mod-slug>/_meta.json   {"name": "Nome visualizzato"} (opzionale)
-wiki.json             manifest generato (mod + pagine)
-tools/build-manifest.py   rigenera wiki.json
-tools/check-links.mjs     controlla i link interni
+docs/<mod-slug>/      each mod's wiki .md files (Home.md = landing page)
+docs/<mod-slug>/logo.png     mod logo (optional)
+docs/<mod-slug>/_meta.json   {"name": "Display name", "links": [{"label": "...", "url": "..."}]} (optional)
+wiki.json             generated manifest (mods + pages)
+tools/build-manifest.py   regenerates wiki.json
+tools/check-links.mjs     checks internal links
 ```
 
-## Aggiungere una wiki o una pagina
+## Adding a wiki or a page
 
-1. Crea `docs/<mod-slug>/` (minuscolo, con trattini) e copia dentro i `.md` (serve `Home.md`).
-2. Facoltativo: `docs/<mod-slug>/_meta.json` con `{"name": "Nome Mod"}`.
-3. Rigenera il manifest: `python3 tools/build-manifest.py`
-4. Controlla i link: `node tools/check-links.mjs`
+1. Create `docs/<mod-slug>/` (lowercase, dashes) and copy the `.md` files into it (`Home.md` is required).
+2. Optional: add a `logo.png` and a `_meta.json` with the display name and footer links (GitHub, CurseForge, ...).
+3. Regenerate the manifest: `python3 tools/build-manifest.py`
+4. Check the links: `node tools/check-links.mjs`
 
-I link stile GitHub wiki (`[x](Declare-Duct)`, `[[Pagina]]`, `pagina#anchor`) vengono risolti senza distinzione di maiuscole/trattini/underscore, con fallback fuzzy (es. `turbine-elec-coils` → `Turbine-electromagnetic-coils`). I link esterni si aprono in una nuova scheda.
+GitHub-wiki-style links (`[x](Declare-Duct)`, `[[Page]]`, `page#anchor`) are resolved ignoring case, dashes and underscores, with a fuzzy fallback (e.g. `turbine-elec-coils` → `Turbine-electromagnetic-coils`). External links open in a new tab.
 
-## Anteprima locale
+## Local preview
 
-`fetch()` non funziona aprendo `index.html` come file, serve un server HTTP:
+`fetch()` doesn't work when opening `index.html` as a file, so you need an HTTP server:
 
 ```
 python3 -m http.server 8000
 ```
 
-poi apri http://localhost:8000
+then open http://localhost:8000
 
-## Pubblicare su GitHub Pages
+## Publishing on GitHub Pages
 
-1. Push della repo su GitHub.
-2. Settings → Pages → Source: *Deploy from a branch*, branch `main`, cartella `/ (root)`.
-3. Il file `.nojekyll` evita che Jekyll elabori i `.md`.
+1. Push the repository to GitHub.
+2. Settings → Pages → Source: *Deploy from a branch*, branch `main`, folder `/ (root)`.
+3. The `.nojekyll` file prevents Jekyll from processing the `.md` files.
 
-Funziona su qualunque hosting statico (Netlify, Cloudflare Pages, un server web qualsiasi): basta caricare la cartella.
+It works on any static host (Netlify, Cloudflare Pages, any web server): just upload the folder.

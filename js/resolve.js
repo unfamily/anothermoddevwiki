@@ -8,13 +8,13 @@
       m[i][j] = Math.min(m[i-1][j] + 1, m[i][j-1] + 1, m[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1));
     return m[a.length][b.length];
   }
-  // Ritorna il nome pagina (es. "Turbine-electromagnetic-coils") oppure null
+  // Returns the page name (e.g. "Turbine-electromagnetic-coils") or null
   function resolvePage(target, pages) {
     const t = norm(target);
     if (!t) return null;
     const exact = pages.find(p => norm(p) === t);
     if (exact) return exact;
-    // fuzzy: prefissi per parola ("turbine-elec-coils" -> "turbine-electromagnetic-coils")
+    // fuzzy: per-word prefixes ("turbine-elec-coils" -> "turbine-electromagnetic-coils")
     const tw = decodeURIComponent(target).toLowerCase().split(/[-_\s]+/).filter(Boolean);
     let best = null, bestScore = -1;
     for (const p of pages) {
@@ -33,7 +33,7 @@
   function slugify(text) {
     return text.trim().toLowerCase().replace(/<[^>]+>/g, '').replace(/[^\p{L}\p{N}\s_-]/gu, '').replace(/\s/g, '-');
   }
-  // Anchor: esatto, altrimenti heading con il prefisso alfabetico comune più lungo (anchor vecchi/numeri di versione cambiati)
+  // Anchor: exact match, otherwise the heading with the longest common alphabetic prefix (old anchors / changed version numbers)
   function resolveAnchor(anchor, ids) {
     const a = decodeURIComponent(anchor).toLowerCase();
     if (ids.includes(a)) return a;

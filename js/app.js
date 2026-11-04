@@ -47,7 +47,7 @@
     el.querySelectorAll('a[href]').forEach(a => {
       const href = a.getAttribute('href');
       if (/^(https?:|mailto:)/i.test(href)) {
-        const gw = href.match(/github\.com\/[^/]+\/[^/]+\/wiki\/?([^#?]*)(#.*)?$/i); // link alla vecchia wiki dello stesso mod
+        const gw = href.match(/github\.com\/[^/]+\/[^/]+\/wiki\/?([^#?]*)(#.*)?$/i); // link to the same mod's old GitHub wiki
         if (!gw) { a.target = '_blank'; a.rel = 'noopener'; return; }
       }
       if (href.startsWith('#')) { a.href = `#/${mod.slug}/${encodeURIComponent(currentPage)}${href}`; return; }
@@ -92,7 +92,7 @@
   window.addEventListener('hashchange', render);
   render();
 
-  // Ricerca su titoli e contenuto
+  // Search over titles and content
   let indexReady = null;
   const buildIndex = () => indexReady ??= Promise.all(manifest.mods.flatMap(m => m.pages.map(async p => ({ m, p, text: ((await getMd(m.slug, p.page)) || '').toLowerCase() }))));
   $('search').addEventListener('focus', buildIndex);

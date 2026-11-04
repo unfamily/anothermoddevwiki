@@ -1,4 +1,4 @@
-// Verifica che i link interni di ogni .md risolvano (stessa logica del sito). Uso: node tools/check-links.mjs
+// Checks that the internal links of every .md resolve (same logic as the site). Usage: node tools/check-links.mjs
 import fs from 'fs'; import { createRequire } from 'module';
 const { resolvePage, resolveAnchor, slugify } = createRequire(import.meta.url)('../js/resolve.js');
 const wiki = JSON.parse(fs.readFileSync('wiki.json', 'utf8'));
