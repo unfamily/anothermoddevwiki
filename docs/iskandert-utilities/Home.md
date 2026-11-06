@@ -73,7 +73,7 @@
 
 - `hand` - Dumps the item in hand (ID, components, tags) for debugging
 - `reload` - Reloads Utils dynamic configs without a full `/reload` (command items, stage actions, shop, structures, factory, Suspicious Delivery, Ancient Tablet, Arcane Dictionary). Requires Iska Utils + OP level 2.
-- `wiki` - Prints a clickable link to the developers wiki ([Home](https://github.com/unfamily/iskandert_utilities/wiki))
+- `wiki` - Prints a clickable link to the developers wiki ([Another Mod Dev Wiki](https://www.anothermoddevwiki.eu/))
 
 ### `/iska_utils_shop reload|info|balance|edit`
 
@@ -108,7 +108,7 @@ Team management (from Iskandert's Library; not `iska_utils_team`):
 
 - `hand` - Dump held item components
 - `reload` - Quick reload of Utils `data/*/load/**` (requires Iska Utils)
-- `wiki` - Clickable developers wiki link ([Home](https://github.com/unfamily/iskandert_utilities/wiki))
+- `wiki` - Clickable developers wiki link ([Another Mod Dev Wiki](https://www.anothermoddevwiki.eu/))
 
 ### FTB Quests (Library 1.10+)
 
