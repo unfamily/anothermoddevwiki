@@ -274,8 +274,7 @@ All craft/process machines of the mod are gated. **Since** = first Another Stage
 | `polymorph` | Polymorph (Illusive / unofficial 26 port) | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
 | `toms_storage` | Tom's Simple Storage | Mixin (Crafting Terminal) | 0.1.0.0.0 |
 | `sophisticatedcore` | Sophisticated Core | Mixin (crafting upgrade) | 0.1.0.0.0 |
-| `craftingstation` | Crafting Station | Mixin (menu) | — |
-| `forestry` | Forestry CE | Mixin (Worktable) | — |
+| `craftingstation` | Crafting Station | Mixin (menu) | 0.1.0.0.0 |
 
 Install **either** `polymorph` **or** `polymorph_plus`, never both.
 
@@ -293,9 +292,10 @@ Install **either** `polymorph` **or** `polymorph_plus`, never both.
 | `refinedstorage` | Refined Storage 2 | Crafting/Pattern Grid `RecipeMatrix`; Pattern Grid `createPattern`; Autocrafter `canStep` | Mixins | `placedByPlayerId` UUID | 0.1.0.0.0 |
 | `energizedpower` | Energized Power | Auto Crafter; Auto Stonecutter | Mixins | `MachineOwners` / no-owner OK | 0.1.0.0.0 |
 | `enderio` | Ender IO | Crafter only | Mixin | `MachineOwners` / no-owner OK | 0.1.0.0.0 |
-| `create` | Create | Mechanical Crafter only | Mixin | Machine / no-owner | — |
-| `mekanism` | Mekanism | Formulaic Assemblicator / QIO craft window only | Mixin | Native `getOwnerUUID()` | — |
-| `integratedcrafting` | Integrated Crafting | Schedule / craft paths when recipe id is mapped | Soft | UUID as-is | — |
+| `create` | Create | Mechanical Crafter only | Mixin | Machine / no-owner | 0.1.0.0.0 |
+| `mekanism` | Mekanism | Formulaic Assemblicator / QIO craft window only | Mixin | Native `getOwnerUUID()` | 0.1.0.0.0 |
+| `integratedcrafting` | Integrated Crafting | Schedule / craft paths when recipe id is mapped | Soft | UUID as-is | 0.1.0.0.0 |
+| `forestry` | Forestry CE | Worktable only | Mixin | Machine / no-owner | 0.1.0.0.0 |
 
 Processing patterns have no recipe id: gate the external machine instead. Machines re-check locks on the next tick after a stage change (no need to reinsert items).
 
