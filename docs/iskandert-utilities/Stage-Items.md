@@ -12,4 +12,4 @@ Canonical docs: [Stage Items](#/another-stages/Stage-Items) · [Recipes](#/anoth
 
 Historical Utils Stage pages: [Stage-Items](Stage-Items) · [Stage-Actions](Stage-Actions) · [Utils wiki](Home)
 
-Stage **CRUD** (`/iska_lib_stage …`) and **[Stage Actions](Stage-Actions)** stay here / in Library.
+Stage **CRUD** (`/iska_lib_stage …`) stays in Library. **[Stage Actions](#/another-stages/Stage-Actions)** moved to Another Stages.

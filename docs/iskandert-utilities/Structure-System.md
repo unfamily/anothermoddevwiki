@@ -9,7 +9,7 @@ Multi-block structures defined in JSON: place with Structure Placer items, the S
 | Topic | Page |
 |-------|------|
 | Stages (gates on structures) | [Home — Internal Stages](Home#internal-stages) |
-| Stage actions | [Stage-Actions](Stage-Actions) |
+| Stage actions | [Stage-Actions (Another Stages)](#/another-stages/Stage-Actions) |
 
 ## Datapack locations
 
