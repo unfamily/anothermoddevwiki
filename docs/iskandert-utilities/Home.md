@@ -65,7 +65,7 @@
   * `all` - Clears **player**, **world**, and **team** stages for the target’s team (world stages are global)
   * `silent` / `hide` - Optional booleans (default `false`)
 
-- `call_action <target> <action_id>` - Runs a datapack stage action for target(s) (**§cJSON ONLY§r**). Target supports @a, @p, @s, @r, @e, @n. Stages are rechecked at execution. **Current** verb is `call_action`. On **some older Utils / Library versions** this subcommand was only **`action`** — same role; do not use `action` on current Library / Another Stages.
+- `call_action <target> <action_id>` - Runs a datapack stage action for target(s) (**JSON ONLY**). Target supports @a, @p, @s, @r, @e, @n. Stages are rechecked at execution. **Current** verb is `call_action`. On **some older Utils / Library versions** this subcommand was only **`action`** — same role; do not use `action` on current Library / Another Stages.
   * `force` - Bypass onCall=false (optional, default false)
   * `silent`, `hide` - Suppress feedback (optional)
 

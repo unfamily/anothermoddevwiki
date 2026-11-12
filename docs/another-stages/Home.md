@@ -17,7 +17,7 @@ Stage **item** gating did **not** start here:
 
 Stage **CRUD** (add/remove/list/…) stays on Library. **JSON stage actions** are documented here: [Stage-Actions](Stage-Actions). This mod adds gating + packdev APIs (Kube managers, JEI, …).
 
-Kube **runtime** (`stageChanged`, mutators, `registerStage`, `call_action` §cJSON ONLY§r): **[Stage-Runtime](Stage-Runtime)**.
+Kube **runtime** (`stageChanged`, mutators, `registerStage`, `call_action` **JSON ONLY**): **[Stage-Runtime](Stage-Runtime)**.
 
 ## Packdev docs
 
@@ -25,7 +25,7 @@ Prefer **KubeJS** `AnotherStagesEvents.restrictions(e => { e.items… / e.recipe
 
 **Datapack tip:** any folder under `data/<ns>/load/` is fine if `"type"` matches; recommended subfolders are conventions only. Bundle many rules in one JSON (`restrictions` array). Library `bootstrap.datapack_paths` (KubeJS / Open Loader / Global Packs / zips) are scanned at bootstrap.
 
-- [Stage Runtime](Stage-Runtime) — `stageChanged`, mutators, `registerStage`, `call_action` §cJSON ONLY§r
+- [Stage Runtime](Stage-Runtime) — `stageChanged`, mutators, `registerStage`, `call_action` **JSON ONLY**
 - [Stage Actions](Stage-Actions) — JSON actions run on stage add/remove (`iska_utils:stage_actions`)
 - [Stage Items](Stage-Items) — managers → datapack → queries (migrated from Utils / Library)
 - [Stage Recipes](Stage-Recipes) — [full support](Stage-Recipes#compatibility-list-full-support) + [vanilla path coverage](Stage-Recipes#vanilla-path-coverage)
@@ -54,7 +54,7 @@ Prefer **KubeJS** `AnotherStagesEvents.restrictions(e => { e.items… / e.recipe
 | Jade | Optional; stage_block mimic/unknown + stage_item rename/hardcore |
 | Hardcore item | `another_stages:stage_locked_hardcore` always hidden from JEI/EMI/REI |
 | Kube binding | `AnotherStages` only |
-| Stage Runtime | `stageChanged`, mutators, `registerStage(type,id)`, `call_action` §cJSON ONLY§r — [Stage-Runtime](Stage-Runtime) |
+| Stage Runtime | `stageChanged`, mutators, `registerStage(type,id)`, `call_action` **JSON ONLY** — [Stage-Runtime](Stage-Runtime) |
 
 ## Contributing
 
@@ -64,5 +64,5 @@ Pull requests that integrate **additional mods** into recipe/process path covera
 
 Stage CRUD stays in Library: `/iska_lib_stage …`  
 Another Stages mirror: `/another_stages …` (same CRUD via redirect)  
-Manual stage actions (**§cJSON ONLY§r**): `/iska_lib_stage call_action …` and `/another_stages call_action …` — see [Stage-Runtime](Stage-Runtime)  
+Manual stage actions (**JSON ONLY**): `/iska_lib_stage call_action …` and `/another_stages call_action …` — see [Stage-Runtime](Stage-Runtime)  
 Stage Generator GUI: `/another_stages edit` (and `/iska_lib_stage edit` when AS is installed) — see [Stage Generator](Stage-Generator)

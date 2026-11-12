@@ -25,7 +25,7 @@ Server-side **stage lifecycle** APIs owned by Another Stages (when installed): K
 | `stageChanged` | Fires on server when Library grants/revokes a player/world/team stage |
 | Mutators | Call Library `StageRegistry` (hooks + JSON actions + `stageChanged` still run) |
 | `registerStage` | Adds id to **typed Tab suggestions** only — does **not** grant the stage |
-| `call_action` | Manually runs a **datapack** Stage Action by id — **§cJSON ONLY§r** (legacy verb on some older builds: `action`) |
+| `call_action` | Manually runs a **datapack** Stage Action by id — **JSON ONLY** (legacy verb on some older builds: `action`) |
 | Client sync | S2C stage lists for JEI/UI; world mesh rebuild only if camouflage stage_block ids change |
 
 **Not here:** item/recipe/block/GUI restriction fields → [Stage-Items](Stage-Items) / [Stage-Recipes](Stage-Recipes) / [Stage-Blocks](Stage-Blocks) / [Stage-Guis](Stage-Guis). JSON action `if`/`delay`/`onCall` format → [Stage-Actions](Stage-Actions).
@@ -48,7 +48,7 @@ AnotherStagesEvents.stageChanged(event => {
 
 ---
 
-## Commands — `call_action` (§cJSON ONLY§r)
+## Commands — `call_action` (**JSON ONLY**)
 
 Runs a named datapack Stage Action (`iska_utils:stage_actions` / `iska_lib:stage_actions`).
 
@@ -73,7 +73,7 @@ Legacy (older builds only — do not use on current AS / Library):
 /iska_utils_stage action <target> <action_id> …
 ```
 
-Both roots are registered on current builds (Library owns actions; AS mirrors). Chat success/fail text marks **§cJSON ONLY§r**. Tab suggestions for `call_action` and `action_id` show the same red tooltip in the command GUI.
+Both roots are registered on current builds (Library owns actions; AS mirrors). Chat success/fail text marks **JSON ONLY** (red). Tab suggestions for `call_action` and `action_id` show the same red tooltip.
 
 ---
 
@@ -81,12 +81,12 @@ Both roots are registered on current builds (Library owns actions; AS mirrors). 
 
 | | |
 |--|--|
-| **What it does** | Server event after Library stage add/remove (player / world / team) |
+| **What it does** | Server event after Library stage add/remove (player / world / team). Much more advanced than JSON Stage Actions: any KubeJS logic |
 | **Default** | No handlers → nothing |
 | **Accepted** | Kube callback; event fields below |
-| **Combines** | Runs in addition to JSON Stage Actions (separate systems) |
+| **Combines** | Separate from JSON Stage Actions: similar purpose, different system. Both run on a stage change |
 | **Side effects** | Server only; nested mutators inside a handler do **not** re-post `stageChanged` (anti-recursion) |
-| **Does *not* do** | Not a replacement for JSON `if`/`delay`/`onCall`; not client-side; **does not** put stage ids into Tab suggestions by itself |
+| **Does *not* do** | Cannot be invoked by `call_action` (JSON only); not client-side; **does not** put stage ids into Tab suggestions by itself |
 
 ### Tab suggestions for stages used only here
 

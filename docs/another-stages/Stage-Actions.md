@@ -49,7 +49,7 @@ When a stage is added or removed, actions in this directory can run commands.
 
 ### Action fields
 
-- `id`: Unique identifier for this action (required). Used by `/iska_lib_stage call_action` / `/another_stages call_action` (**§cJSON ONLY§r** — datapack actions only, not Kube `stageChanged`). On **some older Utils / Library versions** the command verb was only **`action`** instead of `call_action`; current builds use `call_action` only.
+- `id`: Unique identifier for this action (required). Used by `/iska_lib_stage call_action` / `/another_stages call_action` (**JSON ONLY**: runs datapack actions only; Kube `stageChanged` is a separate system and cannot be called this way). On **some older Utils / Library versions** the command verb was only **`action`** instead of `call_action`; current builds use `call_action` only.
 - `onCall`: Can be triggered by `call_action` (default: true). Use false to only allow add/remove triggers.
 - `onAdd`: Run when stage is added (default: true)
 - `onRemove`: Run when stage is removed (default: true)
@@ -83,7 +83,7 @@ Configurations are loaded at server startup. Reload: `/iska_lib_dev reload` (qui
 
 ## Moved — Kube / runtime (Another Stages)
 
-Kube `AnotherStagesEvents.stageChanged`, binding mutators (`addPlayerStage` / …), `registerStage(type, id)`, and **`call_action` §cJSON ONLY§r** docs live on the Another Stages wiki:
+Kube `AnotherStagesEvents.stageChanged`, binding mutators (`addPlayerStage` / …), `registerStage(type, id)`, and **`call_action` **JSON ONLY**** docs live on the Another Stages wiki:
 
 → **[Stage-Runtime (Another Stages)](Stage-Runtime)**
 
