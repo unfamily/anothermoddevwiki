@@ -6,7 +6,7 @@
 
 Another Stages can **lock recipes** so that:
 
-1. **Craft / process does not succeed** while the rule applies (empty crafting result; furnace/campfire/crafter **never start** the cook; Unfamily machines that call `RecipeBlockBridge` refuse the recipe).
+1. **Craft / process does not succeed** while the rule applies (empty crafting result; furnace/campfire/crafter **never start** the cook; some machines are integrated directly through `RecipeBlockBridge` and refuse the recipe).
 2. **JEI** can show a red wash + lock badge (`overlay`) or hide the recipe (`hide`).
 
 Entry points for packdevs:
@@ -22,7 +22,7 @@ Library exposes `RecipeBlockBridge`; Another Stages registers as the provider wh
 
 | Feature                                                   | Since                                   |
 | --------------------------------------------------------- | --------------------------------------- |
-| Library `RecipeBlockBridge` API                           | Library (consumed by Unfamily machines) |
+| Library `RecipeBlockBridge` API                           | Library (some machines are integrated directly through it) |
 | Datapack `another_stages:stage_recipe` + matchers         | Another Stages 0.1.0.0.0                   |
 | KubeJS `AnotherStages.recipes`                            | Another Stages 0.1.0.0.0                   |
 | KubeJS `AnotherStagesEvents.restrictions` (preferred)     | Another Stages 0.1.0.0.0                   |
@@ -63,7 +63,7 @@ A rule fires only when **all** of the following hold:
 | Crafting table / inventory craft / stonecutter / smithing / recipe book | **Player** opening the menu (`RecipeStageGate.isBlockedForPlayer`) | No result / cannot place recipe |
 | Furnace, smoker, blast furnace, campfire, crafter, most mod machines | **Machine process** (`isBlockedForMachine`; often **no owner**) | Recipe **must not start** (no cook progress) |
 | Network autocraft (AE2 / RS / …) | **Native network/node owner UUID** (or requesting player); not a second AS claim when the mod already stores one | Encode refused + job/submit refused; execute is a safety net |
-| Unfamily machines via bridge | Owner UUID when present; world stages without owner still apply | Machine refuses the recipe |
+| Machines integrated via `RecipeBlockBridge` | Owner UUID when present; world stages without owner still apply | Machine refuses the recipe |
 
 Anything that only crafts when a **player is interacting in a menu** (crafting table style) already uses the **player UUID** — no `MachineOwners` / owner attachment is required. Owner matters for **autonomous process** blocks (furnace-like), **network autocraft**, and bridge machines.
 
