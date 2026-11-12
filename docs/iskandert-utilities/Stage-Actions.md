@@ -49,8 +49,8 @@ When a stage is added or removed, actions in this directory can run commands.
 
 ### Action fields
 
-- `id`: Unique identifier for this action (required). Used by `/iska_lib_stage action` command.
-- `onCall`: Can be triggered by `/iska_lib_stage action` command (default: true). Use false to only allow add/remove triggers.
+- `id`: Unique identifier for this action (required). Used by `/iska_lib_stage call_action` / `/another_stages call_action` (**§cJSON ONLY§r** — datapack actions only, not Kube `stageChanged`). On **some older Utils / Library versions** the command verb was only **`action`** instead of `call_action`; current builds use `call_action` only.
+- `onCall`: Can be triggered by `call_action` (default: true). Use false to only allow add/remove triggers.
 - `onAdd`: Run when stage is added (default: true)
 - `onRemove`: Run when stage is removed (default: true)
 - `stages_logic`: AND, OR, DEF_AND, DEF_OR (same as command macros)
@@ -78,3 +78,31 @@ Same semantics as [Suspicious Delivery — Mod conditions](Suspicious-Delivery#m
 ```
 
 Configurations are loaded at server startup. Reload: `/iska_lib_dev reload` (quick) or `/reload` (full).
+
+---
+
+## Moved — Kube / runtime (Another Stages)
+
+Kube `AnotherStagesEvents.stageChanged`, binding mutators (`addPlayerStage` / …), `registerStage(type, id)`, and **`call_action` §cJSON ONLY§r** docs live on the Another Stages wiki:
+
+→ **[Stage-Runtime (Another Stages)](https://github.com/unfamily/Another-Stages/wiki/Stage-Runtime)**
+
+This Utils page keeps the **JSON Stage Actions** format above (Library-owned).
+
+---
+
+## Known stages catalog (Library JSON)
+
+Tab suggestions for stages that are not yet granted can be registered via datapack (Library load):
+
+```json
+{
+  "type": "iska_lib:known_stages",
+  "stages": [
+    { "stage_type": "player", "stage": "bronze_age" },
+    { "stage_type": "world", "stage": "global_event" }
+  ]
+}
+```
+
+Alias: `iska_utils:known_stages`. Reload with `/iska_lib_stage reload`. Full behavior + Kube `AnotherStages.registerStage` → [Stage-Runtime](https://github.com/unfamily/Another-Stages/wiki/Stage-Runtime#binding--registerstage-tab-catalog).

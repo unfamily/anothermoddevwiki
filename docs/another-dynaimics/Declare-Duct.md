@@ -63,111 +63,134 @@ Defines a **logical duct id**: transport kinds, quantity/rate/speed, Sequential 
 
 Optional top-level `sound`. Matching is case-insensitive. Blank or unknown values fall back to **`copper`** (unknown values also log a warning).
 
-Keys currently accepted by the shipped mod:
+**How keys are resolved (1.3.0.1.0+):** every public static `SoundType` field on vanilla Minecraft is accepted as its **lowercase** name (via reflection). Pack-friendly aliases: `metallic` → `metal`, `rock` → `stone`, and **`iron` → `metal`** (forced even on 26.x, where vanilla also has a separate `SoundType.IRON` that is nearly identical).
 
-| Sound key | Notes |
-|-----------|--------|
-| `copper` | Default when omitted / unknown |
-| `metal`, `metallic`, `iron` | Same metal sound |
-| `rock`, `stone` | Same stone sound |
-| `glass` | |
-| `wood` | |
-| `wool` | |
-| `sand` | |
-| `gravel` | |
-| `grass` | |
-| `lily_pad` | |
-| `snow` | |
-| `powder_snow` | |
-| `ladder` | |
-| `anvil` | |
-| `slime_block` | |
-| `honey_block` | |
-| `coral_block` | |
-| `bamboo` | |
-| `bamboo_sapling` | |
-| `scaffolding` | |
-| `sweet_berry_bush` | |
-| `crop` | |
-| `hard_crop` | |
-| `vine` | |
-| `nether_wart` | |
-| `lantern` | |
-| `stem` | |
-| `nylium` | |
-| `fungus` | |
-| `roots` | |
-| `shroomlight` | |
-| `weeping_vines` | |
-| `twisting_vines` | |
-| `soul_sand` | |
-| `soul_soil` | |
-| `basalt` | |
-| `wart_block` | |
-| `netherrack` | |
-| `nether_bricks` | |
-| `nether_sprouts` | |
-| `nether_ore` | |
-| `bone_block` | |
-| `netherite_block` | |
-| `ancient_debris` | |
-| `lodestone` | |
-| `chain` | |
-| `nether_gold_ore` | |
-| `gilded_blackstone` | |
-| `candle` | |
-| `amethyst` | |
-| `amethyst_cluster` | |
-| `small_amethyst_bud` | |
-| `medium_amethyst_bud` | |
-| `large_amethyst_bud` | |
-| `tuff` | |
-| `calcite` | |
-| `dripstone_block` | |
-| `pointed_dripstone` | |
-| `cave_vines` | |
-| `spore_blossom` | |
-| `azalea` | |
-| `flowering_azalea` | |
-| `moss_carpet` | |
-| `pink_petals` | |
-| `moss` | |
-| `big_dripleaf` | |
-| `small_dripleaf` | |
-| `rooted_dirt` | |
-| `hanging_roots` | |
-| `azalea_leaves` | |
-| `sculk_sensor` | |
-| `sculk_catalyst` | |
-| `sculk` | |
-| `sculk_vein` | |
-| `sculk_shrieker` | |
-| `glow_lichen` | |
-| `deepslate` | |
-| `deepslate_bricks` | |
-| `deepslate_tiles` | |
-| `polished_deepslate` | |
-| `froglight` | |
-| `frogspawn` | |
-| `mangrove_roots` | |
-| `muddy_mangrove_roots` | |
-| `mud` | |
-| `mud_bricks` | |
-| `packed_mud` | |
-| `hanging_sign` | |
-| `nether_wood_hanging_sign` | |
-| `bamboo_wood_hanging_sign` | |
-| `bamboo_wood` | |
-| `nether_wood` | |
-| `cherry_wood` | |
-| `cherry_sapling` | |
-| `cherry_leaves` | |
-| `cherry_wood_hanging_sign` | |
-| `chiseled_bookshelf` | |
-| `suspicious_sand` | |
-| `suspicious_gravel` | |
-| `decorated_pot` | |
-| `decorated_pot_cracked` | |
+The **From** column is the earliest Minecraft/NeoForge line where that key is valid: `1.21.1+` (both builds) or `26.1.2+` (26.1.2 onward only; on 1.21.1 those fall back to `copper` with a warning). Rows are ordered **1.21.1+ first**, then **26.1.2+** at the end.
+
+| Sound key | From | Notes |
+|-----------|------|--------|
+| `copper` | 1.21.1+ | Default when omitted / unknown |
+| `metal`, `metallic`, `iron` | 1.21.1+ | Same metal sound (`iron` / `metallic` are aliases) |
+| `stone`, `rock` | 1.21.1+ | Same stone sound |
+| `amethyst` | 1.21.1+ | |
+| `amethyst_cluster` | 1.21.1+ | |
+| `ancient_debris` | 1.21.1+ | |
+| `anvil` | 1.21.1+ | |
+| `azalea` | 1.21.1+ | |
+| `azalea_leaves` | 1.21.1+ | |
+| `bamboo` | 1.21.1+ | |
+| `bamboo_sapling` | 1.21.1+ | |
+| `bamboo_wood` | 1.21.1+ | |
+| `bamboo_wood_hanging_sign` | 1.21.1+ | |
+| `basalt` | 1.21.1+ | |
+| `big_dripleaf` | 1.21.1+ | |
+| `bone_block` | 1.21.1+ | |
+| `calcite` | 1.21.1+ | |
+| `candle` | 1.21.1+ | |
+| `cave_vines` | 1.21.1+ | |
+| `chain` | 1.21.1+ | |
+| `cherry_leaves` | 1.21.1+ | |
+| `cherry_sapling` | 1.21.1+ | |
+| `cherry_wood` | 1.21.1+ | |
+| `cherry_wood_hanging_sign` | 1.21.1+ | |
+| `chiseled_bookshelf` | 1.21.1+ | |
+| `cobweb` | 1.21.1+ | |
+| `copper_bulb` | 1.21.1+ | |
+| `copper_grate` | 1.21.1+ | |
+| `coral_block` | 1.21.1+ | |
+| `crop` | 1.21.1+ | |
+| `decorated_pot` | 1.21.1+ | |
+| `decorated_pot_cracked` | 1.21.1+ | |
+| `deepslate` | 1.21.1+ | |
+| `deepslate_bricks` | 1.21.1+ | |
+| `deepslate_tiles` | 1.21.1+ | |
+| `dripstone_block` | 1.21.1+ | |
+| `empty` | 1.21.1+ | Vanilla empty SoundType |
+| `flowering_azalea` | 1.21.1+ | |
+| `froglight` | 1.21.1+ | |
+| `frogspawn` | 1.21.1+ | |
+| `fungus` | 1.21.1+ | |
+| `gilded_blackstone` | 1.21.1+ | |
+| `glass` | 1.21.1+ | |
+| `glow_lichen` | 1.21.1+ | |
+| `grass` | 1.21.1+ | |
+| `gravel` | 1.21.1+ | |
+| `hanging_roots` | 1.21.1+ | |
+| `hanging_sign` | 1.21.1+ | |
+| `hard_crop` | 1.21.1+ | |
+| `heavy_core` | 1.21.1+ | |
+| `honey_block` | 1.21.1+ | |
+| `ladder` | 1.21.1+ | |
+| `lantern` | 1.21.1+ | |
+| `large_amethyst_bud` | 1.21.1+ | |
+| `lily_pad` | 1.21.1+ | |
+| `lodestone` | 1.21.1+ | |
+| `mangrove_roots` | 1.21.1+ | |
+| `medium_amethyst_bud` | 1.21.1+ | |
+| `moss` | 1.21.1+ | |
+| `moss_carpet` | 1.21.1+ | |
+| `mud` | 1.21.1+ | |
+| `mud_bricks` | 1.21.1+ | |
+| `muddy_mangrove_roots` | 1.21.1+ | |
+| `nether_bricks` | 1.21.1+ | |
+| `nether_gold_ore` | 1.21.1+ | |
+| `nether_ore` | 1.21.1+ | |
+| `nether_sprouts` | 1.21.1+ | |
+| `nether_wart` | 1.21.1+ | |
+| `nether_wood` | 1.21.1+ | |
+| `nether_wood_hanging_sign` | 1.21.1+ | |
+| `netherite_block` | 1.21.1+ | |
+| `netherrack` | 1.21.1+ | |
+| `nylium` | 1.21.1+ | |
+| `packed_mud` | 1.21.1+ | |
+| `pink_petals` | 1.21.1+ | |
+| `pointed_dripstone` | 1.21.1+ | |
+| `polished_deepslate` | 1.21.1+ | |
+| `polished_tuff` | 1.21.1+ | |
+| `powder_snow` | 1.21.1+ | |
+| `rooted_dirt` | 1.21.1+ | |
+| `roots` | 1.21.1+ | |
+| `sand` | 1.21.1+ | |
+| `scaffolding` | 1.21.1+ | |
+| `sculk` | 1.21.1+ | |
+| `sculk_catalyst` | 1.21.1+ | |
+| `sculk_sensor` | 1.21.1+ | |
+| `sculk_shrieker` | 1.21.1+ | |
+| `sculk_vein` | 1.21.1+ | |
+| `shroomlight` | 1.21.1+ | |
+| `slime_block` | 1.21.1+ | |
+| `small_amethyst_bud` | 1.21.1+ | |
+| `small_dripleaf` | 1.21.1+ | |
+| `snow` | 1.21.1+ | |
+| `soul_sand` | 1.21.1+ | |
+| `soul_soil` | 1.21.1+ | |
+| `sponge` | 1.21.1+ | |
+| `spore_blossom` | 1.21.1+ | |
+| `stem` | 1.21.1+ | |
+| `suspicious_gravel` | 1.21.1+ | |
+| `suspicious_sand` | 1.21.1+ | |
+| `sweet_berry_bush` | 1.21.1+ | |
+| `trial_spawner` | 1.21.1+ | |
+| `tuff` | 1.21.1+ | |
+| `tuff_bricks` | 1.21.1+ | |
+| `twisting_vines` | 1.21.1+ | |
+| `vault` | 1.21.1+ | |
+| `vine` | 1.21.1+ | |
+| `wart_block` | 1.21.1+ | |
+| `weeping_vines` | 1.21.1+ | |
+| `wet_grass` | 1.21.1+ | |
+| `wet_sponge` | 1.21.1+ | |
+| `wood` | 1.21.1+ | |
+| `wool` | 1.21.1+ | |
+| `cactus_flower` | 26.1.2+ | |
+| `copper_golem_statue` | 26.1.2+ | |
+| `creaking_heart` | 26.1.2+ | |
+| `dried_ghast` | 26.1.2+ | |
+| `leaf_litter` | 26.1.2+ | |
+| `resin` | 26.1.2+ | |
+| `resin_bricks` | 26.1.2+ | |
+| `shelf` | 26.1.2+ | |
+| `spawner` | 26.1.2+ | |
 
 Builtin packs typically use `metallic` or `copper`.
 
@@ -196,13 +219,27 @@ Each entry needs `dec` plus kind-specific stats.
 | `transfer` | Max transfer |
 | `ray_color` | Optional hex color for energy ray visuals |
 
+### `unknown_flux` (experimental)
+
+Requires optional **Iskandert's Library** (`iska_lib`). Same field shape as `forge_energy` (`extract`, `transfer`, `rate`, `ray_alpha`, etc.), but amounts are **Unknown Flux** (`long`), not FE — no FE conversion.
+
+| Field | Description |
+|-------|-------------|
+| `extract` | Default extract per action |
+| `transfer` | Legacy transfer field (compatibility) |
+| `rate.default` / `rate.min` | Ticks between actions |
+| `ray_color` | Optional; default `#2b576c` if omitted |
+| `ray_alpha` | Path visibility (client uses `iska_lib:unknown_flux_hit`) |
+
+If `iska_lib` is not loaded, the `unknown_flux` `can_transport` row is **skipped** (other lanes on the same duct still load). AD 1.3.0.1.0 does not ship a builtin duct with this `dec`.
+
 ### `mek_heat`
 
 | Field | Description |
 |-------|-------------|
 | `insulation` | Heat moved per action |
 
-If Mekanism chemical/heat APIs are unavailable or gated off (see [Tags and Compatibility](Tags-and-Compatibility)), `mek_gas` / `mek_heat` entries are **skipped** at load with a warning.
+If Mekanism is missing or chemical/heat APIs are unavailable (see [Tags and Compatibility](Tags-and-Compatibility)), `mek_gas` / `mek_heat` entries are **skipped** at load with a warning.
 
 ## Feature keys (`disabled_features` / `forbidden_features`)
 

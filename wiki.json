@@ -70,6 +70,47 @@
       "logo": "docs/another-dynaimics/logo.png"
     },
     {
+      "name": "Another Stages",
+      "slug": "another-stages",
+      "pages": [
+        {
+          "page": "Home",
+          "title": "Home"
+        },
+        {
+          "page": "Stage-Blocks",
+          "title": "Stage Blocks"
+        },
+        {
+          "page": "Stage-Generator",
+          "title": "Stage Generator"
+        },
+        {
+          "page": "Stage-Guis",
+          "title": "Stage Guis"
+        },
+        {
+          "page": "Stage-Items",
+          "title": "Stage Items"
+        },
+        {
+          "page": "Stage-Recipes",
+          "title": "Stage Recipes"
+        },
+        {
+          "page": "Stage-Runtime",
+          "title": "Stage Runtime"
+        }
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/unfamily/Another-Stages"
+        }
+      ],
+      "logo": "docs/another-stages/logo.png"
+    },
+    {
       "name": "Colossal Reactors",
       "slug": "colossal-reactors",
       "pages": [
