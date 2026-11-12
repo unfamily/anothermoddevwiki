@@ -200,5 +200,6 @@ Full table: [Stage Items → Query](Stage-Items#3-query-bindings-exceptional).
 ## Reload
 
 - `/iska_lib_dev reload` — Utils quick reload **and** AS stage JSON + Kube soft-reload
-- `/iska_lib_stage reload` or `/another_stages reload` · KubeJS server script reload for script rules
+- `/iska_lib_stage reload` or `/another_stages reload` — datapack restrictions
+- `/kubejs reload server_scripts` — all KubeJS stage rules
 - `/reload` — full datapack reload

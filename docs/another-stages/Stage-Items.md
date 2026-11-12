@@ -394,4 +394,4 @@ AnotherStages.addNamedTeamStage(player.level, 'MyTeam', 'raid') // raw team key/
 - `/iska_lib_dev reload` — Utils quick reload **and** AS stage JSON + Kube soft-reload
 - `/iska_lib_stage reload` or `/another_stages reload` — datapack restrictions
 - `/reload` — full datapack reload  
-KubeJS script reload re-runs `server_scripts` (script rules cleared then re-committed).
+- `/kubejs reload server_scripts` — all KubeJS stage rules

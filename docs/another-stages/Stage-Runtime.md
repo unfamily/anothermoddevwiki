@@ -201,6 +201,7 @@ Loaded by Library from any `data/<ns>/load/**` with matching type (alias `iska_u
 | `/iska_lib_stage reload` | Library stage actions + **known_stages** (+ Library stage items if AS absent) |
 | `/iska_lib_dev reload` | Broader Library load paths (see Library/Utils docs) |
 | `/reload` | Full datapack + resources (also reloads known_stages via Library stage JSON reload listener) |
+| `/kubejs reload server_scripts` | All KubeJS stage content (restrictions, `registerStage`, `stageChanged` handlers) |
 
 Kube `registerStage` is script-side — rerun scripts / restart to re-apply after clear.
 

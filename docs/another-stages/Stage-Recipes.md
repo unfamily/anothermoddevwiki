@@ -253,6 +253,7 @@ Full query table: [Stage Items → Query](Stage-Items#3-query-bindings-exception
 | `/iska_lib_dev reload stages` | Stage block only (Library stage actions + AS chain) |
 | `/iska_lib_stage reload` / `/another_stages reload` | Same AS stage chain (JSON + Kube soft-reload) |
 | `/reload` | Full Minecraft datapack reload; AS JSON listeners run with the new `ResourceManager` |
+| `/kubejs reload server_scripts` | All KubeJS stage rules |
 | Edit under `bootstrap.datapack_paths` (e.g. `kubejs/data`) | Picked up on AS `loadAll` via filesystem merge (quick reload / stage reload), not only after full `/reload` |
 
 ---
