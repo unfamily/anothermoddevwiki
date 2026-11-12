@@ -104,7 +104,7 @@ JSON string channel uses the same lang-key vs literal heuristic. Prefer Kube `Te
 
 | Kube | JSON | Default | What it does |
 |------|------|---------|--------------|
-| `.logicAnd()` / `.logicOr()` | `stages_logic` | `AND` | How stage conditions combine. |
+| `.logicAnd()` / `.logicOr()` | `stages_logic` | `AND` | How stage conditions combine: `AND` or `OR` only. |
 | `.stages([...])` | `stages` | empty (= always apply if matchers hit) | `{ stage_type, stage, is }`. `is` default `false` = lock while stage **missing**. |
 | `.blocks([...])` | `blocks` / `block` | empty | Matchers: block id, `#tag`, `@modid`, `regex:<pattern>`. |
 | `.exclude([...])` | `exclude` | empty | Never lock these blocks for this rule. |
@@ -193,7 +193,7 @@ AnotherStages.addPlayerStage(player, 'bronze_age') // see Stage-Items bindings
 if (AnotherStages.teamHasStage(player, 'team_unlock')) { /* … */ }
 ```
 
-Full table: [Stage Items → Query](Stage-Items#3-query-bindings-exceptional).
+Full table: [Stage Items → Query](Stage-Items#3-stage-bindings-query--mutate).
 
 ---
 

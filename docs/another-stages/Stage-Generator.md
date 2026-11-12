@@ -219,4 +219,4 @@ See [Stage-Runtime — registerStage](Stage-Runtime#binding--registerstage-tab-c
 - Does not show inventory UI outside matcher-entry.
 - Does not use a separate Item/#Tag/@Mod type button — the calibrator slot + ← → provide those forms.
 - Does not reserve an empty right column for actions (actions are bottom / beside inv).
-- DEF_OR / complex `when` — hand-write; see [Stage-Items](Stage-Items), [Stage-Recipes](Stage-Recipes), [Stage-Blocks](Stage-Blocks), [Stage-Guis](Stage-Guis).
+- `DEF_*` / complex `when` — hand-write; see [Stage-Items](Stage-Items) (branch combination) and [Stage-Actions](Stage-Actions) / [Command Items](#/iskandert-utilities/Command-Items) / [Command Macros](#/iskandert-utilities/Command-Macros) (per-`if` indices).

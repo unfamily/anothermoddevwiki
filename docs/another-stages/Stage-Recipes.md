@@ -241,7 +241,7 @@ if (AnotherStages.playerHasStage(player, 'bronze_age')) { /* … */ }
 AnotherStages.addPlayerStage(player, 'bronze_age')
 ```
 
-Full query table: [Stage Items → Query](Stage-Items#3-query-bindings-exceptional).
+Full query table: [Stage Items → Query](Stage-Items#3-stage-bindings-query--mutate).
 
 ---
 

@@ -64,14 +64,13 @@ The format is JSON with the following structure:
 - `stack_size`: Maximum stack size for this item (optional, default: 64, range: 1-64)
 - `is_foil`: Whether the item should have an enchantment glint (optional, default: false)
 - `cooldown`: Cooldown in ticks (20 ticks = 1 second) between actions (optional, default: 0)
-- `stages_logic`: Logic for evaluating stages (optional, values: "AND", "OR", "DEF_AND", "DEF_OR", default: "AND")
-  - "AND": All stages must be satisfied
-  - "OR": At least one stage must be satisfied
-  - "DEF_AND": Stages are defined per action with AND logic
-  - "DEF_OR": Stages are defined per action with OR logic
+- `stages_logic`: Logic for evaluating stages (optional, values: `AND`, `OR`, `DEF_AND`, `DEF_OR`, default: `AND`)
+  - `AND`: All stages must be satisfied
+  - `OR`: At least one stage must be satisfied
+  - `DEF_AND` / `DEF_OR`: Top-level gate always passes; each `if` in `do[]` evaluates `conditions` indices into `stages[]` (`DEF_AND` = all, `DEF_OR` = any). Every passing `if` runs. This is per-`if` indices, not the [Stage Items](#/another-stages/Stage-Items#logic) branch-combination model.
 - `stages`: List of stage conditions that must be met for the item to function
 - `mods`: **3.5.0.0.0+** Mod presence conditions (see [Mod conditions](#mod-conditions-3500000))
-- `mods_logic`: **3.5.0.0.0+** `DEF_AND` or `DEF_OR` for `mod_conditions` in `if` blocks (default `DEF_AND`)
+- `mods_logic`: **3.5.0.0.0+** `AND` (default if omitted), `OR`, `DEF_AND`, or `DEF_OR`. `DEF_*` is for `mod_conditions` in `if` blocks. Only `DEF_OR` is OR for those indices; stage group and mod group combine with AND.
 
 ### Special Stage System for DEF Logic
 When using `stages_logic: "DEF_AND"` or `stages_logic: "DEF_OR"`, you can create a special initialization system:
@@ -132,10 +131,11 @@ When using `stages_logic: "DEF_AND"` or `stages_logic: "DEF_OR"`, you can create
 
 **Requires Iskandert's Utilities `3.5.0.0.0` or newer.**
 
-Same semantics as [Suspicious Delivery — Mod conditions](Suspicious-Delivery#mod-conditions-3500000):
+Same field names as [Suspicious Delivery — Mod and stage gates](Suspicious-Delivery#mod-and-stage-gates-3500000):
 
-- **`mods` without `mods_logic: DEF_*`** — load-time gate (implicit AND). The command item is not registered if any condition fails.
-- **`mods_logic: DEF_AND` / `DEF_OR`** — `mods` is used only in `if` blocks via `mod_conditions` indices. Stage `conditions` and `mod_conditions` both apply when present (AND between groups).
+- Omitted `mods_logic` = `AND`.
+- Command items **always register** at load. `AND` / `OR` are a **runtime** gate: the item exists but its actions do not run until the mod conditions pass (`OR` is real OR at runtime).
+- **`DEF_AND` / `DEF_OR`** — `mods` is an indexed pool for `mod_conditions` in `if` blocks. Stage `conditions` and `mod_conditions` both apply when present (AND between groups). Only `DEF_OR` is OR for mod indices.
 
 Example (world init reloads optional mods only when loaded):
 

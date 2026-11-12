@@ -53,21 +53,33 @@ When a stage is added or removed, actions in this directory can run commands.
 - `onCall`: Can be triggered by `call_action` (default: true). Use false to only allow add/remove triggers.
 - `onAdd`: Run when stage is added (default: true)
 - `onRemove`: Run when stage is removed (default: true)
-- `stages_logic`: AND, OR, DEF_AND, DEF_OR (same as command macros)
+- `stages_logic`: `AND` (default), `OR`, `DEF_AND`, `DEF_OR` — see [Deferred logic](#deferred-logic-def_and--def_or)
 - `stages`: Array of stage conditions that define which stage change triggers this action
 - `do`: Array of actions to run: `{"execute": "command"}` or `{"delay": ticks}`
-- `if`: Array of branches `{"conditions": [indices], "do": [actions]}` for conditional execution
-- `mods`: **3.5.0.0.0+** Mod presence load gate or deferred pool (see below)
-- `mods_logic`: **3.5.0.0.0+** `DEF_AND` / `DEF_OR` for `mod_conditions` in `if` branches
+- `if`: Array of branches `{"conditions": [indices], "do": [actions]}` for deferred execution
+- `mods`: **3.5.0.0.0+** Mod presence conditions (see [Mod conditions](#mod-conditions-3500000))
+- `mods_logic`: **3.5.0.0.0+** `AND` (default if omitted), `OR`, `DEF_AND`, `DEF_OR`
+
+### Deferred logic (DEF_AND / DEF_OR)
+
+This is **not** the [Stage Items](Stage-Items#logic) model (there, `DEF_*` combines whole `if[]` branches). With `DEF_AND` / `DEF_OR` here:
+
+| | |
+|--|--|
+| Top-level stage gate | Always passes. The changed stage must still appear in `stages[]` to trigger. |
+| Each `if[]` branch | `conditions` are indices into `stages[]`. `DEF_AND`: all listed indices must pass. `DEF_OR`: any one. |
+| `mod_conditions` | Indices into `mods[]`, combined by `mods_logic`. Only `DEF_OR` is OR; any other value is AND. Stage group and mod group combine with **AND**. |
+| Which `if` runs | **First** matching branch’s `do` runs. If none match, top-level `do` runs (if present). |
+
+Same per-`if` index rules as Utils [Command Items](#/iskandert-utilities/Command-Items) and [Command Macros](#/iskandert-utilities/Command-Macros), except those run **every** passing `if` in `do[]`.
 
 ### Mod conditions (3.5.0.0.0+)
 
 **Requires Iskandert's Utilities `3.5.0.0.0` or newer.**
 
-Same semantics as [Suspicious Delivery — Mod conditions](#/iskandert-utilities/Suspicious-Delivery#mod-conditions-35000):
-
-- **`mods` without `mods_logic: DEF_*`** — the action definition is skipped at load if any mod condition fails.
-- **`mods_logic: DEF_AND` / `DEF_OR`** — add `mod_conditions` to `if` branches alongside `conditions`:
+- Omitted `mods_logic` = `AND`.
+- **`AND` / `OR`** — the action is **skipped at load** if the mod gate fails. At load, `OR` is treated as `AND`.
+- **`DEF_AND` / `DEF_OR`** — always registered; use `mod_conditions` on `if` branches (see above).
 
 ```json
 {

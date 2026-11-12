@@ -165,7 +165,7 @@ Two modes per entry:
 
 **A) Flat `AND` / `OR`** — add `mods` / `stages` on the entry. Craft/JEI only when `isFullyEligible` for the evaluating player.
 
-**B) `DEF_AND` / `DEF_OR`** — `stages[]` / `mods[]` form an indexed pool; top-level **`if[]`** lists branches (same layout as command items: each branch is `[ {conditions…}, { require, produce } ]`). The **first** branch whose `if` passes defines the active `require` / `produce`. No branch → entry does not match for that player.
+**B) `DEF_AND` / `DEF_OR`** — `stages[]` / `mods[]` form an indexed pool; top-level **`if[]`** lists branches (same layout as command items: each branch is `[ {conditions…}, { require, produce } ]`). Indices in a branch: `DEF_AND` needs all, `DEF_OR` any. The **first** branch whose `if` passes defines the active `require` / `produce`. A branch with empty `require` or empty `produce` is skipped even if its `if` would pass. No usable branch → entry does not match for that player.
 
 ```json
 {

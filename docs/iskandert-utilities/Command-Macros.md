@@ -104,14 +104,13 @@ If you change a default generated file, set overwritable to false in the file.
 - `stages_logic`: Logic for stage requirements evaluation [optional, default: AND]
   - `AND`: All stages must be satisfied
   - `OR`: At least one stage must be satisfied
-  - `DEF_AND`: Deferred evaluation where all per-action stages must be satisfied (AND logic)
-  - `DEF_OR`: Deferred evaluation where at least one per-action stage must be satisfied (OR logic)
+  - `DEF_AND` / `DEF_OR`: Top-level gate always passes; each `if` in `do[]` evaluates `conditions` indices into `stages[]` (`DEF_AND` = all, `DEF_OR` = any). Every passing `if` runs. This is per-`if` indices, not the [Stage Items](#/another-stages/Stage-Items#logic) branch-combination model.
 - `stages`: Array of game stages that must be unlocked to use this macro [optional]
   - `{"stage": "stage_id", "stage_type": "player", "is": true}`: ID of a required game stage and its type
     - `stage_type` can be: "player" (default), "world", or "team"
     - `is`: Whether the stage must be present (`true`, default) or absent (`false`)
 - `mods`: **3.5.0.0.0+** Mod presence conditions (see [Mod conditions](#mod-conditions-3500000)) [optional]
-- `mods_logic`: **3.5.0.0.0+** `DEF_AND` or `DEF_OR` for `mod_conditions` in `if` blocks [optional, default `DEF_AND`]
+- `mods_logic`: **3.5.0.0.0+** `AND` (default if omitted), `OR`, `DEF_AND`, or `DEF_OR`. `DEF_*` is for `mod_conditions` in `if` blocks. Only `DEF_OR` is OR for those indices; stage group and mod group combine with AND.
 - `parameters`: Array of parameter definitions for the command [optional]
   - `type`: Type of parameter (`string`, `word`, `int`, `float`, `double`, `boolean`, `target`, `static`) [**required**]
   - `required`: Whether the parameter is required (true) or optional (false) [optional, default: true]
@@ -127,10 +126,11 @@ If you change a default generated file, set overwritable to false in the file.
 
 **Requires Iskandert's Utilities `3.5.0.0.0` or newer.**
 
-Same semantics as [Suspicious Delivery — Mod conditions](Suspicious-Delivery#mod-conditions-3500000):
+Same field names as [Suspicious Delivery — Mod and stage gates](Suspicious-Delivery#mod-and-stage-gates-3500000):
 
-- **`mods` without `mods_logic: DEF_*`** — the macro is not registered at load if any mod condition fails.
-- **`mods_logic: DEF_AND` / `DEF_OR`** — use `mod_conditions` in `if` blocks. When both `conditions` and `mod_conditions` are set, both groups must pass.
+- Omitted `mods_logic` = `AND`.
+- **`AND` / `OR`** — the macro is **not registered at load** if the mod gate fails. At load, `OR` is treated as `AND`.
+- **`DEF_AND` / `DEF_OR`** — always registered; use `mod_conditions` in `if` blocks. When both `conditions` and `mod_conditions` are set, both groups must pass. Only `DEF_OR` is OR for mod indices.
 
 ### Parameter Types
 - `string`: Any text (greedily captures all remaining text)

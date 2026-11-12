@@ -78,7 +78,7 @@ Auto-id form: `another_stages:kjs/item/<fingerprint>` (collisions get `_2`, `_3`
 
 ### DEF_OR (branches)
 
-Indices in `.when([...], …)` match positions in `.stages([...])` (same model as JSON `if` / `conditions`).
+Indices in `.when([...], …)` match positions in `.stages([...])` (same model as JSON `if` / `conditions`). Indices inside one branch are always AND.
 
 ```js
 AnotherStagesEvents.restrictions(event => {
@@ -105,7 +105,7 @@ AnotherStagesEvents.restrictions(event => {
 })
 ```
 
-`.logicDefAnd()` + several `.when(...)` requires every branch to pass.
+`.logicDefOr()` — the rule is active if any `.when()` branch passes. `.logicDefAnd()` — every branch must pass. Empty `.when()` list = not active. Per-branch inventory / click consequences still apply on every passing branch, even under `.logicDefAnd()`.
 
 ### Verb ↔ JSON
 
@@ -300,9 +300,21 @@ Custom `tooltips` / component tooltips replace the default “locked until stage
 
 ### Logic
 
-- `AND` — all stage conditions must match  
-- `OR` — any stage condition  
-- `DEF_OR` / `DEF_AND` — use `if[]` with `conditions` indices into `stages[]`
+Two `DEF_*` meanings exist in this family of mods. **Stage Items use branch combination** (this page). Per-`if` index evaluation is [Stage Actions](Stage-Actions) (first matching branch) and Utils [Command Items](#/iskandert-utilities/Command-Items) / [Command Macros](#/iskandert-utilities/Command-Macros) / [Suspicious Delivery](#/iskandert-utilities/Suspicious-Delivery#mod-and-stage-gates-3500000) (every passing `if` in `do[]`).
+
+| `stages_logic` | Rule is active when | Indices inside one `if[]` / `.when()` branch |
+|----------------|---------------------|-----------------------------------------------|
+| `AND` (default) | All `stages[]` match | — (no `if[]`) |
+| `OR` | Any `stages[]` entry matches | — |
+| `DEF_OR` | Any `if[]` branch passes | Always AND |
+| `DEF_AND` | Every `if[]` branch passes | Always AND |
+
+| | |
+|--|--|
+| Empty `if[]` | Rule is not active |
+| Per-branch consequences | Inventory / click consequences of **every passing branch** still apply, including under `DEF_AND` (the all-branches gate decides whether the rule itself is active for tooltips, viewer, pickup, etc.) |
+| Client | Overlays, tooltips, and click-cancel preview treat `DEF_*` as **AND over all `stages[]`**, not as `if[]` branches. Server evaluates branches. DEF click-cancel is server-only |
+| Kube | `.logicDefOr()` / `.logicDefAnd()` / `.when()` exist **only** on items |
 
 ### Items / exclude
 

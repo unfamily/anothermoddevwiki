@@ -250,7 +250,7 @@ Entry-level gates use the same field names as [Command Items](Command-Items): `m
 | `AND` / `OR` | Only when **both** mod and stage sides pass (`isFullyEligible`) |
 | `DEF_AND` / `DEF_OR` | **Always** in the pool; gates run inside `do[]` via `if` blocks |
 
-For `DEF_*`, `stages[]` / `mods[]` are an **indexed pool**. Inside each `if` block, `conditions` / `mod_conditions` list indices (same layout as command items). Multiple sibling `if` blocks in one action are evaluated **in order**; the first block whose conditions pass runs its payload.
+For `DEF_*`, `stages[]` / `mods[]` are an **indexed pool** (per-`if` indices, not the [Stage Items](#/another-stages/Stage-Items#logic) branch-combination model). Inside each `if` block, `conditions` / `mod_conditions` list indices (same layout as command items). `DEF_AND` needs all listed stage indices, `DEF_OR` any one. Only `mods_logic: DEF_OR` is OR for mod indices; stage group and mod group combine with AND. Every passing `if` in `do[]` runs (not first-match).
 
 ```json
 {

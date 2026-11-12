@@ -94,7 +94,7 @@ Output ids that are not registered (e.g. optional mod compat) are **skipped** at
 
 **A) Flat `AND` / `OR`** — optional `mods` / `stages` on the recipe row **or** on individual `select[]` entries (per-output gate).
 
-**B) `DEF_AND` / `DEF_OR`** — indexed `stages[]` / `mods[]` on the row + top-level **`if[]`**. Each branch payload is `{ "select": [ … ] }`. First matching branch supplies the output grid, craft tick, and JEI. **`select[]` flat and `if[]` on the same row are mutually exclusive** (parse warning if both present).
+**B) `DEF_AND` / `DEF_OR`** — indexed `stages[]` / `mods[]` on the row + top-level **`if[]`**. Each branch payload is `{ "select": [ … ] }`. Indices in a branch: `DEF_AND` needs all, `DEF_OR` any. First matching branch supplies the output grid, craft tick, and JEI. **`select[]` flat and `if[]` on the same row are mutually exclusive** (parse warning if both present).
 
 ```json
 {
