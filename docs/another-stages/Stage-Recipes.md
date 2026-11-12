@@ -259,15 +259,7 @@ Full query table: [Stage Items → Query](Stage-Items#3-query-bindings-exception
 
 ## Compatibility list (full support)
 
-**Full support** = Another Stages gates **all** craft/process machines that matter for that mod (every relevant recipe path AS is responsible for). Update this table when a new integration lands. **Since** = first Another Stages version that supports it.
-
-**Vanilla (`minecraft`) is always full support.** Unfamily mods that call Library `RecipeBlockBridge` are gated without an AS mixin.
-
-**Placement rule:** if a mod’s only craft-related surfaces are **vanilla+** (crafting table / furnace / stonecutter / smithing style menus or the same vanilla recipe ids — no separate custom machine recipe system AS must also cover), that mod belongs **here**, not in path coverage. Examples: FastWorkbench, FastFurnace, Polymorph / Polymorph+, Crafting Station, Forestry Worktable, Tom’s Crafting Terminal, Sophisticated crafting upgrade.
-
-**Polymorph note:** install **either** classic `polymorph` **or** `polymorph_plus`, never both. AS filters conflict candidates via the shared `AbstractRecipeData` mixin. Pack addons differ: **Polymorphic AE2** requires `polymorph_plus`; **Polymorphic Energistics** targets classic `polymorph` (1.21.x); **RS Polymorph** is standalone (no Polymorph dep). Polymorph+ also ships built-in modules (Iron Furnaces, Tom’s, Sophisticated, FastFurnace, …) that classic may lack — stage craft locks still apply through AS machine mixins regardless.
-
-More mods will be added over time. **Priority goes to requests opened as [GitHub issues](https://github.com/unfamily/Another-Stages/issues)**.
+All craft/process machines of the mod are gated. **Since** = first Another Stages version. Vanilla+ mods (crafting table / furnace / stonecutter / smithing only) go here. Requests: [GitHub issues](https://github.com/unfamily/Another-Stages/issues).
 
 | Mod ID | Display name | How | Since |
 |--------|--------------|-----|-------|
@@ -277,63 +269,40 @@ More mods will be added over time. **Priority goes to requests opened as [GitHub
 | `rep_ae2_bridge` | Replication AE2 Bridge | `RecipeBlockBridge` | 0.1.0.0.0 |
 | `fastbench` | FastWorkbench (Shadows of Fire) | Mixin | 0.1.0.0.0 |
 | `fastfurnace` | FastFurnace (Shadows of Fire) | Mixin | 0.1.0.0.0 |
-| `ironfurnaces` | Iron Furnaces | Mixin (`getRecipeNonCached`; native `owner` UUID) | 0.1.0.0.0 |
+| `ironfurnaces` | Iron Furnaces | Mixin | 0.1.0.0.0 |
 | `polymorph_plus` | Polymorph+ (Aminoquiz fork) | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
-| `polymorph` | Polymorph (Illusive / unofficial 26 port) | Mixin (same `AbstractRecipeData`; mutually exclusive with Plus) | 0.1.0.0.0 |
+| `polymorph` | Polymorph (Illusive / unofficial 26 port) | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
 | `toms_storage` | Tom's Simple Storage | Mixin (Crafting Terminal) | 0.1.0.0.0 |
-| `sophisticatedcore` | Sophisticated Core | Mixin (crafting upgrade; used by Backpacks/Storage) | 0.1.0.0.0 |
-| `craftingstation` | Crafting Station | Mixin (menu) | Soft → full when mixin lands |
-| `forestry` | Forestry CE | Mixin (Worktable) | Soft → full when mixin lands |
+| `sophisticatedcore` | Sophisticated Core | Mixin (crafting upgrade) | 0.1.0.0.0 |
+| `craftingstation` | Crafting Station | Mixin (menu) | — |
+| `forestry` | Forestry CE | Mixin (Worktable) | — |
 
-See also **[Vanilla path coverage](#vanilla-path-coverage)** for large mods where AS only gates vanilla craft/stonecutting/smithing paths (not every machine).
-
-JEI / EMI / REI overlay/hide follows the same stage rules when the recipe id resolves (viewer-only ≠ craft lock). Vanilla crafting categories resolve via `RecipeHolder` (full overlay/hide). Custom Utils categories (Factory, Ancient Tablet) resolve via holder lookup (SP) or wrapper I/O / soft `recipe_types` (see JEI detail above). Matter Foundry (`rep_ae2_bridge:matter_foundry`): use child ids `rep_ae2_bridge:matter_foundry_recipes_N` or `recipe_types`; I/O via RecipeIoProbe; craft gate in Bridge; after stage unlock the Foundry re-scans without touching slots. Factory→machine “copy recipe” transfer is Pattern-Crafter-only today (no full Factory transfer handler). EMI on 26.1.2: no official build; AS EMI plugin is present but not guaranteed on unofficial jars.
+Install **either** `polymorph` **or** `polymorph_plus`, never both.
 
 ---
 
 ## Vanilla path coverage
 
-**Path coverage** (second list) = the mod has **other** machines / custom recipe systems that AS does **not** fully support yet; we still block the **vanilla** crafting / stonecutting / smithing paths (and listed AE2-like encode/submit/execute hooks) that those mods expose. Unknown / unlisted machine = **bypass**.
+**Partial support:** only the listed paths are gated; unlisted machines of the mod = **bypass**. Toggle under common config `mixins.*`.
 
-Do **not** put a mod here if vanilla+ is all it needs — that is [full support](#compatibility-list-full-support).
+| Mod ID | Display name | Path (what is gated) | How | Owner subject | Since |
+|--------|--------------|----------------------|-----|---------------|-------|
+| `ae2` | Applied Energistics 2 | Pattern encode; autocraft `submitJob`; Crafting Terminal; Molecular Assembler `pushPattern`; Inscriber/Charger process; in-world transform; Entropy Manipulator process | Mixins | Node / requesting / interacting player (Transform: [world only](#limited-stage-type-paths)) | 0.1.0.0.0 |
+| `extendedae` | ExtendedAE | Ex Molecular Assembler `pushPattern`; Assembler Matrix `acceptJob`; Ex Charger / Ex Inscriber (shared `ae2` recipe ids); Circuit Cutter / Crystal Assembler / Crystal Fixer | Mixins | AE2 node UUID / no-owner OK | 0.1.0.0.0 |
+| `advanced_ae` | AdvancedAE | Quantum Crafter pattern list; Reaction Chamber process | Mixins | AE2 node UUID / no-owner OK | 0.1.0.0.0 |
+| `refinedstorage` | Refined Storage 2 | Crafting/Pattern Grid `RecipeMatrix`; Pattern Grid `createPattern`; Autocrafter `canStep` | Mixins | `placedByPlayerId` UUID | 0.1.0.0.0 |
+| `energizedpower` | Energized Power | Auto Crafter; Auto Stonecutter | Mixins | `MachineOwners` / no-owner OK | 0.1.0.0.0 |
+| `enderio` | Ender IO | Crafter only | Mixin | `MachineOwners` / no-owner OK | 0.1.0.0.0 |
+| `create` | Create | Mechanical Crafter only | Mixin | Machine / no-owner | — |
+| `mekanism` | Mekanism | Formulaic Assemblicator / QIO craft window only | Mixin | Native `getOwnerUUID()` | — |
+| `integratedcrafting` | Integrated Crafting | Schedule / craft paths when recipe id is mapped | Soft | UUID as-is | — |
 
-**Note:** some rows here may later move to **full support** once every relevant machine of that mod is gated (e.g. AE2 Inscriber/Charger already listed as path hooks; a future “full AE2” row would mean all AE2 process machines, not only craft/autocraft paths).
-
-**Rules**
-
-- Insert OK / no work / no consume — inventories may accept items; the craft/process must not start or must clear the result.
-- No supermethod — one mixin (or bridge call) per path.
-- Network mods: prefer **encode → submit/request → execute** (execute is a safety net for old patterns).
-- Toggle under common config `mixins.*` (`ae2`, `refinedstorage`, …).
-
-| Mod ID | Display name | Path (what is gated) | How | Owner subject | 26.1.2 | 1.21.1 |
-|--------|--------------|----------------------|-----|---------------|--------|--------|
-| `ae2` | Applied Energistics 2 | Pattern encode; autocraft `submitJob`; Crafting Terminal; Molecular Assembler `pushPattern`; Inscriber/Charger process; in-world transform; Entropy Manipulator process | Mixins | Node / requesting / interacting player (see [limited stage-type paths](#limited-stage-type-paths) for Transform) | Implemented | Implemented |
-| `extendedae` | ExtendedAE | Ex Molecular Assembler `pushPattern`; Assembler Matrix `CraftingThread.acceptJob`; Ex Charger / Ex Inscriber process (shared AE2 recipe ids); Circuit Cutter / Crystal Assembler / Crystal Fixer process (`extendedae` recipe ids via `RecipeExecutor`) | Mixins | AE2 node UUID / no-owner OK | Implemented | Implemented (Ex Inscriber only on 1.21.1 — removed upstream on 26) |
-| `advanced_ae` | AdvancedAE | Quantum Crafter pattern list invalidate (encode/submit via AE2); Reaction Chamber process (`advanced_ae` reaction recipe holders) | Mixins | AE2 node UUID / no-owner OK | Implemented | Implemented |
-| `refinedstorage` | Refined Storage 2 | Crafting/Pattern Grid `RecipeMatrix`; Pattern Grid `createPattern`; Autocrafter `canStep` (INTERNAL) | Mixins | `placedByPlayerId` UUID | Implemented | Implemented |
-| `energizedpower` | Energized Power | Auto Crafter `hasWork`; Auto Stonecutter selectable `hasWork` (other EP machines not gated) | Mixins | `MachineOwners` / no-owner OK | Implemented | Implemented |
-| `enderio` | Ender IO | Crafter only (`updateRecipe`; other EIO machines not gated) | Mixin | `MachineOwners` / no-owner OK | Implemented | Soft (JarJar hierarchy on 1.21.1) |
-| `create` | Create | Mechanical Crafter only | Mixin | Machine / no-owner | — | Soft (deps present; mixin TBD) |
-| `mekanism` | Mekanism | Formulaic Assemblicator / QIO craft window only | Mixin | Native `getOwnerUUID()` (UUID as-is) | — | Soft (deps present; mixin TBD) |
-| `integratedcrafting` | Integrated Crafting | Schedule / craft paths when recipe id is mapped | Soft / future | UUID as-is | Soft | Soft |
-
-**AE2 network notes:** pattern encode shows an action-bar tip (`another_stages.ae2.craft_blocked*`). Autocraft submit returns AE2 `INCOMPLETE_PLAN` when any craft/stonecutting/smithing pattern in the plan is locked. Processing patterns have no vanilla recipe id — gate the external machine instead.
-
-**Shared recipe ids (AE2 family):** ExtendedAE **Ex Charger** and **Ex Inscriber** process the same `ae2` charger/inscriber recipe ids as vanilla AE2 machines — gate those ids once; both machine lines honor them. ExtendedAE **Circuit Cutter / Crystal Assembler / Crystal Fixer** use their own `extendedae:…` recipe ids. AdvancedAE **Reaction Chamber** uses `advanced_ae` reaction recipe holders for the craft gate.
-
-**AdvancedAE Reaction JEI (1.21.1):** AdvAE registers bare `ReactionChamberRecipe` values in JEI (strips holders). On **1.21.1** Another Stages restores recipe ids for that category (`getRegistryName` + RV helper lookup), so JEI lock overlay/hide-by-id works. **26.1.2** does not ship that restore. EMI/REI already keep holder ids upstream.
-
-**AE2-family process re-scan:** Inscriber / Ex Inscriber / ExtAE cutter-assembler-fixer / Reaction Chamber re-evaluate stage locks on the next process tick after a stage add/remove — **no need to remove and reinsert items** (no sticky `stuck` / poisoned `cachedTask`). Reaction Chamber also clears AdvAE `working` when locked (AdvAE’s `hasCraftWork` would otherwise keep ticking with a null task).
+Processing patterns have no recipe id: gate the external machine instead. Machines re-check locks on the next tick after a stage change (no need to reinsert items).
 
 ### Limited stage-type paths
-
-Paths that do **not** support every `stage_type` (`player` / `world` / `team`). Most craft/process gates support all three.
 
 | Path | Only compatible | What is gated |
 |------|-----------------|---------------|
 | AE2 in-world **Transform** (`TransformLogic`) | `world` | Transform must not start / consume |
 
-Process machines without a claimed owner still apply stage locks (insert OK / no work / no consume) — see [Machines / no owner](#machines--no-owner) and Library `RecipeBlockBridge` fail-closed semantics.
-
-**Factory (`iska_utils`):** full support via bridge + stonecutter fallback — listed above; **wiki only**, no Utils patch in this release.
+Machines without an owner still apply stage locks (insert OK / no work / no consume).

@@ -16,7 +16,7 @@ Block gating is **new in Another Stages** (not a Utils → Library migrate). Sta
 | `camouflage` (visual vs loot-only) | Another Stages 0.1.0.0.0 |
 | Jade disguise | Another Stages 0.1.0.0.0 |
 | `stop_tick` (DANGEROUS / best-effort) | Another Stages 0.1.0.0.0 |
-| `mimic_mining` / `.disableMimicMining()` | Another Stages 0.1.0.0.0 (1.21.1 + 26) |
+| `mimic_mining` / `.disableMimicMining()` | Another Stages 0.1.0.0.0 |
 
 ---
 
