@@ -64,7 +64,7 @@ When a stage is added or removed, actions in this directory can run commands.
 
 **Requires Iskandert's Utilities `3.5.0.0.0` or newer.**
 
-Same semantics as [Suspicious Delivery — Mod conditions](https://www.anothermoddevwiki.eu/#/iskandert-utilities/Suspicious-Delivery#mod-conditions-35000):
+Same semantics as [Suspicious Delivery — Mod conditions](#/iskandert-utilities/Suspicious-Delivery#mod-conditions-35000):
 
 - **`mods` without `mods_logic: DEF_*`** — the action definition is skipped at load if any mod condition fails.
 - **`mods_logic: DEF_AND` / `DEF_OR`** — add `mod_conditions` to `if` branches alongside `conditions`:

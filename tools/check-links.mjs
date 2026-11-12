@@ -10,6 +10,12 @@ for (const m of wiki.mods) { const pages = m.pages.map(p => p.page); const src =
   for (const p of pages) src[p] = fs.readFileSync(`docs/${m.slug}/${p}.md`, 'utf8');
   for (const p of pages) for (const [, href] of src[p].replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '').matchAll(/\]\(([^)\s]+)[^)]*\)|\[\[([^\]|]+)/g).map(x => [0, x[1] ?? x[2]])) {
     if (/^(https?:|mailto:)/.test(href) || /\.(png|jpe?g|gif|svg)$/i.test(href)) continue;
+    if (href.startsWith('#/')) { // cross-mod site link #/slug/Page#anchor
+      const [, slug, rest = 'Home'] = href.match(/^#\/([^/#]+)\/?(.*)$/) || []; const [pg, an] = rest.split('#'); const mm = wiki.mods.find(x => x.slug === slug);
+      const tp = mm && resolvePage(pg || 'Home', mm.pages.map(x => x.page));
+      if (!tp) { bad++; console.log(`UNRESOLVED ${m.slug}/${p}: ${href}`); continue; }
+      if (an && !resolveAnchor(an, [...ids(fs.readFileSync(`docs/${slug}/${tp}.md`, 'utf8'))])) { bad++; console.log(`ANCHOR? ${m.slug}/${p}: ${href}`); continue; }
+      ok++; continue; }
     const [t, a] = href.split('#'); const target = t ? resolvePage(t, pages) : p;
     if (!target) { bad++; console.log(`UNRESOLVED ${m.slug}/${p}: ${href}`); continue; }
     if (t && target.toLowerCase().replace(/[-_]/g,'') !== t.toLowerCase().replace(/[-_]/g,'')) fuzzy.push(`${t} -> ${target}`);

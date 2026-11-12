@@ -11,7 +11,7 @@ Stage gating for pack developers (items, blocks, recipes, GUIs, dimensions, and 
 
 Stage **item** gating did **not** start here:
 
-1. **Iskandert's Utilities** — original datapack surface (`iska_utils:stage_item`, …). Historical pages: [Stage-Items](https://www.anothermoddevwiki.eu/#/iskandert-utilities/Stage-Items) (and other `Stage-*` on the [Utils wiki](https://www.anothermoddevwiki.eu/#/iskandert-utilities/Home)).
+1. **Iskandert's Utilities** — original datapack surface (`iska_utils:stage_item`, …). Historical pages: [Stage-Items](#/iskandert-utilities/Stage-Items) (and other `Stage-*` on the [Utils wiki](#/iskandert-utilities/Home)).
 2. **Iskandert's Library** — shared stage registry / CRUD (`/iska_lib_stage`), free `load/` paths + `iska_lib:` type aliases (**Library `1.12.0.0.0+`**).
 3. **Another Stages** — owns item / recipe / block / GUI **gating** when installed; Library skips its item handler to avoid double-filter. Pre-AS JSON `type` values still work under any `data/<ns>/load/**`.
 

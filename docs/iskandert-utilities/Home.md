@@ -137,7 +137,7 @@ Files are identified by their `type` parameter:
 
 - `iska_utils:stage_item` - For declaring stages that limit items, allowing filtering by inventory. For example, this can block items that go into curios slots.
   * Location: any `data/<namespace>/load/…` with this `type` (recommended `load/iska_utils_stage_items/`; alias type `iska_lib:stage_item` — **Library `1.12.0.0.0+`**)
-  * **Heritage:** Utilities → Library (`1.12+`) → **[Another Stages](https://github.com/Unfamily/Another-Stages)** owns gating when installed (legacy types still load). Docs: [Stage Items](https://www.anothermoddevwiki.eu/#/another-stages/Stage-Items) · [Recipes](https://www.anothermoddevwiki.eu/#/another-stages/Stage-Recipes) · [Blocks](https://www.anothermoddevwiki.eu/#/another-stages/Stage-Blocks). Short note: [Stage-Items](Stage-Items).
+  * **Heritage:** Utilities → Library (`1.12+`) → **[Another Stages](https://github.com/Unfamily/Another-Stages)** owns gating when installed (legacy types still load). Docs: [Stage Items](#/another-stages/Stage-Items) · [Recipes](#/another-stages/Stage-Recipes) · [Blocks](#/another-stages/Stage-Blocks). Short note: [Stage-Items](Stage-Items).
 
 - `iska_utils:stage_actions` - Commands when stages are added/removed.
   * Location: any `data/<namespace>/load/…` with this `type` (recommended `load/iska_utils_stage_actions/`; alias type `iska_lib:stage_actions` — **Library `1.12.0.0.0+`**)
@@ -272,8 +272,8 @@ Detailed pages for developers:
 | Ancient Tablet & Ancient Table (shared datapack `iska_utils:ancient_tab`, chaos fuel) | [Ancient-Tablet-and-Table](Ancient-Tablet-and-Table) | **3.4.0.0.0+** |
 | Arcane Dictionary / Arcane Tome (trait pool, catalysts, consume) | [Arcane-Dictionary](Arcane-Dictionary) | **3.5.0.0.0+** |
 | Entry gates on crafting/load JSON (`mods`, `stages`, `if[]`) | [Suspicious-Delivery](Suspicious-Delivery#mod-and-stage-gates-3500000), [Ancient-Tablet-and-Table](Ancient-Tablet-and-Table#mod-and-stage-gates-3500000), [Factory](Factory#mod-and-stage-gates-3500000), [Arcane-Dictionary](Arcane-Dictionary#mod-and-stage-gates-3500000) | **3.5.0.0.0+** (per-page gate sections; base features keep their own min version) |
-| Mod conditions in load JSON (`mods`, `mods_logic`, `mod_conditions`) | [Command-Items](Command-Items#mod-conditions-3500000), [Command-Macros](Command-Macros#mod-conditions-3500000), [Stage-Actions](Stage-Actions#mod-conditions-3500000); stage items → [Another Stages](https://www.anothermoddevwiki.eu/#/another-stages/Stage-Items) | **3.5.0.0.0+** |
-| Stage items (gating) | [Stage-Items](Stage-Items) (Moved notice) · [AS wiki](https://www.anothermoddevwiki.eu/#/another-stages/Stage-Items) | Utils → Library `1.12+` → Another Stages |
+| Mod conditions in load JSON (`mods`, `mods_logic`, `mod_conditions`) | [Command-Items](Command-Items#mod-conditions-3500000), [Command-Macros](Command-Macros#mod-conditions-3500000), [Stage-Actions](Stage-Actions#mod-conditions-3500000); stage items → [Another Stages](#/another-stages/Stage-Items) | **3.5.0.0.0+** |
+| Stage items (gating) | [Stage-Items](Stage-Items) (Moved notice) · [AS wiki](#/another-stages/Stage-Items) | Utils → Library `1.12+` → Another Stages |
 | Stage actions | [Stage-Actions](Stage-Actions) | Any `load/…` + type / `iska_lib:` alias: **Library `1.12.0.0.0+`** |
 | Liquid & Gas JSON (Library) | [Liquid-Declare](Liquid-Declare) | **Library `1.12.0.0.0+`** (`iska_lib:liquid` / `iska_lib:gas`; bootstrap paths in Library config) |
 | Tool AOE / Library tools | [Tools-Declare](Tools-Declare) | **Library `1.12.0.0.0+`** (`iska_lib:tools`; JSON creates `iska_lib:<id>` at startup; harvest via `incorrect_for_drops` tag; `durability` = max uses; Java binds any mod item) |

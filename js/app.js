@@ -50,6 +50,7 @@
         const gw = href.match(/github\.com\/[^/]+\/[^/]+\/wiki\/?([^#?]*)(#.*)?$/i); // link to the same mod's old GitHub wiki
         if (!gw) { a.target = '_blank'; a.rel = 'noopener'; return; }
       }
+      if (href.startsWith('#/')) return; // cross-mod site link
       if (href.startsWith('#')) { a.href = `#/${mod.slug}/${encodeURIComponent(currentPage)}${href}`; return; }
       if (/^(https?:|mailto:)/i.test(href)) { a.target = '_blank'; a.rel = 'noopener'; return; }
       const [t, anc] = href.replace(/^\.?\//, '').split('#');
