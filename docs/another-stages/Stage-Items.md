@@ -6,7 +6,7 @@ Restrict items based on player, team, or world stages.
 
 ### Heritage
 
-Same feature as the old Utils / Library wiki ([Stage-Items](https://github.com/unfamily/iskandert_utilities/wiki/Stage-Items)):
+Same feature as the old Utils / Library wiki ([Stage-Items](https://www.anothermoddevwiki.eu/#/iskandert-utilities/Stage-Items)):
 
 1. **Utilities** — `iska_utils:stage_item` (any `load/**`; recommended `load/iska_utils_stage_items/`).
 2. **Library `1.12.0.0.0+`** — alias `iska_lib:stage_item`.
@@ -16,7 +16,7 @@ Canonical new type: `another_stages:stage_item`. **Path:** any `data/<ns>/load/*
 
 | Feature | Since |
 |---------|--------|
-| Core JSON gating (`stages`, `items`, `exclude`, containers, `other_case`, consequences, DEF_*) | Utilities → Library (see [old wiki](https://github.com/unfamily/iskandert_utilities/wiki/Stage-Items)); still valid; **moved to Another Stages** when AS is installed |
+| Core JSON gating (`stages`, `items`, `exclude`, containers, `other_case`, consequences, DEF_*) | Utilities → Library (see [old wiki](https://www.anothermoddevwiki.eu/#/iskandert-utilities/Stage-Items)); still valid; **moved to Another Stages** when AS is installed |
 | Types `iska_utils:stage_item` / `iska_lib:stage_item` | Pre-AS (legacy, still accepted) |
 | Mod conditions on load JSON | Utilities **3.5.0.0.0+** (still valid); owned by AS when installed |
 | Datapack `another_stages:stage_item` | Another Stages 0.1.0.0.0 |

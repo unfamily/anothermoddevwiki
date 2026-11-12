@@ -2,7 +2,7 @@
 
 [← Home](Home)
 
-Server-side **stage lifecycle** APIs owned by Another Stages (when installed): Kube event `stageChanged`, binding **query / mutate / registerStage**, and the mirrored **`call_action`** command. JSON Stage Action *definitions* stay on Library / Utils — see [Stage-Actions (Utils)](https://github.com/unfamily/iskandert_utilities/wiki/Stage-Actions).
+Server-side **stage lifecycle** APIs owned by Another Stages (when installed): Kube event `stageChanged`, binding **query / mutate / registerStage**, and the mirrored **`call_action`** command. JSON Stage Action *definitions* — see [Stage-Actions](Stage-Actions).
 
 > **Under construction** — packdev docs may grow with new verbs.
 
@@ -28,7 +28,7 @@ Server-side **stage lifecycle** APIs owned by Another Stages (when installed): K
 | `call_action` | Manually runs a **datapack** Stage Action by id — **§cJSON ONLY§r** (legacy verb on some older builds: `action`) |
 | Client sync | S2C stage lists for JEI/UI; world mesh rebuild only if camouflage stage_block ids change |
 
-**Not here:** item/recipe/block/GUI restriction fields → [Stage-Items](Stage-Items) / [Stage-Recipes](Stage-Recipes) / [Stage-Blocks](Stage-Blocks) / [Stage-Guis](Stage-Guis). JSON action `if`/`delay`/`onCall` format → Utils [Stage-Actions](https://github.com/unfamily/iskandert_utilities/wiki/Stage-Actions).
+**Not here:** item/recipe/block/GUI restriction fields → [Stage-Items](Stage-Items) / [Stage-Recipes](Stage-Recipes) / [Stage-Blocks](Stage-Blocks) / [Stage-Guis](Stage-Guis). JSON action `if`/`delay`/`onCall` format → [Stage-Actions](Stage-Actions).
 
 ---
 
@@ -208,7 +208,7 @@ Kube `registerStage` is script-side — rerun scripts / restart to re-apply afte
 
 ## See also
 
-- [Stage-Actions (Utils — JSON format)](https://github.com/unfamily/iskandert_utilities/wiki/Stage-Actions)
+- [Stage-Actions (JSON format)](Stage-Actions)
 - [Stage-Items § bindings](Stage-Items#3-stage-bindings-query--mutate)
 - [Stage-Generator](Stage-Generator)
 - [Stage-Blocks](Stage-Blocks) (`camouflage`)

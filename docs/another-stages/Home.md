@@ -11,11 +11,11 @@ Stage gating for pack developers (items, blocks, recipes, GUIs, dimensions, and 
 
 Stage **item** gating did **not** start here:
 
-1. **Iskandert's Utilities** — original datapack surface (`iska_utils:stage_item`, …). Historical pages: [Stage-Items](https://github.com/unfamily/iskandert_utilities/wiki/Stage-Items), [Stage-Actions](https://github.com/unfamily/iskandert_utilities/wiki/Stage-Actions) (and other `Stage-*` on the [Utils wiki](https://github.com/unfamily/iskandert_utilities/wiki)).
+1. **Iskandert's Utilities** — original datapack surface (`iska_utils:stage_item`, …). Historical pages: [Stage-Items](https://www.anothermoddevwiki.eu/#/iskandert-utilities/Stage-Items) (and other `Stage-*` on the [Utils wiki](https://www.anothermoddevwiki.eu/#/iskandert-utilities/Home)).
 2. **Iskandert's Library** — shared stage registry / CRUD (`/iska_lib_stage`), free `load/` paths + `iska_lib:` type aliases (**Library `1.12.0.0.0+`**).
 3. **Another Stages** — owns item / recipe / block / GUI **gating** when installed; Library skips its item handler to avoid double-filter. Pre-AS JSON `type` values still work under any `data/<ns>/load/**`.
 
-Stage **CRUD** (add/remove/list/…) and **JSON stage actions** stay on Library / Utilities ([Stage-Actions](https://github.com/unfamily/iskandert_utilities/wiki/Stage-Actions)). This mod adds gating + packdev APIs (Kube managers, JEI, …).
+Stage **CRUD** (add/remove/list/…) stays on Library. **JSON stage actions** are documented here: [Stage-Actions](Stage-Actions). This mod adds gating + packdev APIs (Kube managers, JEI, …).
 
 Kube **runtime** (`stageChanged`, mutators, `registerStage`, `call_action` §cJSON ONLY§r): **[Stage-Runtime](Stage-Runtime)**.
 
@@ -26,6 +26,7 @@ Prefer **KubeJS** `AnotherStagesEvents.restrictions(e => { e.items… / e.recipe
 **Datapack tip:** any folder under `data/<ns>/load/` is fine if `"type"` matches; recommended subfolders are conventions only. Bundle many rules in one JSON (`restrictions` array). Library `bootstrap.datapack_paths` (KubeJS / Open Loader / Global Packs / zips) are scanned at bootstrap.
 
 - [Stage Runtime](Stage-Runtime) — `stageChanged`, mutators, `registerStage`, `call_action` §cJSON ONLY§r
+- [Stage Actions](Stage-Actions) — JSON actions run on stage add/remove (`iska_utils:stage_actions`)
 - [Stage Items](Stage-Items) — managers → datapack → queries (migrated from Utils / Library)
 - [Stage Recipes](Stage-Recipes) — [full support](Stage-Recipes#compatibility-list-full-support) + [vanilla path coverage](Stage-Recipes#vanilla-path-coverage)
 - [Stage Blocks](Stage-Blocks)

@@ -78,6 +78,10 @@
           "title": "Home"
         },
         {
+          "page": "Stage-Actions",
+          "title": "Stage Actions"
+        },
+        {
           "page": "Stage-Blocks",
           "title": "Stage Blocks"
         },

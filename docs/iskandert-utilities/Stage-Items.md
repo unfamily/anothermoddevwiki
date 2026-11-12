@@ -8,8 +8,8 @@
 2. **Iskandert's Library `1.12.0.0.0+`** — alias `iska_lib:stage_item`.
 3. **Another Stages** — canonical docs + new fields / Kube managers; legacy types still load.
 
-Canonical docs: [Stage Items](https://github.com/Unfamily/Another-Stages/wiki/Stage-Items) · [Recipes](https://github.com/Unfamily/Another-Stages/wiki/Stage-Recipes) · [Blocks](https://github.com/Unfamily/Another-Stages/wiki/Stage-Blocks) · [Guis](https://github.com/Unfamily/Another-Stages/wiki/Stage-Guis)
+Canonical docs: [Stage Items](https://www.anothermoddevwiki.eu/#/another-stages/Stage-Items) · [Recipes](https://www.anothermoddevwiki.eu/#/another-stages/Stage-Recipes) · [Blocks](https://www.anothermoddevwiki.eu/#/another-stages/Stage-Blocks) · [Guis](https://www.anothermoddevwiki.eu/#/another-stages/Stage-Guis)
 
-Historical Utils Stage pages: [Stage-Items](https://github.com/unfamily/iskandert_utilities/wiki/Stage-Items) · [Stage-Actions](https://github.com/unfamily/iskandert_utilities/wiki/Stage-Actions) · [Utils wiki](https://github.com/unfamily/iskandert_utilities/wiki)
+Historical Utils Stage pages: [Stage-Items](Stage-Items) · [Stage-Actions](Stage-Actions) · [Utils wiki](Home)
 
 Stage **CRUD** (`/iska_lib_stage …`) and **[Stage Actions](Stage-Actions)** stay here / in Library.
