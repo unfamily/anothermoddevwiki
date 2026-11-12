@@ -274,9 +274,13 @@ All craft/process machines of the mod are gated. **Since** = first Another Stage
 | `polymorph` | Polymorph (Illusive / unofficial 26 port) | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
 | `toms_storage` | Tom's Simple Storage | Mixin (Crafting Terminal) | 0.1.0.0.0 |
 | `sophisticatedcore` | Sophisticated Core | Mixin (crafting upgrade) | 0.1.0.0.0 |
+| `ae2` | Applied Energistics 2 | Mixins | 0.1.0.0.0 |
+| `extendedae` | ExtendedAE | Mixins | 0.1.0.0.0 |
+| `advanced_ae` | AdvancedAE | Mixins | 0.1.0.0.0 |
+| `refinedstorage` | Refined Storage 2 | Mixins | 0.1.0.0.0 |
 | `craftingstation` | Crafting Station | Mixin (menu) | 0.1.0.0.0 |
 
-Install **either** `polymorph` **or** `polymorph_plus`, never both.
+Install **either** `polymorph` **or** `polymorph_plus`, never both. AE2 Transform supports only `world` stages ([details](#limited-stage-type-paths)). Processing patterns have no recipe id: gate the external machine instead.
 
 ---
 
@@ -286,10 +290,6 @@ Install **either** `polymorph` **or** `polymorph_plus`, never both.
 
 | Mod ID | Display name | Path (what is gated) | How | Owner subject | Since |
 |--------|--------------|----------------------|-----|---------------|-------|
-| `ae2` | Applied Energistics 2 | Pattern encode; autocraft `submitJob`; Crafting Terminal; Molecular Assembler `pushPattern`; Inscriber/Charger process; in-world transform; Entropy Manipulator process | Mixins | Node / requesting / interacting player (Transform: [world only](#limited-stage-type-paths)) | 0.1.0.0.0 |
-| `extendedae` | ExtendedAE | Ex Molecular Assembler `pushPattern`; Assembler Matrix `acceptJob`; Ex Charger / Ex Inscriber (shared `ae2` recipe ids); Circuit Cutter / Crystal Assembler / Crystal Fixer | Mixins | AE2 node UUID / no-owner OK | 0.1.0.0.0 |
-| `advanced_ae` | AdvancedAE | Quantum Crafter pattern list; Reaction Chamber process | Mixins | AE2 node UUID / no-owner OK | 0.1.0.0.0 |
-| `refinedstorage` | Refined Storage 2 | Crafting/Pattern Grid `RecipeMatrix`; Pattern Grid `createPattern`; Autocrafter `canStep` | Mixins | `placedByPlayerId` UUID | 0.1.0.0.0 |
 | `energizedpower` | Energized Power | Auto Crafter; Auto Stonecutter | Mixins | `MachineOwners` / no-owner OK | 0.1.0.0.0 |
 | `enderio` | Ender IO | Crafter only | Mixin | `MachineOwners` / no-owner OK | 0.1.0.0.0 |
 | `create` | Create | Mechanical Crafter only | Mixin | Machine / no-owner | 0.1.0.0.0 |
@@ -297,7 +297,7 @@ Install **either** `polymorph` **or** `polymorph_plus`, never both.
 | `integratedcrafting` | Integrated Crafting | Schedule / craft paths when recipe id is mapped | Soft | UUID as-is | 0.1.0.0.0 |
 | `forestry` | Forestry CE | Worktable only | Mixin | Machine / no-owner | 0.1.0.0.0 |
 
-Processing patterns have no recipe id: gate the external machine instead. Machines re-check locks on the next tick after a stage change (no need to reinsert items).
+Machines re-check locks on the next tick after a stage change (no need to reinsert items).
 
 ### Limited stage-type paths
 
