@@ -267,11 +267,11 @@ All craft/process machines of the mod are gated. **Since** = first Another Stage
 | `iska_utils` | Iskandert's Utilities | `RecipeBlockBridge` | 0.1.0.0.0 |
 | `colossal_reactors` | Colossal Reactors | `RecipeBlockBridge` | 0.1.0.0.0 |
 | `rep_ae2_bridge` | Replication AE2 Bridge | `RecipeBlockBridge` | 0.1.0.0.0 |
-| `fastbench` | FastWorkbench (Shadows of Fire) | Mixin | 0.1.0.0.0 |
-| `fastfurnace` | FastFurnace (Shadows of Fire) | Mixin | 0.1.0.0.0 |
+| `fastbench` | FastWorkbench | Mixin | 0.1.0.0.0 |
+| `fastfurnace` | FastFurnace | Mixin | 0.1.0.0.0 |
 | `ironfurnaces` | Iron Furnaces | Mixin | 0.1.0.0.0 |
-| `polymorph_plus` | Polymorph+ (Aminoquiz fork) | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
-| `polymorph` | Polymorph (Illusive / unofficial 26 port) | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
+| `polymorph_plus` | Polymorph+ | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
+| `polymorph` | Polymorph | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
 | `toms_storage` | Tom's Simple Storage | Mixin (Crafting Terminal) | 0.1.0.0.0 |
 | `sophisticatedcore` | Sophisticated Core | Mixin (crafting upgrade) | 0.1.0.0.0 |
 | `ae2` | Applied Energistics 2 | Mixins | 0.1.0.0.0 |
