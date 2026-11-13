@@ -6,7 +6,7 @@ Another Config Manager (ACM) opens NeoForge `ModConfigSpec` trees: browse sectio
 
 | Command | Effect |
 |---------|--------|
-| `/another_config_manager config` | Always opens the **mod browser** (searchable list of mods with NeoForge configs). |
+| `/another_config_manager config` | Always opens the **mod browser** (searchable list of **all loaded mods**). Title and `modId · version` stay normal. Mods **without** a NeoForge TOML config show a red third line (`No TOML config` / `Non ha config in TOML`); row click does not open an editor (status uses `no_configs`). |
 | `/another_config_manager config <modId>` | Opens that mod: native factory if present (including NeoForge `ConfigurationScreen`), else ACM UI. Claimed mods always ACM. |
 
 Requires permission level **2**. Server-type configs still need an integrated host.
@@ -44,6 +44,8 @@ On the **config type screen** (COMMON / CLIENT / SERVER list for a mod), a **Mod
 | `startup` | `*-startup.toml` | Early load |
 
 Save commits **only dirty values**, then reloads the config file (live update without resetting untouched entries).
+
+If any dirty value uses NeoForge `gameRestart()` / `worldRestart()`, Save (and Save from the unsaved-leave dialog) first shows a **restart warning** listing only the **top-level category names** (e.g. `mixins`), not every key. Continue writes the file; the live cached values still apply only after the required pack/game restart. ACM does not invent its own restart annotation — it reads NeoForge `ValueSpec.restartType()`.
 
 ---
 
@@ -191,7 +193,10 @@ ConfigOpener.openModBrowser();
 
 ## Mod browser
 
-`/another_config_manager config` always opens a searchable list of mods that have registered NeoForge configs.
+`/another_config_manager config` always opens a searchable list of **all loaded mods** (not only mods with registered configs).
 
-- Rows show mod logo (when available), display name, `modId`, and version.
-- Click a row → `ConfigOpener.open(modId)`.
+- Rows show mod logo (when available), display name, `modId · version` (always normal styling — no gray/strikethrough on the title).
+- If the mod has **no** NeoForge TOML config, a **red** third line shows `No TOML config` (EN) / `Non ha config in TOML` (IT); otherwise that line is empty.
+- Click a row with configs → `ConfigOpener.open(modId)`.
+- Click a row without configs → no-op; optional status message `commands.another_config_manager.config.no_configs`.
+- Empty list (no mods loaded) → `browser.empty` (`No mods loaded.` / `Nessuna mod caricata.`).

@@ -123,6 +123,8 @@ List of `item` / `#tag` / `@mod` strings with search. Bottom New / Delete / Done
 
 Booleans use a **true/false** chip (green / **red**). Multi-mode fields (consequence, recipe viewer, stage type) cycle with left/right click.
 
+**Priority** (all categories): integer EditBox on the entry editor (default `0`). Higher wins when several rules overlap — see [Overlapping-Restrictions](Overlapping-Restrictions). Exported as JSON `priority` / Kube `.priority(n)` when non-zero.
+
 ### String lists (Tooltips / Recipes / Recipe types / Exclude recipes / Menus / Menu types / Blocked slots)
 
 Same nesting: list → **string entry** (EditBox + bottom Done). Blocked slots accept an integer string.

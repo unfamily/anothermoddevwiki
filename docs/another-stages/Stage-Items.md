@@ -422,4 +422,4 @@ Summary: query (`playerHasStage` / `teamHasStage` / `worldHasStage` / `*Matching
 - `/iska_lib_dev reload` — Utils quick reload **and** AS stage JSON + Kube soft-reload
 - `/iska_lib_stage reload` or `/another_stages reload` — datapack restrictions
 - `/reload` — full datapack reload  
-- `/kubejs reload server_scripts` — all KubeJS stage rules
+- `/kubejs reload server-scripts` — all KubeJS stage rules

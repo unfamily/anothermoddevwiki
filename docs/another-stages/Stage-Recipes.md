@@ -62,7 +62,7 @@ A rule fires only when **all** of the following hold:
 |---------|----------------|------------------|
 | Crafting table / inventory craft / stonecutter / smithing / recipe book | **Player** opening the menu (`RecipeStageGate.isBlockedForPlayer`) | No result / cannot place recipe |
 | Furnace, smoker, blast furnace, campfire, crafter, most mod machines | **Machine process** (`isBlockedForMachine`; often **no owner**) | Recipe **must not start** (no cook progress) |
-| Network autocraft (AE2 / RS / …) | **Native network/node owner UUID** (or requesting player); not a second AS claim when the mod already stores one | Encode refused + job/submit refused; execute is a safety net |
+| Network autocraft (AE2 / RS / …) | **AE2:** grid owning player / action source. **RS:** requesting player UUID on interactive start; `placedByPlayerId` on Pattern Grid / Autocrafter / autonomous ensure; else `null` (world stages) | Encode refused + job/submit refused + stage toast / CraftError text (AE2); execute is a safety net |
 | Machines integrated via `RecipeBlockBridge` | Owner UUID when present; world stages without owner still apply | Machine refuses the recipe |
 
 Anything that only crafts when a **player is interacting in a menu** (crafting table style) already uses the **player UUID** — no `MachineOwners` / owner attachment is required. Owner matters for **autonomous process** blocks (furnace-like), **network autocraft**, and bridge machines.
@@ -199,9 +199,9 @@ Craft/process enforcement is **always server-side** when the rule applies. REI/E
 - **Selection UI stays visible:** if a machine has a picker (e.g. Factory colour/output select), locked options **remain listed**; the stage gate runs on process only (not by emptying the choice list).
 - **Crafting-like menus:** gate uses the **player**.
 - **Autocrafters that reuse vanilla crafting recipes** (Utils Improved Pattern Crafter, vanilla crafter, and other modded autocrafters that resolve the same `minecraft:…` crafting recipe ids via `RecipeBlockBridge` / craft gates): locking those **vanilla crafting** recipes is enough — they inherit the lock. You do **not** need a separate restriction that targets the machine’s own menu/mod id. The same rule applies to future autocrafter integrations that call the bridge with the vanilla recipe id.
-- **Furnace / campfire / crafter / many mod machines:** gate must **stop the recipe from starting**. FastFurnace is covered by a dedicated mixin when present (re-evaluates after unlock without requiring the input stack to change). FastWorkbench clears the client result via FW `RecipePayload` when locked. AE2-family process BEs (Inscriber, ExtAE RecipeExecutor machines, Reaction Chamber) likewise re-scan after stage change without moving items.
+- **Furnace / campfire / crafter / many mod machines:** gate must **stop the recipe from starting**. Config `mixins.furnace` / `mixins.fastfurnace` / `mixins.ironfurnaces` default **on** (if set `false`, the mixin class still loads but the gate no-ops). When FastFurnace is present, the vanilla furnace mixin is **skipped** and FastFurnace’s `getRecipe` wrap is used instead (26.x: `getRecipe(ServerLevel)`; 1.21.1: no-arg `getRecipe()`). Both paths re-evaluate after unlock without requiring the input stack to change. FastWorkbench clears the client result via FW `RecipePayload` when locked. AE2-family process BEs (Inscriber, ExtAE RecipeExecutor machines, Reaction Chamber) likewise re-scan after stage change without moving items.
 - **Matter Foundry (Replication AE2 Bridge):** when inputs match a recipe that is only stage-blocked, the Foundry **keeps re-scanning** after unlock — you do **not** need to move items in/out of the slots for craft to resume. (Latching `recipeChecked` on stage-only misses was a Bridge bug; fixed in current Bridge jars.)
-- **Claimed furnace (MachineOwners):** vanilla furnace gate passes the block entity so a placed/claimed owner is used when present.
+- **Claimed furnace / machine (MachineOwners):** process gates pass the block entity so a placed/claimed owner UUID is used when present. Owner is claimed on **place**, on **first right-click**, and as a backup when a BE-backed menu **opens** (`claimIfAbsent` — never overwrites). Menu open resolves the BE from slot containers **and** reflective `getBlockEntity` / `getTileEntity` / `getMachine` (and common field names) so mod menus (EIO, Iron Furnaces, Create crafter, …) still claim. Player-stage rules stay fail-closed when **no owner** is stored — open or place the machine as the player so unlock restores craft after `/stage add`. JEI still uses the client player and can look unlocked before the machine has an owner. Applies to the whole **furnace family** (furnace / blast furnace / smoker and mod equivalents: FastFurnace, EP powered furnaces, FTBIC, Iron Furnaces, …). **Iron Furnaces:** process subject prefers native IF `owner` when set, else `MachineOwners.get(be)` so unlock works when IF never writes its own field. **Tester note:** ACM can gray/strikethrough mods without TOML config — do not confuse FastFurnace (gated) with “vanilla only” in that UI.
 - **No owner:** still evaluate stage rules. Library `RecipeBlockBridge` with `ownerUuid == null` **delegates to providers** (AS decides). World stages unlock normally. Player-scoped **conditions** without an online owner resolve as “missing stage” (`has = false`) — with typical `is: false` that keeps the lock. Mixed AND rules (world + player) evaluate each condition; a satisfied world unlock can make the whole rule stop applying.
 - **Player-scoped fail-close** applies to the player condition itself, not as a blanket “any rule that mentions player is always active” when other conditions would already fail the AND/OR.
 
@@ -266,7 +266,7 @@ Full method catalog: **[Kube-Stage-API](Kube-Stage-API)**.
 | `/iska_lib_dev reload stages` | Stage block only (Library stage actions + AS chain) |
 | `/iska_lib_stage reload` / `/another_stages reload` | Same AS stage chain (JSON + Kube soft-reload) |
 | `/reload` | Full Minecraft datapack reload; AS JSON listeners run with the new `ResourceManager` |
-| `/kubejs reload server_scripts` | All KubeJS stage rules |
+| `/kubejs reload server-scripts` | All KubeJS stage rules |
 | Edit under `bootstrap.datapack_paths` (e.g. `kubejs/data`) | Picked up on AS `loadAll` via filesystem merge (quick reload / stage reload), not only after full `/reload` |
 
 ---
@@ -283,18 +283,27 @@ All craft/process machines of the mod are gated. **Since** = first Another Stage
 | `rep_ae2_bridge` | Replication AE2 Bridge | `RecipeBlockBridge` | 0.1.0.0.0 |
 | `fastbench` | FastWorkbench | Mixin | 0.1.0.0.0 |
 | `fastfurnace` | FastFurnace | Mixin | 0.1.0.0.0 |
-| `ironfurnaces` | Iron Furnaces | Mixin | 0.1.0.0.0 |
+| `ironfurnaces` | Iron Furnaces | Mixin (native `owner` UUID, else `MachineOwners`; claim-on-open) | 0.1.0.0.0 |
 | `polymorph_plus` | Polymorph+ | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
 | `polymorph` | Polymorph | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
 | `toms_storage` | Tom's Simple Storage | Mixin (Crafting Terminal) | 0.1.0.0.0 |
-| `sophisticatedcore` | Sophisticated Core | Mixin (crafting upgrade) | 0.1.0.0.0 |
+| `sophisticatedcore` | Sophisticated Core | Mixins (crafting upgrade hard-block on result/select/transfer; cooking/auto-cooking prefer wearing-player subject for unlock after stage grant, else storage/`MachineOwners`/`RsCraftSubjects`; block-converter strips locked recipes in **`filterAndSortRecipes`** and **`getRecipeList`**, plus `selectRecipe` fail-safe with filtered→real index map) | 0.1.0.0.0 |
 | `ae2` | Applied Energistics 2 | Mixins | 0.1.0.0.0 |
 | `extendedae` | ExtendedAE | Mixins | 0.1.0.0.0 |
 | `advanced_ae` | AdvancedAE | Mixins | 0.1.0.0.0 |
-| `refinedstorage` | Refined Storage 2 | Mixins | 0.1.0.0.0 |
+| `refinedstorage` | Refined Storage 2 | Mixins (matrix/encode with `placedBy` + interacting player; `startTask`/`ensureTask` autocraft; Autocrafter `canStep`) | 0.1.0.0.0 |
 | `craftingstation` | Crafting Station | Mixin (menu) | 0.1.0.0.0 |
+| `energizedpower` | Energized Power | Mixins (`SimpleRecipe` / `SimpleRecipeFluid` / `SelectableRecipe` / `SelectableRecipeFluid` / powered furnaces / alloy / auto-crafter; `MachineOwners` / no-owner OK) | 0.1.0.0.0 |
+| `enderio` | Ender IO | Mixins (Crafter; Alloy Smelter + remapped smelting dual-id; shared `CraftingMachineTaskHost` for Sag / Slicer / Painting / Soul Binder / Vat; `EioStageRearm` unlock; `MachineOwners` / no-owner OK). Non-recipe machines (obelisks, vacuum, generators, drain) are out of stage-recipe scope. | 0.1.0.0.0 |
+| `mekanism` | Mekanism | Mixins (Formulaic Assemblicator; electric Item→Item + smelting synthetic dual-id; QIO; Thermal Evaporation `evaporating/*` + `canHolder` AND; live-cache drop on re-lock). **Owner:** TE with Mek security → native `getOwnerUUID()` only; AS `MachineOwners` claim is **skipped** on those tiles (no duplicate attachment). Evaporation/`MultiblockData` (no `AttributeSecurity` → Mek owner null): Mek first, else AS `MachineOwners` fallback (claim place/open); scan structure locations; **never** `inventoryID`. **Not** stage-recipe: **SPS / Boiler / Fission** (and Matrix/Tank) — hardcoded process, no datapack recipe id. | 0.1.0.0.0 |
 
 Install **either** `polymorph` **or** `polymorph_plus`, never both. AE2 Transform supports only `world` stages ([details](#limited-stage-type-paths)). Processing patterns have no recipe id: gate the external machine instead.
+
+**AE2 / RS stage feedback:**
+- **AE2 submit (Craft Confirm → error dialog):** still returns `INCOMPLETE_PLAN` for AE2 control flow. AS sends **S2C only** (no action-bar under the GUI). Client applies `another_stages.ae2.craft_blocked` / `_recipe` onto `CraftErrorScreen` when the pending flag is set (`setTextContent` late-apply so S2C can arrive after `<init>`). AE2’s global incomplete-plan lang is unchanged for non-stage failures.
+- **AE2 encode:** still uses action-bar + the same S2C flag for consistency.
+- **RS autocraft / craft-grid:** RS `MessagePacket` toast only (`another_stages.rs.craft_blocked` / `_recipe`) — **no** action-bar.
+- **RS encode:** action-bar + RS toast (`another_stages.rs.encode_blocked` / `_recipe`).
 
 ---
 
@@ -304,12 +313,12 @@ Install **either** `polymorph` **or** `polymorph_plus`, never both. AE2 Transfor
 
 | Mod ID | Display name | Path (what is gated) | How | Owner subject | Since |
 |--------|--------------|----------------------|-----|---------------|-------|
-| `energizedpower` | Energized Power | Auto Crafter; Auto Stonecutter | Mixins | `MachineOwners` / no-owner OK | 0.1.0.0.0 |
-| `enderio` | Ender IO | Crafter only | Mixin | `MachineOwners` / no-owner OK | 0.1.0.0.0 |
-| `create` | Create | Mechanical Crafter only | Mixin | Machine / no-owner | 0.1.0.0.0 |
-| `mekanism` | Mekanism | Formulaic Assemblicator / QIO craft window only | Mixin | Native `getOwnerUUID()` | 0.1.0.0.0 |
+| `ftbic` | FTB Industrial Contraptions | Powered Furnace / Advanced Powered Furnace (26.1.2 only; Iron Furnace via vanilla/FastFurnace). On block: clears `cachedRecipe` / `runningRecipeId` / `recipeDirty` so unlock re-finds. JEI adapted cooking keeps **vanilla smelting ids/outputs** (`minecraft:glass` etc.) for RV locks. | Mixin | `MachineOwners` / no-owner OK | 0.1.0.0.0 |
+| `create` | Create | **1.21.1 only** (no Create on 26): Mechanical Crafter + **fan BLASTING/SMOKING** (`canProcess`/`process`; blasting lookup = SMELTING then BLASTING). Crafter subject = `MachineOwners` via `compat.create.CreateCrafterSubject` (outside mixin package; claim-on-open). Fan subject = ItemEntity thrower via `CreateFanSubject` during `FanProcessing.applyProcessing` — player-stage unlock works for thrown items; belt path without thrower stays world-stages / fail-closed for player rules. | Mixin | `MachineOwners` / thrower UUID / null OK | 0.1.0.0.0 |
 | `integratedcrafting` | Integrated Crafting | Schedule / craft paths when recipe id is mapped | Soft | UUID as-is | 0.1.0.0.0 |
 | `forestry` | Forestry CE | Worktable only | Mixin | Machine / no-owner | 0.1.0.0.0 |
+
+**Not supported (do not claim):** Cooking for Blockheads Cooking Table; Pam’s HarvestCraft 2 tools-in-crafting-grid; Mekanism **SPS / Boiler / Fission** (and other multiblocks without datapack recipe ids).
 
 Machines re-check locks on the next tick after a stage change (no need to reinsert items).
 

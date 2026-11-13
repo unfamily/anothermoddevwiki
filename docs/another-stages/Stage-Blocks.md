@@ -212,5 +212,5 @@ else { AnotherStages.addPlayerStage(player, 'bronze_age') }
 
 - `/iska_lib_dev reload` — Utils quick reload **and** AS stage JSON + Kube soft-reload
 - `/iska_lib_stage reload` or `/another_stages reload` — datapack restrictions
-- `/kubejs reload server_scripts` — all KubeJS stage rules
+- `/kubejs reload server-scripts` — all KubeJS stage rules
 - `/reload` — full datapack reload

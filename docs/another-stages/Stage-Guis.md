@@ -120,4 +120,4 @@ Prefer **bundling**: one file, many entries in `restrictions`.
 
 Matching: if both `menus` and `menu_types` are set, either may match. At least one list must be non-empty.
 
-Reload: world start, `/iska_lib_dev reload` (with AS), `/reload`, `/another_stages reload`, `/iska_lib_stage reload`, `/kubejs reload server_scripts` (all KubeJS stage rules).
+Reload: world start, `/iska_lib_dev reload` (with AS), `/reload`, `/another_stages reload`, `/iska_lib_stage reload`, `/kubejs reload server-scripts` (all KubeJS stage rules).
