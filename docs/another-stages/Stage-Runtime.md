@@ -2,7 +2,7 @@
 
 [← Home](Home)
 
-Server-side **stage lifecycle** APIs owned by Another Stages (when installed): Kube event `stageChanged`, binding **query / mutate / registerStage**, and the mirrored **`call_action`** command. JSON Stage Action *definitions* — see [Stage-Actions](Stage-Actions).
+Server-side **stage lifecycle** APIs owned by Another Stages (when installed): Kube event `stageChanged`, binding **query / mutate / registerStage**, and the mirrored **`call_action`** command. Full method catalog + classic JS `if`/`for`/`while`: **[Kube-Stage-API](Kube-Stage-API)**. JSON Stage Action *definitions* — see [Stage-Actions](Stage-Actions).
 
 > **Under construction** — packdev docs may grow with new verbs.
 
@@ -112,54 +112,19 @@ Register them explicitly:
 
 ---
 
-## Binding — query
+## Binding — query / mutate / register (summary)
 
-Usable from any **server** Kube event (not only `stageChanged`).
+Usable from any **server** Kube event (not only `stageChanged`), with classic JS control flow (`if` / `for` / `while` / …).
 
-| Kube | Default | What it does | Does *not* |
-|------|---------|--------------|------------|
-| `playerHasStage(player, stage)` | — | Personal stages | Not team stages |
-| `teamHasStage(player, stage)` | — | Player's current shop/FTB team stages | Not personal |
-| `worldHasStage(level, stage)` | — | World stages | Needs server level |
-| `playerHasStageMatching(player, regex)` | — | Any personal id matches regex | Invalid regex → false |
-| `teamHasStageMatching(player, regex)` | — | Any team id matches | — |
-| `worldHasStageMatching(level, regex)` | — | Any world id matches | — |
+**Full method reference + `if` examples per method and per Kube event (login, item, block, tick, …):** **[Kube-Stage-API](Kube-Stage-API)**. Usable in any `server_scripts` handler with a player/level.
 
----
+| Group | Methods (see catalog) |
+|-------|------------------------|
+| Query | `playerHasStage`, `teamHasStage`, `worldHasStage`, `*HasStageMatching` |
+| Mutate | `add*` / `remove*` / `set*` for player, world, team, named team |
+| Catalog | `registerStage`, `registerStages` (Tab only — does not grant) |
 
-## Binding — mutate
-
-All call Library `StageRegistry`. Hooks, JSON Stage Actions, S2C sync, and `stageChanged` still apply (unless nested anti-recursion for the event).
-
-| Kube | Default | What it does | Does *not* |
-|------|---------|--------------|------------|
-| `addPlayerStage(player, stage[, hideLog])` | `hideLog=false` | Grant personal stage | Client → false |
-| `removePlayerStage(player, stage[, hideLog])` | `hideLog=false` | Revoke personal | — |
-| `setPlayerStage(player, stage, value)` | — | Add or remove by boolean | — |
-| `addWorldStage(level, stage)` | — | Grant world stage | Needs server |
-| `removeWorldStage` / `setWorldStage` | — | World revoke / set | — |
-| `addTeamStage(player, stage)` | — | Stage on player's current team | Needs team membership |
-| `removeTeamStage` / `setTeamStage` | — | Team via player | — |
-| `addNamedTeamStage(level, teamName, stage)` | — | Named team key | Prefer player-based when possible |
-| `removeNamedTeamStage` | — | Named team revoke | — |
-
----
-
-## Binding — `registerStage` (Tab catalog)
-
-| Kube | JSON | Default | What it does |
-|------|------|---------|--------------|
-| `AnotherStages.registerStage(stageType, id)` | `iska_lib:known_stages` entry | — | Adds id to **typed** suggestions for `/iska_lib_stage add\|remove …` |
-| `AnotherStages.registerStages(stageType, ids[])` | same file, many rows | — | Batch typed registration |
-
-| | |
-|--|--|
-| **Accepted `stageType`** | `player` / `world` / `team` (`team_player` → `team`) |
-| **Combines** | Union with datapack known_stages + contributor catalogs (actions, restrictions, …) |
-| **Side effects** | Memory catalog only until restart/reload clears JSON contributor; Kube static typed regs persist for the process |
-| **Does *not* do** | Does **not** grant the stage; **no** `/register_stage` command |
-
-Stage Generator can export this catalog as JSON or Kube — see [Stage-Generator](Stage-Generator#known-stages-tab-catalog).
+Mutators call Library `StageRegistry`. Hooks, JSON Stage Actions, S2C sync, and `stageChanged` still apply (unless nested anti-recursion). Stage Generator can export the known-stages catalog as JSON or Kube — see [Stage-Generator](Stage-Generator#known-stages-tab-catalog).
 
 ### Datapack `iska_lib:known_stages` (Library)
 
@@ -209,8 +174,9 @@ Kube `registerStage` is script-side — rerun scripts / restart to re-apply afte
 
 ## See also
 
+- [Kube-Stage-API](Kube-Stage-API) — centralized `AnotherStages.*` + classic JS control flow
 - [Stage-Actions (JSON format)](Stage-Actions)
-- [Stage-Items § bindings](Stage-Items#3-stage-bindings-query--mutate)
+- [Stage-Items](Stage-Items) — restriction fluent (`.logic*` / `.when` still valid)
 - [Stage-Generator](Stage-Generator)
 - [Stage-Blocks](Stage-Blocks) (`camouflage`)
 

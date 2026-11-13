@@ -1,8 +1,10 @@
 # Stage Items
 
-[← Home](Home)
+[← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions)
 
 Restrict items based on player, team, or world stages.
+
+When several rules match the same item, see **[Overlapping restrictions](Overlapping-Restrictions)** (`.priority` picks primary for exclusive presentation; some effects may still stack).
 
 ### Heritage
 
@@ -22,6 +24,7 @@ Canonical new type: `another_stages:stage_item`. **Path:** any `data/<ns>/load/*
 | Datapack `another_stages:stage_item` | Another Stages 0.1.0.0.0 |
 | KubeJS fluent managers (`AnotherStages.items`) | Another Stages 0.1.0.0.0 |
 | KubeJS `AnotherStagesEvents.restrictions` (preferred) | Another Stages 0.1.0.0.0 |
+| `priority` / `.priority(n)` (overlap primary) | Another Stages (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
 | `tooltips` / `hide_default_tooltips` | Another Stages 0.1.0.0.0 |
 | `recipe_viewer` (`overlay` / `hardcore` / `hide`) | Another Stages 0.1.0.0.0 |
 | `hide_item_name` / `hidden_item_name` (Unfamiliar or custom) | Another Stages 0.1.0.0.0 |
@@ -41,7 +44,7 @@ Canonical new type: `another_stages:stage_item`. **Path:** any `data/<ns>/load/*
 
 ## 1. KubeJS (preferred)
 
-Register restrictions with **`AnotherStagesEvents.restrictions`** in **`server_scripts`**. Stage **queries and mutators** (`AnotherStages.playerHasStage` / `addPlayerStage` / …) stay on the **`AnotherStages`** binding for any server script event (no `Stages` alias). Legacy top-level `AnotherStages.items.restrict()…` still works.
+Register restrictions with **`AnotherStagesEvents.restrictions`** in **`server_scripts`**. Stage **queries and mutators** (`AnotherStages.playerHasStage` / `addPlayerStage` / …) stay on the **`AnotherStages`** binding for any server script event (no `Stages` alias) — full catalog + classic JS `if`/`for`/`while`: **[Kube-Stage-API](Kube-Stage-API)**. Fluent `.logic*` / `.stages` / `.when` below remain valid for persistent gating. Legacy top-level `AnotherStages.items.restrict()…` still works.
 
 ### Classic AND
 
@@ -105,12 +108,42 @@ AnotherStagesEvents.restrictions(event => {
 })
 ```
 
-`.logicDefOr()` — the rule is active if any `.when()` branch passes. `.logicDefAnd()` — every branch must pass. Empty `.when()` list = not active. Per-branch inventory / click consequences still apply on every passing branch, even under `.logicDefAnd()`.
+`.logicDefOr()` — the rule is active if **any** `.when()` branch passes. Empty `.when()` list = not active. Per-branch inventory / click consequences still apply on every passing branch.
+
+### DEF_AND (all branches)
+
+Same `.stages` + `.when` model; the rule is active only if **every** `.when()` branch passes.
+
+```js
+AnotherStagesEvents.restrictions(event => {
+  event.items.restrict()
+    .id('pack:def_and_demo')
+    .logicDefAnd()
+    .stages([
+      { stage_type: 'player', stage: 'bronze_age', is: false }, // 0 — lock while missing
+      { stage_type: 'world', stage: 'raid_week', is: true },    // 1 — lock while present
+    ])
+    .when([0], branch => branch
+      .items(['minecraft:diamond_sword'])
+      .consequenceBlockDrop()
+    )
+    .when([1], branch => branch
+      .items(['minecraft:nether_star'])
+      .caseRightClick()
+      .consequenceBlock()
+    )
+})
+```
+
+Here both branches must match their stage indices before the rule as a whole is considered active (tooltips / viewer / pickup gates). Consequences of each passing branch still apply individually.
+
+`DEF_OR` / `DEF_AND` / `.when()` exist on **stage items only** (not recipes / blocks / guis). JSON Stage Actions use a different DEF model — see [Stage-Actions](Stage-Actions).
 
 ### Verb ↔ JSON
 
 | Kube | JSON | Default | What it does |
 |------|------|---------|--------------|
+| `.priority(n)` | `priority` | `0` | When several stage-active rules match the same item, **higher wins** for exclusive presentation (viewer / hidden name). Tie → load order. Some cases/consequences may still stack. Full flow → [Overlapping-Restrictions](Overlapping-Restrictions). |
 | `.caseRightClick()` | `cases` / `other_case`: `right_click` | (absent) | Cancel right-click / use-item **client+server** when rule applies |
 | `.caseLeftClick()` | `left_click` | (absent) | Cancel left-click / attack **client+server** when rule applies (client also cancels attack key before dig prediction) |
 | `.caseMainHand()` | `main_hand` | (absent) | Apply `consequence` when item is in main hand |
@@ -362,42 +395,25 @@ Each entry: item id, `#tag`, `@modid`, or `regex:<javaPattern>` (`Pattern.find()
 
 ## 3. Stage bindings (query + mutate)
 
-Prefer managers for pack **gating**. Use the binding for script logic and to **grant/revoke** Library stages from any **server** Kube event (`PlayerEvents`, `ItemEvents`, `AnotherStagesEvents.stageChanged`, …).
+Prefer managers (§1) for pack **gating** (including `.logic*` / `.when` — still valid). For **script** logic use classic JS (`if` / `else` / `for` / `while` / …) with the `AnotherStages` binding from any **server** Kube event.
 
 These call **IskaLib `StageRegistry` only**. They are **not** KubeJS’s built-in stage system — do not mix the two.
 
-```js
-// Query
-if (AnotherStages.playerHasStage(player, 'bronze_age')) { /* … */ }
-if (AnotherStages.teamHasStage(player, 'team_unlock')) { /* … */ }
-if (AnotherStages.worldHasStage(player.level, 'global_event')) { /* … */ }
-if (AnotherStages.playerHasStageMatching(player, '^age_')) { /* … */ }
+**Full method catalog + examples in every context (login, item, block, tick, `stageChanged`, …):** **[Kube-Stage-API](Kube-Stage-API)**. Queries/mutators work in **any** `server_scripts` handler that has a `player`/`level` — not only stage events.
 
-// Mutate (server-only; returns boolean; fires Library hooks → Stage Actions JSON + stageChanged)
-AnotherStages.addPlayerStage(player, 'bronze_age')
-AnotherStages.removePlayerStage(player, 'bronze_age')
-AnotherStages.setPlayerStage(player, 'bronze_age', true) // or false
-AnotherStages.addWorldStage(player.level, 'global_event')
-AnotherStages.removeWorldStage(player.level, 'global_event')
-AnotherStages.addTeamStage(player, 'team_unlock')      // player's current team (team_player)
-AnotherStages.removeTeamStage(player, 'team_unlock')
-AnotherStages.addNamedTeamStage(player.level, 'MyTeam', 'raid') // raw team key/name
+```js
+// usable anywhere you have player — e.g. ItemEvents, PlayerEvents, …
+if (AnotherStages.playerHasStage(player, 'bronze_age')) { /* … */ }
+else { AnotherStages.addPlayerStage(player, 'bronze_age') }
+
+for (const id of ['a', 'b']) {
+  if (!AnotherStages.playerHasStage(player, id)) {
+    AnotherStages.addPlayerStage(player, id, true) // hideLog
+  }
+}
 ```
 
-| Method | Default / notes | What it does | Side effects |
-|--------|-----------------|--------------|--------------|
-| `playerHasStage(player, stage)` | — | Personal stages only | Read-only |
-| `teamHasStage(player, stage)` | — | Player **team** stages only (not personal) | Read-only |
-| `worldHasStage(level, stage)` | — | World stages | Read-only |
-| `*HasStageMatching(..., regex)` | — | Any matching stage id (`Pattern.find`) | Read-only |
-| `addPlayerStage(player, stage[, hideLog])` | `hideLog=false` | Grant personal stage | Hooks / Stage Actions / `stageChanged` / client sync |
-| `removePlayerStage(player, stage[, hideLog])` | `hideLog=false` | Revoke personal stage | Same |
-| `setPlayerStage(player, stage, value)` | — | `true`=add, `false`=remove | Same |
-| `addWorldStage` / `removeWorldStage` / `setWorldStage` | — | World scope | Same (player may be null in `stageChanged`) |
-| `addTeamStage` / `removeTeamStage` / `setTeamStage` | — | Player's current team (`team_player`) | Prefer over named team when FTB sync is on |
-| `addNamedTeamStage` / `removeNamedTeamStage` | — | Explicit team key/name | Prefer `addTeamStage(player, …)` when possible |
-
-`hideLog=true` skips the Library INFO line; hooks still run. Client-side / invalid args → `false`. Commands `/iska_lib_stage …` / `/another_stages …` remain valid. Manual JSON actions: `/another_stages call_action …`.
+Summary: query (`playerHasStage` / `teamHasStage` / `worldHasStage` / `*Matching`), mutate (`add*` / `remove*` / `set*` for player/world/team/named team), `registerStage` / `registerStages`. Per-method `if` examples → [Kube-Stage-API](Kube-Stage-API). `hideLog=true` skips the Library INFO line; hooks still run. Client-side / invalid args → `false`. Commands `/iska_lib_stage …` / `/another_stages …` remain valid. Manual JSON actions: `/another_stages call_action …`.
 
 ---
 

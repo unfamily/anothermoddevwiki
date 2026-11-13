@@ -17,20 +17,23 @@ Stage **item** gating did **not** start here:
 
 Stage **CRUD** (add/remove/list/…) stays on Library. **JSON stage actions** are documented here: [Stage-Actions](Stage-Actions). This mod adds gating + packdev APIs (Kube managers, JEI, …).
 
-Kube **runtime** (`stageChanged`, mutators, `registerStage`, `call_action` **JSON ONLY**): **[Stage-Runtime](Stage-Runtime)**.
+Kube **runtime** (`stageChanged`, mutators, `registerStage`, `call_action` **JSON ONLY**): **[Stage-Runtime](Stage-Runtime)**.  
+Kube **method catalog** (`AnotherStages.playerHasStage` / `addPlayerStage` / … + classic JS `if`/`for`/`while`): **[Kube-Stage-API](Kube-Stage-API)**.
 
 ## Packdev docs
 
-Prefer **KubeJS** `AnotherStagesEvents.restrictions(e => { e.items… / e.recipes… / e.blocks… / e.guis… })` in `server_scripts`. Legacy top-level `AnotherStages.items` / `.recipes` / `.blocks` / `.guis` still work. Datapack JSON remains fully supported. Stage **queries + mutators** (`AnotherStages.playerHasStage` / `addPlayerStage` / …) and `registerStage` — see [Stage-Runtime](Stage-Runtime) and [Stage-Items § bindings](Stage-Items#3-stage-bindings-query--mutate). React to stage add/remove with `AnotherStagesEvents.stageChanged` ([Stage-Runtime](Stage-Runtime)).
+Prefer **KubeJS** `AnotherStagesEvents.restrictions(e => { e.items… / e.recipes… / e.blocks… / e.guis… })` in `server_scripts`. Legacy top-level `AnotherStages.items` / `.recipes` / `.blocks` / `.guis` still work. Datapack JSON remains fully supported. Stage **queries + mutators** (`AnotherStages.playerHasStage` / `addPlayerStage` / …) and `registerStage` — see the centralized **[Kube-Stage-API](Kube-Stage-API)** (classic JS control flow) and [Stage-Runtime](Stage-Runtime). React to stage add/remove with `AnotherStagesEvents.stageChanged` ([Stage-Runtime](Stage-Runtime)). Restriction fluent `.logic*` / `.when` remain valid on Stage-Items and siblings.
 
 **Datapack tip:** any folder under `data/<ns>/load/` is fine if `"type"` matches; recommended subfolders are conventions only. Bundle many rules in one JSON (`restrictions` array). Library `bootstrap.datapack_paths` (KubeJS / Open Loader / Global Packs / zips) are scanned at bootstrap.
 
+- [Kube Stage API](Kube-Stage-API) — centralized `AnotherStages.*` methods; usable in any server script; `if`/`for`/`while` examples per method and per event
 - [Stage Runtime](Stage-Runtime) — `stageChanged`, mutators, `registerStage`, `call_action` **JSON ONLY**
 - [Stage Actions](Stage-Actions) — JSON actions run on stage add/remove (`iska_utils:stage_actions`)
 - [Stage Items](Stage-Items) — managers → datapack → queries (migrated from Utils / Library)
 - [Stage Recipes](Stage-Recipes) — [full support](Stage-Recipes#compatibility-list-full-support) + [vanilla path coverage](Stage-Recipes#vanilla-path-coverage)
 - [Stage Blocks](Stage-Blocks)
 - [Stage Guis](Stage-Guis) — menu open / force-close / slots
+- [Overlapping restrictions](Overlapping-Restrictions) — when several rules match the same target: resolution flow + `.priority`
 - [Stage Generator](Stage-Generator) — in-game Menu (`/another_stages edit`) → fixed JSON/Kube files (+ known stages catalog)
 
 | Version | Support Status |
@@ -50,10 +53,11 @@ Prefer **KubeJS** `AnotherStagesEvents.restrictions(e => { e.items… / e.recipe
 | Recipes | New in AS (Library bridge API); managers + JSON matchers; JEI hide/overlay |
 | Blocks | New in AS; managers + JSON; `mimic` + `camouflage`; Jade; `stop_tick` (dangerous opt-in) |
 | Guis | New in AS; managers + JSON; close on open; slot gates |
+| Overlapping rules | Shared `priority` / `.priority(n)` — [Overlapping-Restrictions](Overlapping-Restrictions) |
 | Stage Generator | `/another_stages edit` (+ Library `edit` if AS); Menu+ghost+tables; fixed-path JSON/Kube save; known-stages catalog |
 | Jade | Optional; stage_block mimic/unknown + stage_item rename/hardcore |
 | Hardcore item | `another_stages:stage_locked_hardcore` always hidden from JEI/EMI/REI |
-| Kube binding | `AnotherStages` only |
+| Kube binding | `AnotherStages` only — full method list [Kube-Stage-API](Kube-Stage-API) |
 | Stage Runtime | `stageChanged`, mutators, `registerStage(type,id)`, `call_action` **JSON ONLY** — [Stage-Runtime](Stage-Runtime) |
 
 ## Contributing

@@ -1,8 +1,10 @@
 # Stage Guis
 
-[← Home](Home) · [KubeJS ↑](#1-kubejs-preferred) · [Datapack ↓](#2-datapack-json)
+[← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions) · [KubeJS ↑](#1-kubejs-preferred) · [Datapack ↓](#2-datapack-json)
 
 Block opening machine / chest / merchant menus by stage, force-close when stages change, and optionally gate slots.
+
+When several rules match the same menu, see **[Overlapping restrictions](Overlapping-Restrictions)** (`.priority` / higher wins for exclusive message).
 
 GUI gating is **new in Another Stages** (not migrated from Utils / Library). Stage CRUD still comes from Library.
 
@@ -12,9 +14,16 @@ GUI gating is **new in Another Stages** (not migrated from Utils / Library). Sta
 
 ## 1. KubeJS (preferred)
 
-Prefer **`AnotherStagesEvents.restrictions`**. Legacy `AnotherStages.guis.restrict()…` still works. Queries stay on `AnotherStages.*HasStage`.
+Prefer **`AnotherStagesEvents.restrictions`**. Legacy `AnotherStages.guis.restrict()…` still works. Fluent `.logic*` / `.stages` remain valid for persistent GUI locks.
+
+Script queries/mutators (`AnotherStages.playerHasStage` / `addPlayerStage` / …) work in **any** `server_scripts` handler with a player/level (classic `if`/`for`/`while`) — not only GUI events. Full catalog + examples: **[Kube-Stage-API](Kube-Stage-API)**.
 
 ```js
+// example: gate custom script logic (restrictions below stay for lasting menu locks)
+if (!AnotherStages.playerHasStage(player, 'bronze_age')) {
+  // e.g. deny a custom command / give a tip
+}
+
 AnotherStagesEvents.restrictions(event => {
   event.guis.restrict()
     .id('pack:no_chest_early') // optional
@@ -56,6 +65,9 @@ JSON `message` is string-only (same lang-key vs literal heuristic).
 
 | Kube | JSON | Default | What it does |
 |------|------|---------|--------------|
+| `.priority(n)` | `priority` | `0` | When several stage-active rules match the same menu, **higher wins** for exclusive fields (message). Tie → load order. Full flow → [Overlapping-Restrictions](Overlapping-Restrictions). |
+| `.logicAnd()` / `.logicOr()` | `stages_logic` | `AND` | How `stages` combine: **`AND` or `OR` only**. No `DEF_*` / `.when()` on guis — those are [Stage-Items](Stage-Items#def_or-branches) only. |
+| `.stages([...])` | `stages` | empty | `{ stage_type, stage, is }`. `is` default `false` = lock while stage **missing**. |
 | `.menus([...])` | `menus` / `menu` | empty | FQCN matchers for `AbstractContainerMenu`. |
 | `.menuTypes([...])` | `menu_types` / `menu_type` | empty | `MenuType` registry ids. |
 | `.blockOpen(bool)` | `block_open` | `true` | Close immediately on open when the rule applies. |

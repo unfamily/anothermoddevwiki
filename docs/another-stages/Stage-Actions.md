@@ -97,9 +97,10 @@ Configurations are loaded at server startup. Reload: `/iska_lib_dev reload` (qui
 
 Kube `AnotherStagesEvents.stageChanged`, binding mutators (`addPlayerStage` / …), `registerStage(type, id)`, and **`call_action` **JSON ONLY**** docs live on the Another Stages wiki:
 
-→ **[Stage-Runtime (Another Stages)](Stage-Runtime)**
+→ **[Stage-Runtime](Stage-Runtime)** — lifecycle / `call_action` / `stageChanged`  
+→ **[Kube-Stage-API](Kube-Stage-API)** — centralized `AnotherStages.*` methods + classic JS `if`/`for`/`while`
 
-This Utils page keeps the **JSON Stage Actions** format above (Library-owned).
+This page keeps the **JSON Stage Actions** format above (Library-owned).
 
 ---
 
@@ -117,4 +118,4 @@ Tab suggestions for stages that are not yet granted can be registered via datapa
 }
 ```
 
-Alias: `iska_utils:known_stages`. Reload with `/iska_lib_stage reload`. Full behavior + Kube `AnotherStages.registerStage` → [Stage-Runtime](Stage-Runtime#binding--registerstage-tab-catalog).
+Alias: `iska_utils:known_stages`. Reload with `/iska_lib_stage reload`. Full behavior + Kube `AnotherStages.registerStage` → [Kube-Stage-API](Kube-Stage-API) and [Stage-Runtime](Stage-Runtime).

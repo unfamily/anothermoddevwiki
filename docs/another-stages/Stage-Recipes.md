@@ -1,6 +1,6 @@
 # Stage Recipes
 
-[← Home](Home) · [Full support ↓](#compatibility-list-full-support) · [Vanilla path coverage ↓](#vanilla-path-coverage)
+[← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions) · [Full support ↓](#compatibility-list-full-support) · [Vanilla path coverage ↓](#vanilla-path-coverage)
 
 ## What this system does
 
@@ -13,7 +13,7 @@ Entry points for packdevs:
 
 | Entry | Binding / type |
 |-------|----------------|
-| KubeJS (preferred) | `AnotherStagesEvents.restrictions(e => e.recipes.restrict()…)` in **`server_scripts`** (legacy `AnotherStages.recipes` ok) |
+| KubeJS (preferred) | `AnotherStagesEvents.restrictions(e => e.recipes.restrict()…)` in **`server_scripts`** |
 | Datapack JSON | `"type": "another_stages:stage_recipe"` under any `data/<ns>/load/**/*.json` |
 
 Library exposes `RecipeBlockBridge`; Another Stages registers as the provider when installed.
@@ -24,8 +24,8 @@ Library exposes `RecipeBlockBridge`; Another Stages registers as the provider wh
 | --------------------------------------------------------- | --------------------------------------- |
 | Library `RecipeBlockBridge` API                           | Library (some machines are integrated directly through it) |
 | Datapack `another_stages:stage_recipe` + matchers         | Another Stages 0.1.0.0.0                   |
-| KubeJS `AnotherStages.recipes`                            | Another Stages 0.1.0.0.0                   |
-| KubeJS `AnotherStagesEvents.restrictions` (preferred)     | Another Stages 0.1.0.0.0                   |
+| KubeJS `AnotherStagesEvents.restrictions` → `e.recipes`   | Another Stages 0.1.0.0.0                   |
+| `priority` / `.priority(n)` (overlap winner for JEI)      | Another Stages (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
 | `recipe_viewer` / overlay corner / tooltips               | Another Stages 0.1.0.0.0                   |
 | Optional action-bar (`feedback.recipe_blocked_actionbar`) | Another Stages 0.1.0.0.0                   |
 
@@ -75,7 +75,9 @@ Anything that only crafts when a **player is interacting in a menu** (crafting t
 
 ## 1. KubeJS (preferred)
 
-Prefer **`AnotherStagesEvents.restrictions`**. Legacy top-level `AnotherStages.recipes.restrict()…` still works. Queries stay on `AnotherStages.playerHasStage` / …
+Register **persistent** craft + JEI locks with **`AnotherStagesEvents.restrictions`** → `event.recipes.restrict()…` in **`server_scripts`**.
+
+Do **not** use classic JS `if` / `for` / `while` to express recipe locks — that is the wrong tool for continuous gating. Runtime `if` + `AnotherStages.playerHasStage` / `addPlayerStage` is a **separate** special case (pack reactions / progression); see [Runtime stage API](#runtime-stage-api-special-case) and **[Kube-Stage-API](Kube-Stage-API)**.
 
 ```js
 AnotherStagesEvents.restrictions(event => {
@@ -101,14 +103,15 @@ Calling `.restrict()` **enqueues** the builder; at end of script load (after the
 
 If `.id(...)` is omitted → auto-id `another_stages:kjs/recipe/<fingerprint>` (collision → `_2`, `_3`, …).
 
-### Kube method reference
+### Restriction builder method reference
 
 | Kube method | JSON field | Default | What it does |
 |-------------|------------|---------|--------------|
 | `.restrict()` | (starts a rule) | — | Creates one restriction builder and schedules commit on script flush. Without further matchers the rule matches nothing useful until you set stages + at least one matcher. |
 | `.id('ns:path')` | (script rule key) | auto fingerprint id | Stable id for this script rule (reload/replace). Does **not** filter Minecraft recipes; only names the restriction. |
+| `.priority(n)` | `priority` | `0` | When several stage-active rules match the same recipe, **higher wins** for exclusive JEI presentation (`recipe_viewer` / corner). Craft still blocks if **any** active rule matches. Tie → load order. Full flow → [Overlapping-Restrictions](Overlapping-Restrictions). |
 | `.logicAnd()` | `stages_logic: "AND"` | AND if omitted | **All** stage conditions must match their `is` flag for the lock to apply. |
-| `.logicOr()` | `stages_logic: "OR"` | — | **Any** one stage condition matching its `is` flag activates the lock. |
+| `.logicOr()` | `stages_logic: "OR"` | — | **Any** one stage condition matching its `is` flag activates the lock. Recipe locks support **`AND` / `OR` only** — no `DEF_OR` / `DEF_AND` / `.when()` (those are [Stage-Items](Stage-Items#def_or-branches) only). |
 | `.stages([...])` | `stages` | empty (= always apply if matchers hit) | List of `{ stage_type, stage, is }`. `stage_type`: `player` (default) \| `world` \| `team` (case-insensitive). **`is` default `false`** (lock while stage **missing**); `is: true` = lock while stage **present**. (Before AS/Library current: omitted `is` defaulted to `true` — footgun; now omitted = `false`.) |
 | `.recipes([...])` | `recipes` / `recipe` | empty (ignored) | AND-filter: recipe registry ids that may be locked. Forms: exact id, `@mod`, `regex:pattern`. Example: `['minecraft:torch']`, `['regex:minecraft:.*_pickaxe']`. |
 | `.recipeTypes([...])` | `recipe_types` / `recipe_type` | empty (ignored) | AND-filter: `RecipeType` ids (`minecraft:smelting`, `minecraft:crafting`, `minecraft:blasting`, …). Also `@mod` / `regex:`. Does **not** lock JEI category UIDs that are not recipe types. |
@@ -162,7 +165,8 @@ If `.id(...)` is omitted → auto-id `another_stages:kjs/recipe/<fingerprint>` (
 
 | JSON field | Aliases | Default | What it does |
 |------------|---------|---------|--------------|
-| `stages_logic` | — | `AND` | How `stages` combine: `AND` or `OR` (same meaning as Kube `.logicAnd()` / `.logicOr()`). |
+| `stages_logic` | — | `AND` | How `stages` combine: **`AND` or `OR` only** (Kube `.logicAnd()` / `.logicOr()`). No `DEF_*` on recipes — see [Stage-Items](Stage-Items#def_or-branches). |
+| `priority` | — | `0` | Overlap winner for exclusive JEI fields; higher wins. See [Overlapping-Restrictions](Overlapping-Restrictions). |
 | `stages` | — | empty | Stage conditions. Each entry: `stage_type` (`player`\|`world`\|`team`), `stage` (id string), `is` (boolean, **default `false`** = lock while missing). Empty stages ⇒ rule applies whenever matchers hit. |
 | `recipes` | `recipe` | empty | See matcher table — registry recipe ids. |
 | `recipe_types` | `recipe_type` | empty | See matcher table — `RecipeType` registry ids only. |
@@ -230,18 +234,27 @@ Config `feedback.recipe_blocked_actionbar` (`false` by default): if `true`, onli
 
 ---
 
-## 3. Queries (exceptional)
+## 3. Runtime stage API (special case)
 
-Not part of `restrict()` — script helpers to **read** Library/AS stages (do not lock recipes by themselves).
+**Not** how you lock recipes. Use §1 managers (or datapack) for craft/JEI gates.
 
-**Isolated from KubeJS built-in stages:** `AnotherStages.playerHasStage` / `addPlayerStage` / … read and write **only** IskaLib `StageRegistry`. They do **not** use KubeJS’s own stage API. Do not mix the two systems. Full table: [Stage-Items § bindings](Stage-Items#3-stage-bindings-query--mutate).
+Classic JS `if` / `for` / `while` with `AnotherStages.playerHasStage` / `addPlayerStage` / … is for **runtime** pack logic only (quest unlocks, `stageChanged` reactions, commands). It does not replace `.restrict()`.
+
+**`add*` / `has*` do not register Tab ids** — call `AnotherStages.registerStage` / `registerStages` (or datapack `iska_lib:known_stages`) separately when you want `/iska_lib_stage` autocomplete.
 
 ```js
-if (AnotherStages.playerHasStage(player, 'bronze_age')) { /* … */ }
-AnotherStages.addPlayerStage(player, 'bronze_age')
+AnotherStages.registerStage('player', 'bronze_age')
+
+AnotherStagesEvents.stageChanged(event => {
+  if (event.stageType !== 'player' || !event.added || event.stage !== 'bronze_age') return
+  if (event.player == null) return
+  if (!AnotherStages.playerHasStage(event.player, 'bronze_tools')) {
+    AnotherStages.addPlayerStage(event.player, 'bronze_tools', true)
+  }
+})
 ```
 
-Full query table: [Stage Items → Query](Stage-Items#3-stage-bindings-query--mutate).
+Full method catalog: **[Kube-Stage-API](Kube-Stage-API)**.
 
 ---
 

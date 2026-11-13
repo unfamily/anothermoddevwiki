@@ -78,6 +78,14 @@
           "title": "Home"
         },
         {
+          "page": "Kube-Stage-API",
+          "title": "Kube Stage API"
+        },
+        {
+          "page": "Overlapping-Restrictions",
+          "title": "Overlapping Restrictions"
+        },
+        {
           "page": "Stage-Actions",
           "title": "Stage Actions"
         },

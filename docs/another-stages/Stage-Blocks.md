@@ -1,8 +1,10 @@
 # Stage Blocks
 
-[← Home](Home)
+[← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions)
 
 Lock blocks (break / look / loot) behind stages. Locked blocks can **mimic** another block for client appearance and/or loot. **Jade** (optional) disguises the looked-at block the same way.
+
+When several rules match the same block, see **[Overlapping restrictions](Overlapping-Restrictions)** (`.priority` / higher wins).
 
 Block gating is **new in Another Stages** (not a Utils → Library migrate). Stage CRUD still comes from Library.
 
@@ -17,6 +19,7 @@ Block gating is **new in Another Stages** (not a Utils → Library migrate). Sta
 | Jade disguise | Another Stages 0.1.0.0.0 |
 | `stop_tick` (DANGEROUS / best-effort) | Another Stages 0.1.0.0.0 |
 | `mimic_mining` / `.disableMimicMining()` | Another Stages 0.1.0.0.0 |
+| `priority` / `.priority(n)` (overlap winner) | Another Stages (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
 
 ---
 
@@ -104,7 +107,8 @@ JSON string channel uses the same lang-key vs literal heuristic. Prefer Kube `Te
 
 | Kube | JSON | Default | What it does |
 |------|------|---------|--------------|
-| `.logicAnd()` / `.logicOr()` | `stages_logic` | `AND` | How stage conditions combine: `AND` or `OR` only. |
+| `.priority(n)` | `priority` | `0` | When several stage-active rules match the same block, **higher wins** (tie → load order). Full flow → [Overlapping-Restrictions](Overlapping-Restrictions). Does **not** merge mimics. |
+| `.logicAnd()` / `.logicOr()` | `stages_logic` | `AND` | How stage conditions combine: **`AND` or `OR` only**. No `DEF_OR` / `DEF_AND` / `.when()` here — those are [Stage-Items](Stage-Items#def_or-branches) only. |
 | `.stages([...])` | `stages` | empty (= always apply if matchers hit) | `{ stage_type, stage, is }`. `is` default `false` = lock while stage **missing**. |
 | `.blocks([...])` | `blocks` / `block` | empty | Matchers: block id, `#tag`, `@modid`, `regex:<pattern>`. |
 | `.exclude([...])` | `exclude` | empty | Never lock these blocks for this rule. |
@@ -126,7 +130,7 @@ JSON string channel uses the same lang-key vs literal heuristic. Prefer Kube `Te
 | **What it does** | While the rule applies: **loot** and **block XP** use this block’s drops/`getExpDrop` (via `BlockDropsEvent.setDroppedExperience`). If `camouflage` is true, client also draws this block’s mesh. If `mimic_mining` is true, dig speed / harvest also use this block. |
 | **Default** | `minecraft:stone` |
 | **Accepted values** | Block registry id string |
-| **How it combines** | Per active rule; first matching rule wins for that block |
+| **How it combines** | Per active rule; if several apply, highest [`priority`](Overlapping-Restrictions) wins (tie → load order) |
 | **Side effects** | Loot + XP are **server-side** (`BlockDropsEvent`). Ore mimicking stone drops stone loot and **0 XP**. Visuals (when camouflage on): hides the real mesh (`RenderShape.INVISIBLE`) and injects mimic geometry via `AddSectionGeometryEvent`. Break-crack overlay, hit sparks, and destroy-burst particles use the mimic model (1.21.1 + 26). Chunks rebuild when stages sync. Jade shows the mimic when camouflage is on. |
 | **What it does *not* do** | Does **not** change collision, hitbox, outline, or server block state. With `camouflage: false` it does **not** hide the real look. Config `mixins.block_appearance` gates the client mixins. With `unbreakable: true` break speed is 0, so cracks may never advance. Does **not** rewrite XP from other sources (mob farms, bottles, etc.). |
 
@@ -187,13 +191,20 @@ With Jade installed:
 
 ## 4. Queries (exceptional)
 
-```js
-if (AnotherStages.playerHasStage(player, 'bronze_age')) { /* … */ }
-AnotherStages.addPlayerStage(player, 'bronze_age') // see Stage-Items bindings
-if (AnotherStages.teamHasStage(player, 'team_unlock')) { /* … */ }
-```
+Script helpers (classic JS `if` / `for` / …) — not part of `restrict()`. Fluent `.logic*` / `.stages` above remain valid for persistent block locks. Same `AnotherStages.*` API works in **any** server script with a player/level (e.g. `BlockEvents.broken`); full examples: **[Kube-Stage-API](Kube-Stage-API)**.
 
-Full table: [Stage Items → Query](Stage-Items#3-stage-bindings-query--mutate).
+```js
+BlockEvents.broken('minecraft:diamond_ore', event => {
+  const player = event.player
+  if (player == null) return
+  if (!AnotherStages.playerHasStage(player, 'mining_tier_2')) {
+    event.cancel()
+  }
+})
+
+if (AnotherStages.playerHasStage(player, 'bronze_age')) { /* … */ }
+else { AnotherStages.addPlayerStage(player, 'bronze_age') }
+```
 
 ---
 
