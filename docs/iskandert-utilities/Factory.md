@@ -26,45 +26,6 @@ The mod registers a real Minecraft `RecipeType` / serializer (`iska_utils:factor
 
 - **Bundle still allowed:** keep several rows in one JSON; Library expands them at load. Builtin default is `factory/factory_sources.json` (children become `factory_sources_0` …).
 - **Child ids:** always `namespace:path_N` (continuous array index: `_0`, `_1`, …). Optional row `"id"` stays as JSON metadata only and is **not** used in the ResourceLocation.
-- **KubeJS mirrors:** after split, each child gets injected `results` / `ingredients` (from `select` / `input`) plus datapack `kubejs/recipe_schema` so generic filters work. Prefer those over relying on a single `getResultItem()`.
-- **KubeJS examples:**
-  - `event.remove({ id: 'iska_utils:factory/factory_sources_0' })`
-  - `event.remove({ output: 'iska_utils:drop_of_entropy' })`
-  - `event.replaceOutput({ type: 'iska_utils:factory' }, 'minecraft:white_dye', 'minecraft:blue_dye')`
-  - override / add via datapack or `event.custom`
-- **Single-entry files:** a flat JSON (no `recipes` array) with `input` / `select` is also valid (mirrors injected in place).
-
-### Single recipe (child format) and KubeJS `event.custom`
-
-A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** `recipes` / `entries` / `sources` / `valid_blocks` array. It works both as a datapack file and with KubeJS `event.custom`.
-
-`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
-
-Datapack file (e.g. `data/<ns>/recipe/cobble_to_gravel.json`):
-
-```json
-{
-  "type": "iska_utils:factory",
-  "input": "minecraft:cobblestone",
-  "amount": 1,
-  "select": [
-    { "output": "minecraft:gravel", "amount": 1 }
-  ]
-}
-```
-
-KubeJS:
-
-```js
-ServerEvents.recipes(event => {
-  event.custom({
-    type: 'iska_utils:factory',
-    input: 'minecraft:cobblestone',
-    amount: 1,
-    select: [{ output: 'minecraft:gravel', amount: 1 }]
-  }).id('kubejs:factory/cobble_to_gravel')
-})
-```
 
 Mod convention: `data/iska_utils/recipe/factory/` (mappings + shaped crafting for the block).
 
@@ -162,6 +123,44 @@ No branch satisfied → input still matches the row but **no output variant** (e
 **Ancient Table owner:** same rules as [Ancient Tablet gates](Ancient-Tablet-and-Table#mod-and-stage-gates-3500000) — first GUI open assigns owner for automated craft; owner cleared on break.
 
 **JEI:** shows `select[]` from the active DEF branch (or flat list); dynamic refresh on JEI / Factory GUI open. Missing mod → row hidden.
+
+## Single recipe (child format)
+
+A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** bundle array. It works both as a datapack file and with KubeJS `event.custom`.
+
+Datapack file (e.g. `data/<ns>/recipe/cobble_to_gravel.json`):
+
+```json
+{
+  "type": "iska_utils:factory",
+  "input": "minecraft:cobblestone",
+  "amount": 1,
+  "select": [
+    { "output": "minecraft:gravel", "amount": 1 }
+  ]
+}
+```
+
+## KubeJS
+
+- **KubeJS mirrors:** after split, each child gets injected `results` / `ingredients` (from `select` / `input`) plus datapack `kubejs/recipe_schema` so generic filters work. Prefer those over relying on a single `getResultItem()`.
+- **KubeJS examples:**
+  - `event.remove({ id: 'iska_utils:factory/factory_sources_0' })`
+  - `event.remove({ output: 'iska_utils:drop_of_entropy' })`
+  - `event.replaceOutput({ type: 'iska_utils:factory' }, 'minecraft:white_dye', 'minecraft:blue_dye')`
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object (see the child format above).
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: 'iska_utils:factory',
+    input: 'minecraft:cobblestone',
+    amount: 1,
+    select: [{ output: 'minecraft:gravel', amount: 1 }]
+  }).id('kubejs:factory/cobble_to_gravel')
+})
+```
 
 ## Legacy schema (`iska_utils:factory_sources`)
 

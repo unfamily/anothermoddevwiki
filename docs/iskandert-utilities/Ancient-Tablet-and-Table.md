@@ -48,41 +48,7 @@ Required root field (both siblings):
 
 - **One file, many recipes:** the `entries` array can hold **several** recipe objects in the same JSON file. Iskandert's Library **splits** the bundle into one native `RecipeType` entry per row (`iska_utils:ancient_tab`) before KubeJS sees the map (NeoForge **26**: event; **1.21.1**: in-memory recipe bridge). Builtin default children: `ancient_tab/ancient_tab_0` ….
 - **Child ids:** always `namespace:path_N` (continuous index `_0`, `_1`, …). Optional entry `"id"` is metadata only and is **not** used in the ResourceLocation.
-- **KubeJS mirrors:** injected `results` / `ingredients` (from `produce` / `require`) + datapack `kubejs/recipe_schema`. Codec prefers those mirrors after `replaceOutput` / `replaceInput`.
-- **KubeJS examples:** `event.remove({ id: 'iska_utils:ancient_tab/ancient_tab_0' })`, `event.remove({ output: 'iska_utils:entropy_crystal' })`, or `event.custom({ type: 'iska_utils:ancient_tab', ... })`.
 - **Many files:** every `recipe/**/*.json` with `"type": "iska_utils:ancient_tab"` is registered; after split each entry is independently removable.
-
-### Single recipe (child format) and KubeJS `event.custom`
-
-A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** `recipes` / `entries` / `sources` / `valid_blocks` array. It works both as a datapack file and with KubeJS `event.custom`.
-
-`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
-
-Datapack file (e.g. `data/<ns>/recipe/dirt_to_diamond.json`):
-
-```json
-{
-  "type": "iska_utils:ancient_tab",
-  "fuel_cost": 1,
-  "require": [
-    { "id": "minecraft:dirt", "count": 1 }
-  ],
-  "produce": ["minecraft:diamond"]
-}
-```
-
-KubeJS:
-
-```js
-ServerEvents.recipes(event => {
-  event.custom({
-    type: 'iska_utils:ancient_tab',
-    fuel_cost: 1,
-    require: [{ id: 'minecraft:dirt', count: 1 }],
-    produce: ['minecraft:diamond']
-  }).id('kubejs:ancient_tab/dirt_to_diamond')
-})
-```
 
 **Reload:** `/reload` or `/iska_lib_dev reload`.
 
@@ -496,6 +462,43 @@ Default `chaos_cost` is `1` if omitted.
 ### 9. Pack override in your namespace
 
 Add `data/mypack/recipe/ancient_tab/extra.json` with the same `type` (one or more objects in `entries`, or several JSON files). Your recipes are **appended** to the mod defaults unless you remove those recipes in your pack. Load order among namespaces: non-`iska_utils` datapacks typically come after `iska_utils`, so your entries are tried after the mod’s unless you control pack order.
+
+---
+
+## Single recipe (child format)
+
+A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** bundle array. It works both as a datapack file and with KubeJS `event.custom`.
+
+Datapack file (e.g. `data/<ns>/recipe/dirt_to_diamond.json`):
+
+```json
+{
+  "type": "iska_utils:ancient_tab",
+  "fuel_cost": 1,
+  "require": [
+    { "id": "minecraft:dirt", "count": 1 }
+  ],
+  "produce": ["minecraft:diamond"]
+}
+```
+
+## KubeJS
+
+- **KubeJS mirrors:** injected `results` / `ingredients` (from `produce` / `require`) + datapack `kubejs/recipe_schema`. Codec prefers those mirrors after `replaceOutput` / `replaceInput`.
+- **KubeJS examples:** `event.remove({ id: 'iska_utils:ancient_tab/ancient_tab_0' })` and `event.remove({ output: 'iska_utils:entropy_crystal' })`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object (see the child format above).
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: 'iska_utils:ancient_tab',
+    fuel_cost: 1,
+    require: [{ id: 'minecraft:dirt', count: 1 }],
+    produce: ['minecraft:diamond']
+  }).id('kubejs:ancient_tab/dirt_to_diamond')
+})
+```
 
 ---
 

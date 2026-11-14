@@ -25,23 +25,13 @@ Builtin Colossal datapacks may still ship **one bundle file** with an `entries` 
 | `valid_blocks` | melter_heats | same progressive pattern — e.g. `colossal_reactors:melter/melter_heats_0` |
 | heating coil `consume[]` (after coil split) | heating_coils | `<namespace>:heating_coils_<coilPath>_<optionIndex>` — e.g. `colossal_reactors:heating_coils_heating_coil_energy_0` |
 
-KubeJS example:
+### Single recipe (child format)
 
-```js
-ServerEvents.recipes(event => {
-  event.remove({ id: 'colossal_reactors:reactor/reactor_fuel_0' })
-  event.remove({ id: 'colossal_reactors:heating_coils_heating_coil_energy_0' })
-  event.remove({ id: 'colossal_reactors:melter/melter_heats_0' })
-})
-```
-
-### Single recipe (child format) and KubeJS `event.custom`
-
-A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** `recipes` / `entries` / `sources` / `valid_blocks` array. It works both as a datapack file and with KubeJS `event.custom`.
-
-`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** bundle array. It works both as a datapack file and with KubeJS `event.custom`.
 
 For heating coils, a child is **one coil** with **one** `consume` option.
+
+The same applies to every Colossal type: copy one element of the bundle, add `"type"`, and pass it as is.
 
 Datapack file (e.g. `data/<ns>/recipe/melter_cobblestone.json`):
 
@@ -55,7 +45,19 @@ Datapack file (e.g. `data/<ns>/recipe/melter_cobblestone.json`):
 }
 ```
 
-KubeJS:
+### KubeJS
+
+Remove by child id:
+
+```js
+ServerEvents.recipes(event => {
+  event.remove({ id: 'colossal_reactors:reactor/reactor_fuel_0' })
+  event.remove({ id: 'colossal_reactors:heating_coils_heating_coil_energy_0' })
+  event.remove({ id: 'colossal_reactors:melter/melter_heats_0' })
+})
+```
+
+Add with `event.custom`. `event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object (see the child format above).
 
 ```js
 ServerEvents.recipes(event => {
@@ -68,8 +70,6 @@ ServerEvents.recipes(event => {
   }).id('kubejs:melter/cobblestone')
 })
 ```
-
-The same applies to every Colossal type: copy one element of the bundle, add `"type"`, and pass it as is.
 
 In JEI / EMI / REI, enable advanced tooltips and copy the recipe id from the Colossal category card — it matches the RecipeManager key above. Do **not** invent path segments such as `/gas` or `/liquid`; liquid and gas display cards for the same datapack entry share that one progressive id.
 
