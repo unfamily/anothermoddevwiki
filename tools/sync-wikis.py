@@ -27,7 +27,8 @@ WIKIS = {
     'replication-ae2-bridge': 'Replication-AE2-Bridge',
 }
 REPO2SLUG = {r.lower(): s for s, r in WIKIS.items()}
-GH = re.compile(r'https?://github\.com/unfamily/([A-Za-z0-9_.-]+)/wiki(?:/([^)\s>"#]*))?(#[^)\s>"]*)?', re.I)
+# matches wiki links and bare repo-root links (repo root -> that wiki's Home)
+GH = re.compile(r'https?://github\.com/unfamily/([A-Za-z0-9_.-]+?)(?:\.wiki)?(?:/wiki(?:/([^)\s>"#]*))?)?/?(#[^)\s>"]*)?(?=[)\s>"]|$)', re.I)
 ST = re.compile(r'https?://(?:www\.)?anothermoddevwiki\.eu/#/([a-z0-9-]+)(?:/([^)\s>"#]*))?(#[^)\s>"]*)?', re.I)
 
 def banner(slug):

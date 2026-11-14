@@ -1,6 +1,6 @@
 # Stage Items
 
-> **Moved** — item / recipe / block / GUI **gating** is owned by **[Another Stages](https://github.com/Unfamily/Another-Stages)** when that mod is installed (Library skips its item handler to avoid double-filter).
+> **Moved** — item / recipe / block / GUI **gating** is owned by **[Another Stages](#/another-stages/Home)** when that mod is installed (Library skips its item handler to avoid double-filter).
 
 **History (unchanged JSON surface):**
 

@@ -1,6 +1,6 @@
 # Stage Actions
 
-> **Moved** — JSON **stage actions** (`iska_utils:stage_actions` / `iska_lib:stage_actions`) are now documented in **[Another Stages](https://github.com/Unfamily/Another-Stages)**.
+> **Moved** — JSON **stage actions** (`iska_utils:stage_actions` / `iska_lib:stage_actions`) are now documented in **[Another Stages](#/another-stages/Home)**.
 
 **History (unchanged JSON surface):**
 
