@@ -34,6 +34,38 @@ The mod registers a real Minecraft `RecipeType` / serializer (`iska_utils:factor
   - override / add via datapack or `event.custom`
 - **Single-entry files:** a flat JSON (no `recipes` array) with `input` / `select` is also valid (mirrors injected in place).
 
+### Single recipe (child format) and KubeJS `event.custom`
+
+A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** `recipes` / `entries` / `sources` / `valid_blocks` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+Datapack file (e.g. `data/<ns>/recipe/cobble_to_gravel.json`):
+
+```json
+{
+  "type": "iska_utils:factory",
+  "input": "minecraft:cobblestone",
+  "amount": 1,
+  "select": [
+    { "output": "minecraft:gravel", "amount": 1 }
+  ]
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: 'iska_utils:factory',
+    input: 'minecraft:cobblestone',
+    amount: 1,
+    select: [{ output: 'minecraft:gravel', amount: 1 }]
+  }).id('kubejs:factory/cobble_to_gravel')
+})
+```
+
 Mod convention: `data/iska_utils/recipe/factory/` (mappings + shaped crafting for the block).
 
 **Reload:** `/reload` or `/iska_lib_dev reload`.

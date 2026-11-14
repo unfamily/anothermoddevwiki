@@ -52,6 +52,38 @@ Required root field (both siblings):
 - **KubeJS examples:** `event.remove({ id: 'iska_utils:ancient_tab/ancient_tab_0' })`, `event.remove({ output: 'iska_utils:entropy_crystal' })`, or `event.custom({ type: 'iska_utils:ancient_tab', ... })`.
 - **Many files:** every `recipe/**/*.json` with `"type": "iska_utils:ancient_tab"` is registered; after split each entry is independently removable.
 
+### Single recipe (child format) and KubeJS `event.custom`
+
+A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** `recipes` / `entries` / `sources` / `valid_blocks` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+Datapack file (e.g. `data/<ns>/recipe/dirt_to_diamond.json`):
+
+```json
+{
+  "type": "iska_utils:ancient_tab",
+  "fuel_cost": 1,
+  "require": [
+    { "id": "minecraft:dirt", "count": 1 }
+  ],
+  "produce": ["minecraft:diamond"]
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: 'iska_utils:ancient_tab',
+    fuel_cost: 1,
+    require: [{ id: 'minecraft:dirt', count: 1 }],
+    produce: ['minecraft:diamond']
+  }).id('kubejs:ancient_tab/dirt_to_diamond')
+})
+```
+
 **Reload:** `/reload` or `/iska_lib_dev reload`.
 
 Balance toggles (`Config.balanceAncientTab*`) still filter default outputs **after** RecipeManager load.

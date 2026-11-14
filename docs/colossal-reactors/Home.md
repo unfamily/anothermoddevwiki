@@ -35,6 +35,42 @@ ServerEvents.recipes(event => {
 })
 ```
 
+### Single recipe (child format) and KubeJS `event.custom`
+
+A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** `recipes` / `entries` / `sources` / `valid_blocks` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+For heating coils, a child is **one coil** with **one** `consume` option.
+
+Datapack file (e.g. `data/<ns>/recipe/melter_cobblestone.json`):
+
+```json
+{
+  "type": "colossal_reactors:melter_recipes",
+  "input": "minecraft:cobblestone",
+  "output": "#c:lava",
+  "amount": 250,
+  "time": 100
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: 'colossal_reactors:melter_recipes',
+    input: 'minecraft:cobblestone',
+    output: '#c:lava',
+    amount: 250,
+    time: 100
+  }).id('kubejs:melter/cobblestone')
+})
+```
+
+The same applies to every Colossal type: copy one element of the bundle, add `"type"`, and pass it as is.
+
 In JEI / EMI / REI, enable advanced tooltips and copy the recipe id from the Colossal category card — it matches the RecipeManager key above. Do **not** invent path segments such as `/gas` or `/liquid`; liquid and gas display cards for the same datapack entry share that one progressive id.
 
 ## Required mods (from **2.4.0.0.0**)

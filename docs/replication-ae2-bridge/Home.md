@@ -90,3 +90,39 @@ With **no** valid recipe, the matter grid stays empty (the internal buffer can h
 
 Place under `data/<namespace>/recipe/` (or your pack’s recipe path). Reload datapacks / restart as usual.
 
+### Single recipe (child format) and KubeJS `event.custom`
+
+A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** `recipes` / `entries` / `sources` / `valid_blocks` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+Datapack file (e.g. `data/<ns>/recipe/foundry_glass.json`):
+
+```json
+{
+  "type": "rep_ae2_bridge:matter_foundry",
+  "energy": 1000,
+  "inputs": [
+    { "item": "minecraft:sand", "count": 1 }
+  ],
+  "matter": [
+    { "matter": "replication:earth", "amount": 10 }
+  ],
+  "output": { "id": "minecraft:glass", "count": 1 }
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: 'rep_ae2_bridge:matter_foundry',
+    energy: 1000,
+    inputs: [{ item: 'minecraft:sand', count: 1 }],
+    matter: [{ matter: 'replication:earth', amount: 10 }],
+    output: { id: 'minecraft:glass', count: 1 }
+  }).id('kubejs:foundry/glass')
+})
+```
+
