@@ -1,6 +1,6 @@
 # Stage Recipes
 
-[← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions) · [Full support ↓](#compatibility-list-full-support) · [Partial support ↓](#partial-support)
+[← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions) · [Full support ↓](#compatibility-list-full-support)
 
 ## What this system does
 
@@ -18,7 +18,7 @@ Entry points for packdevs:
 
 Library exposes `RecipeBlockBridge`; Another Stages registers as the provider when installed.
 
-**Vanilla is fully supported** (see [Full support](#compatibility-list-full-support)). Mod coverage grows over time — also [Partial support](#partial-support).
+**Vanilla is fully supported** (see [Full support](#compatibility-list-full-support)). Mod coverage grows over time.
 
 | Feature                                                   | Since                                   |
 | --------------------------------------------------------- | --------------------------------------- |
@@ -126,7 +126,7 @@ If `.id(...)` is omitted → auto-id `another_stages:kjs/recipe/<fingerprint>` (
 | `.tooltips([...])` | `tooltips` | empty | Replaces string tooltip list. Each string is a **lang key** (dotted, no spaces → translated) **or** a **literal** (not translated). Non-empty custom tips replace the default “Recipe locked until stage …” line. |
 | `.hideDefaultTooltips(bool)` | `hide_default_tooltips` | `false` | `true` = clear JEI’s own recipe tooltips before AS tips are applied. |
 
-[Full support ↓](#compatibility-list-full-support) · [Partial support ↓](#partial-support)
+[Full support ↓](#compatibility-list-full-support)
 
 ---
 
@@ -230,7 +230,7 @@ Team stage **data** is owned by IskaLib (`TeamStageData` / `iska_utils_team_stag
 Default: **silent** (GUI / recipe viewer already show the lock).  
 Config `feedback.recipe_blocked_actionbar` (`false` by default): if `true`, online owner gets an action-bar message when a gate fires **and** they have no container menu open (~3s cooldown). Skipped while a GUI is open.
 
-[Full support ↓](#compatibility-list-full-support) · [Partial support ↓](#partial-support)
+[Full support ↓](#compatibility-list-full-support)
 
 ---
 
@@ -294,9 +294,14 @@ All craft/process machines of the mod are gated. **Since** = first Another Stage
 | `refinedstorage` | Refined Storage 2 | Mixins (matrix/encode with `placedBy` + interacting player; `startTask`/`ensureTask` autocraft; Autocrafter `canStep`) | 1.0.0.0.0 |
 | `craftingstation` | Crafting Station | Mixin (menu) | 1.0.0.0.0 |
 | `energizedpower` | Energized Power | Mixins (`SimpleRecipe` / `SimpleRecipeFluid` / `SelectableRecipe` / `SelectableRecipeFluid` / powered furnaces / alloy / auto-crafter; `MachineOwners` / no-owner OK) | 1.0.0.0.0 |
-| `enderio` | Ender IO | Mixins (Crafter; Alloy Smelter + remapped smelting dual-id; shared `CraftingMachineTaskHost` for Sag / Slicer / Painting / Soul Binder / Vat; `EioStageRearm` unlock; `MachineOwners` / no-owner OK). Non-recipe machines (obelisks, vacuum, generators, drain) are out of stage-recipe scope. | 1.0.0.0.0 |
+| `enderio` | Ender IO | Mixins (Crafter; Alloy Smelter + remapped smelting dual-id; shared `CraftingMachineTaskHost` for Sag / Slicer / Painting / Soul Binder / Vat; `EioStageRearm` unlock; `MachineOwners` / no-owner OK). | 1.0.0.0.0 |
 | `mekanism` | Mekanism | Mixins (Formulaic Assemblicator; electric Item→Item + smelting synthetic dual-id; QIO; Thermal Evaporation `evaporating/*` + `canHolder` AND; live-cache drop on re-lock). **Owner:** TE with Mek security → native `getOwnerUUID()` only; AS `MachineOwners` claim is **skipped** on those tiles (no duplicate attachment). Evaporation/`MultiblockData` (no `AttributeSecurity` → Mek owner null): Mek first, else AS `MachineOwners` fallback (claim place/open); scan structure locations; **never** `inventoryID`. **Not** stage-recipe: **SPS / Boiler / Fission** (and Matrix/Tank) — hardcoded process, no datapack recipe id. | 1.0.0.0.0 |
 | `ftbic` | FTB Industrial Contraptions | Mixins (**26.1.2 only**; all machine recipes: powered furnaces, macerating, extruding, refining/centrifuging, …). On block: clears `cachedRecipe` / `runningRecipeId` / `recipeDirty` so unlock re-finds. JEI adapted cooking keeps **vanilla smelting ids/outputs** (`minecraft:glass` etc.) for RV locks. `MachineOwners` / no-owner OK | 1.0.0.0.0 |
+| `create` | Create | Mixins (**1.21.1 NeoForge only** (no Create on AS 26). Gated: Mechanical Crafter; fan **BLASTING / SMOKING / HAUNTING / SPLASHING**; **BasinOperating** (Mixer + Press-in-basin); Press belt/world **PRESSING**; Millstone; Saw (`getRecipes` filter + `applyRecipe`; belt cutting); Crushing Wheels (`applyRecipe` no-op while locked — must **not** clear inventory / destroy the stack; Create then ejects the **unchanged** input = pass-through, no jam; next insert after stage grant crushes; controller auto-placed → owner from ItemEntity thrower or nearest player); Deployer; **manual item application**; Spout **filling** (`whenItemHeld` / `onItemReceived`); Item Drain **emptying** (`continueProcessing`); sandpaper **hand** (`SandPaperItem.finishUsingItem`) + deployer sandpaper via Deployer gate. **JEI dual-id:** `…_using_deployer` ↔ base for item_application / sandpaper. **Shared ids:** e.g. `create:honey_bottle` is both filling and emptying — distinguish with `recipe_types: create:filling` / `create:emptying`. Fan thrower via `CreateFanSubject`. Claim owner (place/open) for player-stage unlocks. **Owner:** `MachineOwners` / player (manual / sandpaper) / thrower UUID / null OK) | 1.0.0.0.0 |
+| `createaddition` | Create Crafts & Additions | Mixins (**1.21.1 only:** Rolling Mill (`find` rolling); Tesla Coil charging (`find`). **Owner:** `MachineOwners`) | 1.0.0.0.0 |
+| `create_enchantment_industry` | Create Enchantment Industry | Mixins (**1.21.1 NeoForge:** Printer (`PrintingRecipe` + `MachineOwners` via belt bind); Grindstone Drain (`GrindingRecipe` / disenchant fluid path). **Owner:** `MachineOwners`) | 1.0.0.0.0 |
+| `create_dragons_plus` | Create Dragons Plus | Mixins (**1.21.1 only:** fan **ending** / **freezing** datapack recipes (`EndingFanProcessingType` / `FreezingFanProcessingType`, same subject as Create fans). **Owner:** thrower UUID / null OK) | 1.0.0.0.0 |
+| `create_new_age` | Create New Age | Mixins (**1.21.1 only:** Energiser (`EnergisingRecipe` via `EnergiserBehaviour.getRecipe`). **Owner:** `MachineOwners`) | 1.0.0.0.0 |
 
 Install **either** `polymorph` **or** `polymorph_plus`, never both. AE2 Transform supports only `world` stages ([details](#limited-stage-type-paths)). Processing patterns have no recipe id: gate the external machine instead.
 
@@ -306,23 +311,9 @@ Install **either** `polymorph` **or** `polymorph_plus`, never both. AE2 Transfor
 - **RS autocraft / craft-grid:** RS `MessagePacket` toast only (`another_stages.rs.craft_blocked` / `_recipe`) — **no** action-bar.
 - **RS encode:** action-bar + RS toast (`another_stages.rs.encode_blocked` / `_recipe`).
 
----
-
-## Partial support
-
-Only the listed paths are gated; unlisted machines of the mod = **bypass**. Toggle under common config `mixins.*`.
-
-| Mod ID | Display name | Path (what is gated) | How | Owner subject | Since |
-|--------|--------------|----------------------|-----|---------------|-------|
-| `create` | Create | **1.21.1 NeoForge only** (no Create on AS 26). Gated: Mechanical Crafter; fan **BLASTING / SMOKING / HAUNTING / SPLASHING**; **BasinOperating** (Mixer + Press-in-basin); Press belt/world **PRESSING**; Millstone; Saw (`getRecipes` filter + `applyRecipe`; vertical belt cutting — not horizontal block-breaker); Crushing Wheels (`applyRecipe` no-op while locked — must **not** clear inventory / destroy the stack; Create then ejects the **unchanged** input = pass-through, no jam; next insert after stage grant crushes; controller auto-placed → owner from ItemEntity thrower or nearest player); Deployer; **manual item application**; Spout **filling** (`whenItemHeld` / `onItemReceived`); Item Drain **emptying** (`continueProcessing`); sandpaper **hand** (`SandPaperItem.finishUsingItem`) + deployer sandpaper via Deployer gate. **JEI dual-id:** `…_using_deployer` ↔ base for item_application / sandpaper. **Shared ids:** e.g. `create:honey_bottle` is both filling and emptying — distinguish with `recipe_types: create:filling` / `create:emptying`. **Not** gated: sequenced assembly; saw tree/block-breaker. Fan thrower via `CreateFanSubject`. Claim owner (place/open) for player-stage unlocks. | Mixin | `MachineOwners` / player (manual / sandpaper) / thrower UUID / null OK | 1.0.0.0.0 |
-| `createaddition` | Create Crafts & Additions | **1.21.1:** Rolling Mill (`find` rolling); Tesla Coil charging (`find`). **Not** gated: Liquid Blaze Burner / `liquid_burning` (hard to support usefully). Other CCA blocks (motor, accumulator, …) out of stage-recipe scope. | Mixin | `MachineOwners` | 1.0.0.0.0 |
-| `create_enchantment_industry` | Create Enchantment Industry | **1.21.1 NeoForge:** Printer (`PrintingRecipe` + `MachineOwners` via belt bind); Grindstone Drain (`GrindingRecipe` / disenchant fluid path). Blaze Enchanter/Forger and Apotheosis extras not gated in this pass. | Mixin | `MachineOwners` | 1.0.0.0.0 |
-| `create_dragons_plus` | Create Dragons Plus | **1.21.1:** fan **ending** / **freezing** datapack recipes (`EndingFanProcessingType` / `FreezingFanProcessingType`, same subject as Create fans). Compat-only transforms without a `RecipeHolder` are not stage-gated. Sanding / coloring not in this pass. | Mixin | thrower UUID / null OK | 1.0.0.0.0 |
-| `create_new_age` | Create New Age | **1.21.1:** Energiser (`EnergisingRecipe` via `EnergiserBehaviour.getRecipe`). Motors / heat / nuclear out of stage-recipe scope. | Mixin | `MachineOwners` | 1.0.0.0.0 |
-
-**Not supported (do not claim):** Cooking for Blockheads Cooking Table; Pam’s HarvestCraft 2 tools-in-crafting-grid; Mekanism **SPS / Boiler / Fission** (and other multiblocks without datapack recipe ids); Create sequenced assembly; Create saw horizontal block-breaker; CDP fan sanding/coloring / hardcoded compat transforms.
-
 Machines re-check locks on the next tick after a stage change (no need to reinsert items).
+
+---
 
 ### Limited stage-type paths
 
