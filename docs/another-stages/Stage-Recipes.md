@@ -319,8 +319,6 @@ Only the listed paths are gated; unlisted machines of the mod = **bypass**. Togg
 | `create_enchantment_industry` | Create Enchantment Industry | **1.21.1 NeoForge:** Printer (`PrintingRecipe` + `MachineOwners` via belt bind); Grindstone Drain (`GrindingRecipe` / disenchant fluid path). Blaze Enchanter/Forger and Apotheosis extras not gated in this pass. | Mixin | `MachineOwners` | 1.0.0.0.0 |
 | `create_dragons_plus` | Create Dragons Plus | **1.21.1:** fan **ending** / **freezing** datapack recipes (`EndingFanProcessingType` / `FreezingFanProcessingType`, same subject as Create fans). Compat-only transforms without a `RecipeHolder` are not stage-gated. Sanding / coloring not in this pass. | Mixin | thrower UUID / null OK | 1.0.0.0.0 |
 | `create_new_age` | Create New Age | **1.21.1:** Energiser (`EnergisingRecipe` via `EnergiserBehaviour.getRecipe`). Motors / heat / nuclear out of stage-recipe scope. | Mixin | `MachineOwners` | 1.0.0.0.0 |
-| `integratedcrafting` | Integrated Crafting | Schedule / craft paths when recipe id is mapped | Soft | UUID as-is | 1.0.0.0.0 |
-| `forestry` | Forestry CE | Worktable only | Mixin | Machine / no-owner | 1.0.0.0.0 |
 
 **Not supported (do not claim):** Cooking for Blockheads Cooking Table; Pam’s HarvestCraft 2 tools-in-crafting-grid; Mekanism **SPS / Boiler / Fission** (and other multiblocks without datapack recipe ids); Create sequenced assembly; Create saw horizontal block-breaker; CDP fan sanding/coloring / hardcoded compat transforms.
 
