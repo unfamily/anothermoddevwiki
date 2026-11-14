@@ -81,3 +81,39 @@ Requires Mekanism and [gas port support](home#mekanism-chemical-integration-2300
 ```
 
 Fluid-only `inputs` from **2.2.0.0.0**. `%mekanism:steam` and dual `outputs` from **2.3.0.0.0**.
+
+## Single recipe (child format) and KubeJS `event.custom`
+
+A **child** is one `entries` element written as a standalone recipe: the element's fields plus `"type"`, with **no** `entries` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+Datapack file (e.g. `data/<ns>/recipe/turbine_steam.json`):
+
+```json
+{
+  "type": "colossal_reactors:turbine_generation",
+  "coolant_id": "colossal_reactors:water",
+  "inputs": [
+    "#c:steam"
+  ],
+  "output": "minecraft:water",
+  "rf_production": 4
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    "type": "colossal_reactors:turbine_generation",
+    "coolant_id": "colossal_reactors:water",
+    "inputs": [
+      "#c:steam"
+    ],
+    "output": "minecraft:water",
+    "rf_production": 4
+  }).id('kubejs:turbine/steam')
+})
+```

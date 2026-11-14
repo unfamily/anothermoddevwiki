@@ -105,3 +105,41 @@ Merge: each RecipeManager file keeps its own recipe ids. Runtime and JEI/EMI/REI
   ]
 }
 ```
+
+## Single recipe (child format) and KubeJS `event.custom`
+
+A **child** is one `entries` element written as a standalone recipe: the element's fields plus `"type"`, with **no** `entries` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+Here `valid_blocks` is a normal entry field (a list of block selectors), not a bundle array.
+
+Datapack file (e.g. `data/<ns>/recipe/heat_sink_diamond.json`):
+
+```json
+{
+  "type": "colossal_reactors:heat_sinks",
+  "valid_blocks": [
+    "#c:storage_blocks/diamond"
+  ],
+  "fuel": 1.5,
+  "energy": 1.3,
+  "overheating": 1.8
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    "type": "colossal_reactors:heat_sinks",
+    "valid_blocks": [
+      "#c:storage_blocks/diamond"
+    ],
+    "fuel": 1.5,
+    "energy": 1.3,
+    "overheating": 1.8
+  }).id('kubejs:heat_sinks/diamond')
+})
+```

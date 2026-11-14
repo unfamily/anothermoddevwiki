@@ -84,3 +84,49 @@ Merge: `coolant_id` is the map key.
 ```
 
 The `mek_sodium` entry is from **2.3.0.0.0** and requires Mekanism loaded.
+
+## Single recipe (child format) and KubeJS `event.custom`
+
+A **child** is one `entries` element written as a standalone recipe: the element's fields plus `"type"`, with **no** `entries` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+Datapack file (e.g. `data/<ns>/recipe/coolant_water.json`):
+
+```json
+{
+  "type": "colossal_reactors:coolant",
+  "coolant_id": "colossal_reactors:water",
+  "inputs": [
+    "#c:water"
+  ],
+  "output": "#c:steam",
+  "rf_increment_percent": 0,
+  "mb_decrement_percent": 100,
+  "reduce_rf_production": true,
+  "rf_to_coolant_factor": 0.45,
+  "steam_per_coolant": 1.0,
+  "overheating": 0.26
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    "type": "colossal_reactors:coolant",
+    "coolant_id": "colossal_reactors:water",
+    "inputs": [
+      "#c:water"
+    ],
+    "output": "#c:steam",
+    "rf_increment_percent": 0,
+    "mb_decrement_percent": 100,
+    "reduce_rf_production": true,
+    "rf_to_coolant_factor": 0.45,
+    "steam_per_coolant": 1.0,
+    "overheating": 0.26
+  }).id('kubejs:coolant/water')
+})
+```

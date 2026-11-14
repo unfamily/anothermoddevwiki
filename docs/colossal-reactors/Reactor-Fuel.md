@@ -175,3 +175,47 @@ If you introduce explicit `waste_id` on fuels that previously defaulted to `fuel
 ```
 
 `mek_fissile` (`chemical-chemical`, `%` selectors) from **2.3.0.0.0** (Mekanism). Uranium/azurite omit `sub_type` → `item-item`. A `fluid-fluid` entry (e.g. lava in, steam out) uses the same **2.2.0.0.0** `sub_type` rules.
+
+## Single recipe (child format) and KubeJS `event.custom`
+
+A **child** is one `entries` element written as a standalone recipe: the element's fields plus `"type"`, with **no** `entries` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+Datapack file (e.g. `data/<ns>/recipe/fuel_uranium.json`):
+
+```json
+{
+  "type": "colossal_reactors:fuel",
+  "fuel_id": "colossal_reactors:uranium",
+  "waste_id": "colossal_reactors:nuclear_waste",
+  "inputs": [
+    "#c:ingots/uranium"
+  ],
+  "output": "colossal_reactors:nuclear_waste",
+  "units_per_fuel": 1000,
+  "units_per_waste": 1000,
+  "base_rf_per_tick": 400.0,
+  "base_fuel_units_per_tick": 0.03
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    "type": "colossal_reactors:fuel",
+    "fuel_id": "colossal_reactors:uranium",
+    "waste_id": "colossal_reactors:nuclear_waste",
+    "inputs": [
+      "#c:ingots/uranium"
+    ],
+    "output": "colossal_reactors:nuclear_waste",
+    "units_per_fuel": 1000,
+    "units_per_waste": 1000,
+    "base_rf_per_tick": 400.0,
+    "base_fuel_units_per_tick": 0.03
+  }).id('kubejs:fuel/uranium')
+})
+```

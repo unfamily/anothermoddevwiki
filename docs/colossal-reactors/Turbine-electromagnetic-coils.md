@@ -216,3 +216,43 @@ Merge: each RecipeManager file keeps its own recipe ids (no CR↔addon id collis
   ]
 }
 ```
+
+## Single recipe (child format) and KubeJS `event.custom`
+
+A **child** is one `entries` element written as a standalone recipe: the element's fields plus `"type"`, with **no** `entries` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+Here `valid_blocks` is a normal entry field (a list of block selectors), not a bundle array.
+
+Datapack file (e.g. `data/<ns>/recipe/elec_coil_iron.json`):
+
+```json
+{
+  "type": "colossal_reactors:elec_coils",
+  "valid_blocks": [
+    "#c:storage_blocks/iron"
+  ],
+  "eff_coe": 0.66,
+  "eff_max": 0.75,
+  "flow_coe": 1.25,
+  "flow_max": 1.35
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    "type": "colossal_reactors:elec_coils",
+    "valid_blocks": [
+      "#c:storage_blocks/iron"
+    ],
+    "eff_coe": 0.66,
+    "eff_max": 0.75,
+    "flow_coe": 1.25,
+    "flow_max": 1.35
+  }).id('kubejs:elec_coils/iron')
+})
+```

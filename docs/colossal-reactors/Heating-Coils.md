@@ -167,4 +167,52 @@ If no coils load from datapacks, the mod falls back to the builtin jar file ( **
 }
 ```
 
+## Single recipe (child format) and KubeJS `event.custom`
 
+A **child** is one `entries` / `coils` element written as a standalone recipe: the element's fields plus `"type"`, with **no** `entries` / `coils` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+For heating coils a child is **one coil** with **one** option in `consume` (still written as an array with a single element). A coil `id` that does not exist yet needs a datapack file and a full restart, because the coil blocks are created at startup; `event.custom` is meant for coils that already exist.
+
+Datapack file (e.g. `data/<ns>/recipe/heating_coil_energy.json`):
+
+```json
+{
+  "type": "colossal_reactors:heating_coils",
+  "id": "colossal_reactors:heating_coil_energy",
+  "no_item": true,
+  "no_fluid": true,
+  "duration": 60,
+  "consume": [
+    {
+      "energy": {
+        "activation": 10000,
+        "substain": 100
+      }
+    }
+  ]
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    "type": "colossal_reactors:heating_coils",
+    "id": "colossal_reactors:heating_coil_energy",
+    "no_item": true,
+    "no_fluid": true,
+    "duration": 60,
+    "consume": [
+      {
+        "energy": {
+          "activation": 10000,
+          "substain": 100
+        }
+      }
+    ]
+  }).id('kubejs:heating_coils/energy')
+})
+```

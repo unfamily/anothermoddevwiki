@@ -85,3 +85,35 @@ Merge: each RecipeManager file keeps its own recipe ids. Runtime and JEI/EMI/REI
   ]
 }
 ```
+
+## Single recipe (child format) and KubeJS `event.custom`
+
+A **child** is one `valid_blocks` element written as a standalone recipe: the element's fields plus `"type"`, with **no** `valid_blocks` array. It works both as a datapack file and with KubeJS `event.custom`.
+
+`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object.
+
+Datapack file (e.g. `data/<ns>/recipe/melter_heat_campfire.json`):
+
+```json
+{
+  "type": "colossal_reactors:melter_heats",
+  "blocks": [
+    "#minecraft:campfires"
+  ],
+  "factor": 0.5
+}
+```
+
+KubeJS:
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    "type": "colossal_reactors:melter_heats",
+    "blocks": [
+      "#minecraft:campfires"
+    ],
+    "factor": 0.5
+  }).id('kubejs:melter_heats/campfire')
+})
+```
