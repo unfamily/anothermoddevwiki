@@ -8,8 +8,8 @@ These call **IskaLib `StageRegistry` only**. They are **not** KubeJS’s built-i
 
 | Feature | Since |
 |---------|--------|
-| Query / mutate binding | Another Stages 0.1.0.0.0 |
-| `registerStage` / `registerStages` | Another Stages 0.1.0.0.0 |
+| Query / mutate binding | Another Stages 1.0.0.0.0 |
+| `registerStage` / `registerStages` | Another Stages 1.0.0.0.0 |
 
 ---
 

@@ -21,22 +21,22 @@ Canonical new type: `another_stages:stage_item`. **Path:** any `data/<ns>/load/*
 | Core JSON gating (`stages`, `items`, `exclude`, containers, `other_case`, consequences, DEF_*) | Utilities → Library (see [old wiki](#/iskandert-utilities/Stage-Items)); still valid; **moved to Another Stages** when AS is installed |
 | Types `iska_utils:stage_item` / `iska_lib:stage_item` | Pre-AS (legacy, still accepted) |
 | Mod conditions on load JSON | Utilities **3.5.0.0.0+** (still valid); owned by AS when installed |
-| Datapack `another_stages:stage_item` | Another Stages 0.1.0.0.0 |
-| KubeJS fluent managers (`AnotherStages.items`) | Another Stages 0.1.0.0.0 |
-| KubeJS `AnotherStagesEvents.restrictions` (preferred) | Another Stages 0.1.0.0.0 |
+| Datapack `another_stages:stage_item` | Another Stages 1.0.0.0.0 |
+| KubeJS fluent managers (`AnotherStages.items`) | Another Stages 1.0.0.0.0 |
+| KubeJS `AnotherStagesEvents.restrictions` (preferred) | Another Stages 1.0.0.0.0 |
 | `priority` / `.priority(n)` (overlap primary) | Another Stages (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
-| `tooltips` / `hide_default_tooltips` | Another Stages 0.1.0.0.0 |
-| `recipe_viewer` (`overlay` / `hardcore` / `hide`) | Another Stages 0.1.0.0.0 |
-| `hide_item_name` / `hidden_item_name` (Unfamiliar or custom) | Another Stages 0.1.0.0.0 |
-| `other_case: ["all"]` shorthand | Another Stages 0.1.0.0.0 |
-| `cases` alias of `other_case` (both accepted; merge if both present) | Another Stages 0.1.0.0.0 |
-| Case `inventory` (player inv scan; default every 30 ticks) | Another Stages 0.1.0.0.0 |
-| `inventory_ticks` | Another Stages 0.1.0.0.0 |
-| `can_pickup` / `pickup_message` | Another Stages 0.1.0.0.0 |
-| Kube `.caseAll(X)` (click+hands+inventory) | Another Stages 0.1.0.0.0 |
-| Kube `.caseRightClick` / `.consequenceBlock` / `.cases` / `.consequences` | Another Stages 0.1.0.0.0 |
-| Click cancel client+server (`cases` + `consequence`) | Another Stages 0.1.0.0.0 |
-| Overlay lock without dark tint; lock also on JEI ingredient list | Another Stages 0.1.0.0.0 |
+| `tooltips` / `hide_default_tooltips` | Another Stages 1.0.0.0.0 |
+| `recipe_viewer` (`overlay` / `hardcore` / `hide`) | Another Stages 1.0.0.0.0 |
+| `hide_item_name` / `hidden_item_name` (Unfamiliar or custom) | Another Stages 1.0.0.0.0 |
+| `other_case: ["all"]` shorthand | Another Stages 1.0.0.0.0 |
+| `cases` alias of `other_case` (both accepted; merge if both present) | Another Stages 1.0.0.0.0 |
+| Case `inventory` (player inv scan; default every 30 ticks) | Another Stages 1.0.0.0.0 |
+| `inventory_ticks` | Another Stages 1.0.0.0.0 |
+| `can_pickup` / `pickup_message` | Another Stages 1.0.0.0.0 |
+| Kube `.caseAll(X)` (click+hands+inventory) | Another Stages 1.0.0.0.0 |
+| Kube `.caseRightClick` / `.consequenceBlock` / `.cases` / `.consequences` | Another Stages 1.0.0.0.0 |
+| Click cancel client+server (`cases` + `consequence`) | Another Stages 1.0.0.0.0 |
+| Overlay lock without dark tint; lock also on JEI ingredient list | Another Stages 1.0.0.0.0 |
 
 `overwritable` is obsolete and ignored if present.
 

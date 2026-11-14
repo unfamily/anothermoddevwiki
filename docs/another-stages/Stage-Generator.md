@@ -6,21 +6,21 @@ In-game GUI that **builds stage restrictions** (items / recipes / blocks / GUIs)
 
 | Feature | Since |
 |---------|--------|
-| Stage Generator GUI + `/edit` | Another Stages 0.1.0.0.0 |
-| HOME hub (format switch + area buttons) | Another Stages 0.1.0.0.0 |
-| Nested matcher / stage / string entries (Shop-like) | Another Stages 0.1.0.0.0 |
-| Matcher entry Shop calibrator `← [slot] →` (id / #tag / @mod from ghost) | Another Stages 0.1.0.0.0 |
-| Inventory UI on matcher-entry (player inv + calibrator ghost) | Another Stages 0.1.0.0.0 |
-| Off-screen active inv slots so JEI/EMI/REI stay open | Another Stages 0.1.0.0.0 |
-| Stage id EditBox + Tab autocomplete | Another Stages 0.1.0.0.0 |
-| Bottom action bar; full-width content | Another Stages 0.1.0.0.0 |
-| Autosave when Ready (no Save/Copy); silent write | Another Stages 0.1.0.0.0 |
-| Close reload hint (`/reload`, `/iska_lib_dev reload`) | Another Stages 0.1.0.0.0 |
-| List search bars; ESC/inventory blocked while EditBox focused | Another Stages 0.1.0.0.0 |
-| Centered **300×240** (no leftPos shift for recipe viewers) | Another Stages 0.1.0.0.0 |
-| Incomplete reason in red above Done; no restriction-id field in editor | Another Stages 0.1.0.0.0 |
-| KubeJS Entry-N round-trip (load + rewrite whole category file) | Another Stages 0.1.0.0.0 |
-| Known stages catalog (Tab autocomplete; JSON / Kube export) | Another Stages 0.1.0.0.0 |
+| Stage Generator GUI + `/edit` | Another Stages 1.0.0.0.0 |
+| HOME hub (format switch + area buttons) | Another Stages 1.0.0.0.0 |
+| Nested matcher / stage / string entries (Shop-like) | Another Stages 1.0.0.0.0 |
+| Matcher entry Shop calibrator `← [slot] →` (id / #tag / @mod from ghost) | Another Stages 1.0.0.0.0 |
+| Inventory UI on matcher-entry (player inv + calibrator ghost) | Another Stages 1.0.0.0.0 |
+| Off-screen active inv slots so JEI/EMI/REI stay open | Another Stages 1.0.0.0.0 |
+| Stage id EditBox + Tab autocomplete | Another Stages 1.0.0.0.0 |
+| Bottom action bar; full-width content | Another Stages 1.0.0.0.0 |
+| Autosave when Ready (no Save/Copy); silent write | Another Stages 1.0.0.0.0 |
+| Close reload hint (`/reload`, `/iska_lib_dev reload`) | Another Stages 1.0.0.0.0 |
+| List search bars; ESC/inventory blocked while EditBox focused | Another Stages 1.0.0.0.0 |
+| Centered **300×240** (no leftPos shift for recipe viewers) | Another Stages 1.0.0.0.0 |
+| Incomplete reason in red above Done; no restriction-id field in editor | Another Stages 1.0.0.0.0 |
+| KubeJS Entry-N round-trip (load + rewrite whole category file) | Another Stages 1.0.0.0.0 |
+| Known stages catalog (Tab autocomplete; JSON / Kube export) | Another Stages 1.0.0.0.0 |
 
 ---
 

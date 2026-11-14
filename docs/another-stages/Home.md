@@ -1,11 +1,13 @@
 # Another Stages
 
 > **Under construction** — packdev docs are incomplete and may change.  
-> **Mod beta:** `0.1.0.0.0` — NeoForge / Minecraft **26.1.2** and **1.21.1**.
+> **Version:** `1.0.0.0.0` — NeoForge / Minecraft **26.1.2** and **1.21.1**.
 
 Stage gating for pack developers (items, blocks, recipes, GUIs, dimensions, and more).
 
-**Requires:** [Iskandert's Library](https://www.curseforge.com/minecraft/mc-mods/iskanderts-library) + Another Config Manager.
+**Requires:** [Iskandert's Library](https://www.curseforge.com/minecraft/mc-mods/iskanderts-library) **1.14.0.1.0+** + Another Config Manager.
+
+> **Stage system:** stages themselves live in **Iskandert's Library**, which stores the stage data (player / team / world) and provides the base commands (`/iska_lib_stage`). Another Stages builds on that base and adds the gating (items, recipes, blocks, GUIs) and packdev APIs. Library works on its own without Another Stages, and its stages are also used by features of other mods.
 
 ## Heritage
 
@@ -45,7 +47,7 @@ Prefer **KubeJS** `AnotherStagesEvents.restrictions(e => { e.items… / e.recipe
 
 **26.1.2 vs 1.21.1:** same packdev JSON/Kube surface on both lines. Internals differ where Neo 21.1 / recipe APIs differ (e.g. result lookup via `HolderLookup.Provider`).
 
-### Feature matrix (mod `0.1.0.0.0` on 26.1.2 and 1.21.1)
+### Feature matrix (mod `1.0.0.0.0` on 26.1.2 and 1.21.1)
 
 | Area | Notes |
 |------|--------|

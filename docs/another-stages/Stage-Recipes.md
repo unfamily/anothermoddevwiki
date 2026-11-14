@@ -23,11 +23,11 @@ Library exposes `RecipeBlockBridge`; Another Stages registers as the provider wh
 | Feature                                                   | Since                                   |
 | --------------------------------------------------------- | --------------------------------------- |
 | Library `RecipeBlockBridge` API                           | Library (some machines are integrated directly through it) |
-| Datapack `another_stages:stage_recipe` + matchers         | Another Stages 0.1.0.0.0                   |
-| KubeJS `AnotherStagesEvents.restrictions` → `e.recipes`   | Another Stages 0.1.0.0.0                   |
+| Datapack `another_stages:stage_recipe` + matchers         | Another Stages 1.0.0.0.0                   |
+| KubeJS `AnotherStagesEvents.restrictions` → `e.recipes`   | Another Stages 1.0.0.0.0                   |
 | `priority` / `.priority(n)` (overlap winner for JEI)      | Another Stages (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
-| `recipe_viewer` / overlay corner / tooltips               | Another Stages 0.1.0.0.0                   |
-| Optional action-bar (`feedback.recipe_blocked_actionbar`) | Another Stages 0.1.0.0.0                   |
+| `recipe_viewer` / overlay corner / tooltips               | Another Stages 1.0.0.0.0                   |
+| Optional action-bar (`feedback.recipe_blocked_actionbar`) | Another Stages 1.0.0.0.0                   |
 
 ---
 
@@ -277,25 +277,26 @@ All craft/process machines of the mod are gated. **Since** = first Another Stage
 
 | Mod ID | Display name | How | Since |
 |--------|--------------|-----|-------|
-| `minecraft` | Minecraft (Vanilla) | Mixins | 0.1.0.0.0 |
-| `iska_utils` | Iskandert's Utilities | `RecipeBlockBridge` | 0.1.0.0.0 |
-| `colossal_reactors` | Colossal Reactors | `RecipeBlockBridge` | 0.1.0.0.0 |
-| `rep_ae2_bridge` | Replication AE2 Bridge | `RecipeBlockBridge` | 0.1.0.0.0 |
-| `fastbench` | FastWorkbench | Mixin | 0.1.0.0.0 |
-| `fastfurnace` | FastFurnace | Mixin | 0.1.0.0.0 |
-| `ironfurnaces` | Iron Furnaces | Mixin (native `owner` UUID, else `MachineOwners`; claim-on-open) | 0.1.0.0.0 |
-| `polymorph_plus` | Polymorph+ | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
-| `polymorph` | Polymorph | Mixin (`AbstractRecipeData`) | 0.1.0.0.0 |
-| `toms_storage` | Tom's Simple Storage | Mixin (Crafting Terminal) | 0.1.0.0.0 |
-| `sophisticatedcore` | Sophisticated Core | Mixins (crafting upgrade hard-block on result/select/transfer; cooking/auto-cooking prefer wearing-player subject for unlock after stage grant, else storage/`MachineOwners`/`RsCraftSubjects`; block-converter strips locked recipes in **`filterAndSortRecipes`** and **`getRecipeList`**, plus `selectRecipe` fail-safe with filtered→real index map) | 0.1.0.0.0 |
-| `ae2` | Applied Energistics 2 | Mixins | 0.1.0.0.0 |
-| `extendedae` | ExtendedAE | Mixins | 0.1.0.0.0 |
-| `advanced_ae` | AdvancedAE | Mixins | 0.1.0.0.0 |
-| `refinedstorage` | Refined Storage 2 | Mixins (matrix/encode with `placedBy` + interacting player; `startTask`/`ensureTask` autocraft; Autocrafter `canStep`) | 0.1.0.0.0 |
-| `craftingstation` | Crafting Station | Mixin (menu) | 0.1.0.0.0 |
-| `energizedpower` | Energized Power | Mixins (`SimpleRecipe` / `SimpleRecipeFluid` / `SelectableRecipe` / `SelectableRecipeFluid` / powered furnaces / alloy / auto-crafter; `MachineOwners` / no-owner OK) | 0.1.0.0.0 |
-| `enderio` | Ender IO | Mixins (Crafter; Alloy Smelter + remapped smelting dual-id; shared `CraftingMachineTaskHost` for Sag / Slicer / Painting / Soul Binder / Vat; `EioStageRearm` unlock; `MachineOwners` / no-owner OK). Non-recipe machines (obelisks, vacuum, generators, drain) are out of stage-recipe scope. | 0.1.0.0.0 |
-| `mekanism` | Mekanism | Mixins (Formulaic Assemblicator; electric Item→Item + smelting synthetic dual-id; QIO; Thermal Evaporation `evaporating/*` + `canHolder` AND; live-cache drop on re-lock). **Owner:** TE with Mek security → native `getOwnerUUID()` only; AS `MachineOwners` claim is **skipped** on those tiles (no duplicate attachment). Evaporation/`MultiblockData` (no `AttributeSecurity` → Mek owner null): Mek first, else AS `MachineOwners` fallback (claim place/open); scan structure locations; **never** `inventoryID`. **Not** stage-recipe: **SPS / Boiler / Fission** (and Matrix/Tank) — hardcoded process, no datapack recipe id. | 0.1.0.0.0 |
+| `minecraft` | Minecraft (Vanilla) | Mixins | 1.0.0.0.0 |
+| `iska_utils` | Iskandert's Utilities | `RecipeBlockBridge` | 1.0.0.0.0 |
+| `colossal_reactors` | Colossal Reactors | `RecipeBlockBridge` | 1.0.0.0.0 |
+| `rep_ae2_bridge` | Replication AE2 Bridge | `RecipeBlockBridge` | 1.0.0.0.0 |
+| `fastbench` | FastWorkbench | Mixin | 1.0.0.0.0 |
+| `fastfurnace` | FastFurnace | Mixin | 1.0.0.0.0 |
+| `ironfurnaces` | Iron Furnaces | Mixin (native `owner` UUID, else `MachineOwners`; claim-on-open) | 1.0.0.0.0 |
+| `polymorph_plus` | Polymorph+ | Mixin (`AbstractRecipeData`) | 1.0.0.0.0 |
+| `polymorph` | Polymorph | Mixin (`AbstractRecipeData`) | 1.0.0.0.0 |
+| `toms_storage` | Tom's Simple Storage | Mixin (Crafting Terminal) | 1.0.0.0.0 |
+| `sophisticatedcore` | Sophisticated Core | Mixins (crafting upgrade hard-block on result/select/transfer; cooking/auto-cooking prefer wearing-player subject for unlock after stage grant, else storage/`MachineOwners`/`RsCraftSubjects`; block-converter strips locked recipes in **`filterAndSortRecipes`** and **`getRecipeList`**, plus `selectRecipe` fail-safe with filtered→real index map) | 1.0.0.0.0 |
+| `ae2` | Applied Energistics 2 | Mixins | 1.0.0.0.0 |
+| `extendedae` | ExtendedAE | Mixins | 1.0.0.0.0 |
+| `advanced_ae` | AdvancedAE | Mixins | 1.0.0.0.0 |
+| `refinedstorage` | Refined Storage 2 | Mixins (matrix/encode with `placedBy` + interacting player; `startTask`/`ensureTask` autocraft; Autocrafter `canStep`) | 1.0.0.0.0 |
+| `craftingstation` | Crafting Station | Mixin (menu) | 1.0.0.0.0 |
+| `energizedpower` | Energized Power | Mixins (`SimpleRecipe` / `SimpleRecipeFluid` / `SelectableRecipe` / `SelectableRecipeFluid` / powered furnaces / alloy / auto-crafter; `MachineOwners` / no-owner OK) | 1.0.0.0.0 |
+| `enderio` | Ender IO | Mixins (Crafter; Alloy Smelter + remapped smelting dual-id; shared `CraftingMachineTaskHost` for Sag / Slicer / Painting / Soul Binder / Vat; `EioStageRearm` unlock; `MachineOwners` / no-owner OK). Non-recipe machines (obelisks, vacuum, generators, drain) are out of stage-recipe scope. | 1.0.0.0.0 |
+| `mekanism` | Mekanism | Mixins (Formulaic Assemblicator; electric Item→Item + smelting synthetic dual-id; QIO; Thermal Evaporation `evaporating/*` + `canHolder` AND; live-cache drop on re-lock). **Owner:** TE with Mek security → native `getOwnerUUID()` only; AS `MachineOwners` claim is **skipped** on those tiles (no duplicate attachment). Evaporation/`MultiblockData` (no `AttributeSecurity` → Mek owner null): Mek first, else AS `MachineOwners` fallback (claim place/open); scan structure locations; **never** `inventoryID`. **Not** stage-recipe: **SPS / Boiler / Fission** (and Matrix/Tank) — hardcoded process, no datapack recipe id. | 1.0.0.0.0 |
+| `ftbic` | FTB Industrial Contraptions | Mixins (**26.1.2 only**; all machine recipes: powered furnaces, macerating, extruding, refining/centrifuging, …). On block: clears `cachedRecipe` / `runningRecipeId` / `recipeDirty` so unlock re-finds. JEI adapted cooking keeps **vanilla smelting ids/outputs** (`minecraft:glass` etc.) for RV locks. `MachineOwners` / no-owner OK | 1.0.0.0.0 |
 
 Install **either** `polymorph` **or** `polymorph_plus`, never both. AE2 Transform supports only `world` stages ([details](#limited-stage-type-paths)). Processing patterns have no recipe id: gate the external machine instead.
 
@@ -313,12 +314,16 @@ Install **either** `polymorph` **or** `polymorph_plus`, never both. AE2 Transfor
 
 | Mod ID | Display name | Path (what is gated) | How | Owner subject | Since |
 |--------|--------------|----------------------|-----|---------------|-------|
-| `ftbic` | FTB Industrial Contraptions | Powered Furnace / Advanced Powered Furnace (26.1.2 only; Iron Furnace via vanilla/FastFurnace). On block: clears `cachedRecipe` / `runningRecipeId` / `recipeDirty` so unlock re-finds. JEI adapted cooking keeps **vanilla smelting ids/outputs** (`minecraft:glass` etc.) for RV locks. | Mixin | `MachineOwners` / no-owner OK | 0.1.0.0.0 |
-| `create` | Create | **1.21.1 only** (no Create on 26): Mechanical Crafter + **fan BLASTING/SMOKING** (`canProcess`/`process`; blasting lookup = SMELTING then BLASTING). Crafter subject = `MachineOwners` via `compat.create.CreateCrafterSubject` (outside mixin package; claim-on-open). Fan subject = ItemEntity thrower via `CreateFanSubject` during `FanProcessing.applyProcessing` — player-stage unlock works for thrown items; belt path without thrower stays world-stages / fail-closed for player rules. | Mixin | `MachineOwners` / thrower UUID / null OK | 0.1.0.0.0 |
-| `integratedcrafting` | Integrated Crafting | Schedule / craft paths when recipe id is mapped | Soft | UUID as-is | 0.1.0.0.0 |
-| `forestry` | Forestry CE | Worktable only | Mixin | Machine / no-owner | 0.1.0.0.0 |
+| `create` | Create | **1.21.1 NeoForge only** (no Create on AS 26). Gated: Mechanical Crafter; fan **BLASTING / SMOKING / HAUNTING / SPLASHING**; **BasinOperating** (Mixer + Press-in-basin); Press belt/world **PRESSING**; Millstone; Saw (`getRecipes` filter + `applyRecipe`; vertical belt cutting — not horizontal block-breaker); Crushing Wheels (`applyRecipe` no-op while locked — must **not** clear inventory / destroy the stack; Create then ejects the **unchanged** input = pass-through, no jam; next insert after stage grant crushes; controller auto-placed → owner from ItemEntity thrower or nearest player); Deployer; **manual item application**; Spout **filling** (`whenItemHeld` / `onItemReceived`); Item Drain **emptying** (`continueProcessing`); sandpaper **hand** (`SandPaperItem.finishUsingItem`) + deployer sandpaper via Deployer gate. **JEI dual-id:** `…_using_deployer` ↔ base for item_application / sandpaper. **Shared ids:** e.g. `create:honey_bottle` is both filling and emptying — distinguish with `recipe_types: create:filling` / `create:emptying`. **Not** gated: sequenced assembly; saw tree/block-breaker. Fan thrower via `CreateFanSubject`. Claim owner (place/open) for player-stage unlocks. | Mixin | `MachineOwners` / player (manual / sandpaper) / thrower UUID / null OK | 1.0.0.0.0 |
+| `createaddition` | Create Crafts & Additions | **1.21.1:** Rolling Mill (`find` rolling); Tesla Coil charging (`find`). **Not** gated: Liquid Blaze Burner / `liquid_burning` (hard to support usefully). Other CCA blocks (motor, accumulator, …) out of stage-recipe scope. | Mixin | `MachineOwners` | 1.0.0.0.0 |
+| `create_enchantment_industry` | Create Enchantment Industry | **1.21.1 NeoForge:** Printer (`PrintingRecipe` + `MachineOwners` via belt bind); Grindstone Drain (`GrindingRecipe` / disenchant fluid path). Blaze Enchanter/Forger and Apotheosis extras not gated in this pass. | Mixin | `MachineOwners` | 1.0.0.0.0 |
+| `create_central_kitchen` | Create Central Kitchen | **1.21.1:** no unique process BE — converts FD/etc. into Create sawing/deploying/mixing/pressing; those use the Create gates above. | Soft (via Create) | same as Create | 1.0.0.0.0 |
+| `create_dragons_plus` | Create Dragons Plus | **1.21.1:** fan **ending** / **freezing** datapack recipes (`EndingFanProcessingType` / `FreezingFanProcessingType`, same subject as Create fans). Compat-only transforms without a `RecipeHolder` are not stage-gated. Sanding / coloring not in this pass. | Mixin | thrower UUID / null OK | 1.0.0.0.0 |
+| `create_new_age` | Create New Age | **1.21.1:** Energiser (`EnergisingRecipe` via `EnergiserBehaviour.getRecipe`). Motors / heat / nuclear out of stage-recipe scope. | Mixin | `MachineOwners` | 1.0.0.0.0 |
+| `integratedcrafting` | Integrated Crafting | Schedule / craft paths when recipe id is mapped | Soft | UUID as-is | 1.0.0.0.0 |
+| `forestry` | Forestry CE | Worktable only | Mixin | Machine / no-owner | 1.0.0.0.0 |
 
-**Not supported (do not claim):** Cooking for Blockheads Cooking Table; Pam’s HarvestCraft 2 tools-in-crafting-grid; Mekanism **SPS / Boiler / Fission** (and other multiblocks without datapack recipe ids).
+**Not supported (do not claim):** Cooking for Blockheads Cooking Table; Pam’s HarvestCraft 2 tools-in-crafting-grid; Mekanism **SPS / Boiler / Fission** (and other multiblocks without datapack recipe ids); Create sequenced assembly; Create saw horizontal block-breaker; CDP fan sanding/coloring / hardcoded compat transforms.
 
 Machines re-check locks on the next tick after a stage change (no need to reinsert items).
 

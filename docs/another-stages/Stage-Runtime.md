@@ -8,13 +8,13 @@ Server-side **stage lifecycle** APIs owned by Another Stages (when installed): K
 
 | Feature | Since |
 |---------|--------|
-| Kube `AnotherStagesEvents.stageChanged` | Another Stages 0.1.0.0.0 |
-| Binding mutators (`addPlayerStage` / …) | Another Stages 0.1.0.0.0 |
-| `AnotherStages.registerStage(type, id)` | Another Stages 0.1.0.0.0 |
-| `/another_stages call_action` (JSON ONLY mirror) | Another Stages 0.1.0.0.0 |
+| Kube `AnotherStagesEvents.stageChanged` | Another Stages 1.0.0.0.0 |
+| Binding mutators (`addPlayerStage` / …) | Another Stages 1.0.0.0.0 |
+| `AnotherStages.registerStage(type, id)` | Another Stages 1.0.0.0.0 |
+| `/another_stages call_action` (JSON ONLY mirror) | Another Stages 1.0.0.0.0 |
 | Library `/iska_lib_stage call_action` restored | Library 1.14.0.1.0 |
 | Legacy subcommand `action` (same role as `call_action`) | Older Utils / Library builds only — **not** current |
-| Client world rebuild only for camouflage stage diffs | Another Stages 0.1.0.0.0 |
+| Client world rebuild only for camouflage stage diffs | Another Stages 1.0.0.0.0 |
 
 ---
 

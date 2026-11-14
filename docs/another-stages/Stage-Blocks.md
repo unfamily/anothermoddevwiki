@@ -10,15 +10,15 @@ Block gating is **new in Another Stages** (not a Utils → Library migrate). Sta
 
 | Feature | Since |
 |---------|--------|
-| Datapack `another_stages:stage_block` | Another Stages 0.1.0.0.0 |
-| `mimic` / `unbreakable` / messages / tooltips | Another Stages 0.1.0.0.0 |
-| KubeJS `AnotherStages.blocks` | Another Stages 0.1.0.0.0 |
-| KubeJS `AnotherStagesEvents.restrictions` (preferred) | Another Stages 0.1.0.0.0 |
-| Client mimic mesh (`AddSectionGeometry` + `RenderShape.INVISIBLE`) | Another Stages 0.1.0.0.0 |
-| `camouflage` (visual vs loot-only) | Another Stages 0.1.0.0.0 |
-| Jade disguise | Another Stages 0.1.0.0.0 |
-| `stop_tick` (DANGEROUS / best-effort) | Another Stages 0.1.0.0.0 |
-| `mimic_mining` / `.disableMimicMining()` | Another Stages 0.1.0.0.0 |
+| Datapack `another_stages:stage_block` | Another Stages 1.0.0.0.0 |
+| `mimic` / `unbreakable` / messages / tooltips | Another Stages 1.0.0.0.0 |
+| KubeJS `AnotherStages.blocks` | Another Stages 1.0.0.0.0 |
+| KubeJS `AnotherStagesEvents.restrictions` (preferred) | Another Stages 1.0.0.0.0 |
+| Client mimic mesh (`AddSectionGeometry` + `RenderShape.INVISIBLE`) | Another Stages 1.0.0.0.0 |
+| `camouflage` (visual vs loot-only) | Another Stages 1.0.0.0.0 |
+| Jade disguise | Another Stages 1.0.0.0.0 |
+| `stop_tick` (DANGEROUS / best-effort) | Another Stages 1.0.0.0.0 |
+| `mimic_mining` / `.disableMimicMining()` | Another Stages 1.0.0.0.0 |
 | `priority` / `.priority(n)` (overlap winner) | Another Stages (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
 
 ---
