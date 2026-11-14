@@ -1,6 +1,6 @@
 # Stage Recipes
 
-[← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions) · [Full support ↓](#compatibility-list-full-support) · [Vanilla path coverage ↓](#vanilla-path-coverage)
+[← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions) · [Full support ↓](#compatibility-list-full-support) · [Partial support ↓](#partial-support)
 
 ## What this system does
 
@@ -18,7 +18,7 @@ Entry points for packdevs:
 
 Library exposes `RecipeBlockBridge`; Another Stages registers as the provider when installed.
 
-**Vanilla is fully supported** (see [Full support](#compatibility-list-full-support)). Mod coverage grows over time — also [Vanilla path coverage](#vanilla-path-coverage).
+**Vanilla is fully supported** (see [Full support](#compatibility-list-full-support)). Mod coverage grows over time — also [Partial support](#partial-support).
 
 | Feature                                                   | Since                                   |
 | --------------------------------------------------------- | --------------------------------------- |
@@ -126,7 +126,7 @@ If `.id(...)` is omitted → auto-id `another_stages:kjs/recipe/<fingerprint>` (
 | `.tooltips([...])` | `tooltips` | empty | Replaces string tooltip list. Each string is a **lang key** (dotted, no spaces → translated) **or** a **literal** (not translated). Non-empty custom tips replace the default “Recipe locked until stage …” line. |
 | `.hideDefaultTooltips(bool)` | `hide_default_tooltips` | `false` | `true` = clear JEI’s own recipe tooltips before AS tips are applied. |
 
-[Full support ↓](#compatibility-list-full-support) · [Vanilla path coverage ↓](#vanilla-path-coverage)
+[Full support ↓](#compatibility-list-full-support) · [Partial support ↓](#partial-support)
 
 ---
 
@@ -230,7 +230,7 @@ Team stage **data** is owned by IskaLib (`TeamStageData` / `iska_utils_team_stag
 Default: **silent** (GUI / recipe viewer already show the lock).  
 Config `feedback.recipe_blocked_actionbar` (`false` by default): if `true`, online owner gets an action-bar message when a gate fires **and** they have no container menu open (~3s cooldown). Skipped while a GUI is open.
 
-[Full support ↓](#compatibility-list-full-support) · [Vanilla path coverage ↓](#vanilla-path-coverage)
+[Full support ↓](#compatibility-list-full-support) · [Partial support ↓](#partial-support)
 
 ---
 
@@ -308,9 +308,9 @@ Install **either** `polymorph` **or** `polymorph_plus`, never both. AE2 Transfor
 
 ---
 
-## Vanilla path coverage
+## Partial support
 
-**Partial support:** only the listed paths are gated; unlisted machines of the mod = **bypass**. Toggle under common config `mixins.*`.
+Only the listed paths are gated; unlisted machines of the mod = **bypass**. Toggle under common config `mixins.*`.
 
 | Mod ID | Display name | Path (what is gated) | How | Owner subject | Since |
 |--------|--------------|----------------------|-----|---------------|-------|

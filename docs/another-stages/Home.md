@@ -34,7 +34,7 @@ Prefer **KubeJS** `AnotherStagesEvents.restrictions(e => { e.items… / e.recipe
 - [Stage Runtime](Stage-Runtime) — `stageChanged`, mutators, `registerStage`, `call_action` **JSON ONLY**
 - [Stage Actions](Stage-Actions) — JSON actions run on stage add/remove (`iska_utils:stage_actions`)
 - [Stage Items](Stage-Items) — managers → datapack → queries (migrated from Utils / Library)
-- [Stage Recipes](Stage-Recipes) — [full support](Stage-Recipes#compatibility-list-full-support) + [vanilla path coverage](Stage-Recipes#vanilla-path-coverage)
+- [Stage Recipes](Stage-Recipes) — [full support](Stage-Recipes#compatibility-list-full-support) + [partial support](Stage-Recipes#partial-support)
 - [Stage Blocks](Stage-Blocks)
 - [Stage Guis](Stage-Guis) — menu open / force-close / slots
 - [Overlapping restrictions](Overlapping-Restrictions) — when several rules match the same target: resolution flow + `.priority`
