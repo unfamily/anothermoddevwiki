@@ -19,7 +19,7 @@ Block gating is **new in Another Stages** (not a Utils → Library migrate). Sta
 | Jade disguise | Another Stages 1.0.0.0.0 |
 | `stop_tick` (DANGEROUS / best-effort) | Another Stages 1.0.0.0.0 |
 | `mimic_mining` / `.disableMimicMining()` | Another Stages 1.0.0.0.0 |
-| `priority` / `.priority(n)` (overlap winner) | Another Stages (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
+| `priority` / `.priority(n)` (overlap winner) | Another Stages 1.0.0.0.0 (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
 
 ---
 

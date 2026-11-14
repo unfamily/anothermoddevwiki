@@ -25,7 +25,7 @@ Library exposes `RecipeBlockBridge`; Another Stages registers as the provider wh
 | Library `RecipeBlockBridge` API                           | Library (some machines are integrated directly through it) |
 | Datapack `another_stages:stage_recipe` + matchers         | Another Stages 1.0.0.0.0                   |
 | KubeJS `AnotherStagesEvents.restrictions` → `e.recipes`   | Another Stages 1.0.0.0.0                   |
-| `priority` / `.priority(n)` (overlap winner for JEI)      | Another Stages (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
+| `priority` / `.priority(n)` (overlap winner for JEI)      | Another Stages 1.0.0.0.0 (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
 | `recipe_viewer` / overlay corner / tooltips               | Another Stages 1.0.0.0.0                   |
 | Optional action-bar (`feedback.recipe_blocked_actionbar`) | Another Stages 1.0.0.0.0                   |
 

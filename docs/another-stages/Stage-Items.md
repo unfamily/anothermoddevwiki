@@ -26,7 +26,7 @@ Canonical new type: `another_stages:stage_item`. **Path:** any `data/<ns>/load/*
 | Datapack `another_stages:stage_item` | Another Stages 1.0.0.0.0 |
 | KubeJS fluent managers (`AnotherStages.items`) | Another Stages 1.0.0.0.0 |
 | KubeJS `AnotherStagesEvents.restrictions` (preferred) | Another Stages 1.0.0.0.0 |
-| `priority` / `.priority(n)` (overlap primary) | Another Stages (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
+| `priority` / `.priority(n)` (overlap primary) | Another Stages 1.0.0.0.0 (see [Overlapping-Restrictions](Overlapping-Restrictions)) |
 | `tooltips` / `hide_default_tooltips` | Another Stages 1.0.0.0.0 |
 | `recipe_viewer` (`overlay` / `hardcore` / `hide`) | Another Stages 1.0.0.0.0 |
 | `hide_item_name` / `hidden_item_name` (Unfamiliar or custom) | Another Stages 1.0.0.0.0 |

@@ -47,7 +47,7 @@ Craft / process lock on recipes still blocks if **any** stage-active rule matche
 
 | Feature | Since |
 |---------|--------|
-| `priority` / `.priority(n)` on items, recipes, blocks, guis | Another Stages (this change) |
+| `priority` / `.priority(n)` on items, recipes, blocks, guis | Another Stages 1.0.0.0.0 |
 
 ---
 
