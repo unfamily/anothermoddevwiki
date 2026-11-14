@@ -137,7 +137,7 @@ Files are identified by their `type` parameter:
 
 - `iska_utils:stage_item` - For declaring stages that limit items, allowing filtering by inventory. For example, this can block items that go into curios slots.
   * Location: any `data/<namespace>/load/…` with this `type` (recommended `load/iska_utils_stage_items/`; alias type `iska_lib:stage_item` — **Library `1.12.0.0.0+`**)
-  * **Heritage:** Utilities → Library (`1.12+`) → **[Another Stages](#/another-stages/Home)**. Utilities / Library only had JSON stage items and stage actions; Another Stages takes over item gating when installed and adds recipe / block / GUI gating and KubeJS APIs (legacy types still load). Docs: [Stage Items](#/another-stages/Stage-Items) · [Recipes](#/another-stages/Stage-Recipes) · [Blocks](#/another-stages/Stage-Blocks). Short note: [Stage-Items](Stage-Items).
+  * **Heritage:** Utilities → Library (`1.12+`) → **[Another Stages](#/another-stages/Home)**. Utilities / Library only had JSON stage items and stage actions; Another Stages takes over item gating when installed and adds recipe / block / GUI gating and KubeJS APIs (legacy JSON types still load; KubeJS stage APIs exist only with Another Stages). Docs: [Stage Items](#/another-stages/Stage-Items) · [Recipes](#/another-stages/Stage-Recipes) · [Blocks](#/another-stages/Stage-Blocks). Short note: [Stage-Items](Stage-Items).
 
 - `iska_utils:stage_actions` - Commands when stages are added/removed.
   * Location: any `data/<namespace>/load/…` with this `type` (recommended `load/iska_utils_stage_actions/`; alias type `iska_lib:stage_actions` — **Library `1.12.0.0.0+`**)

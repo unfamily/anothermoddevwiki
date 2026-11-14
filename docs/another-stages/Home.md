@@ -17,6 +17,8 @@ Stage gating did **not** start here, but before Another Stages it covered only *
 2. **Iskandert's Library** — shared stage registry / CRUD (`/iska_lib_stage`), free `load/` paths + `iska_lib:` type aliases (**Library `1.12.0.0.0+`**).
 3. **Another Stages** — takes over item gating when installed (Library skips its item handler to avoid double-filter) and adds new gating for recipes, blocks and GUIs, plus KubeJS APIs. Pre-AS JSON `type` values still work under any `data/<ns>/load/**`.
 
+> **Backward compatibility is JSON only.** Old `iska_utils:` / `iska_lib:` JSON files keep working, but there was never a KubeJS API for stages in Utilities or Library: KubeJS stage scripts (managers, recipe / block / GUI locks) require **Another Stages**.
+
 Stage **CRUD** (add/remove/list/…) stays on Library. **JSON stage actions** are documented here: [Stage-Actions](Stage-Actions). This mod adds gating + packdev APIs (Kube managers, JEI, …).
 
 Kube **runtime** (`stageChanged`, mutators, `registerStage`, `call_action` **JSON ONLY**): **[Stage-Runtime](Stage-Runtime)**.  

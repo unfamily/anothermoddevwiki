@@ -14,6 +14,8 @@ Same feature as the old Utils / Library wiki (JSON only there) ([Stage-Items](#/
 2. **Library `1.12.0.0.0+`** — alias `iska_lib:stage_item`.
 3. **Another Stages** — owns gating when installed (Library skips its handler). Old packs keep working without edits.
 
+> **Backward compatibility is JSON only.** Old `iska_utils:` / `iska_lib:` JSON files keep working, but there was never a KubeJS API for stages in Utilities or Library: KubeJS stage scripts (managers, recipe / block / GUI locks) require **Another Stages**.
+
 Canonical new type: `another_stages:stage_item`. **Path:** any `data/<ns>/load/**/*.json` with matching `type` (subfolders are conventions only).
 
 | Feature | Since |
