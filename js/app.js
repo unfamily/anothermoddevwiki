@@ -1,10 +1,10 @@
 (async function () {
   const { resolvePage, resolveAnchor, slugify } = window.WikiResolve;
   const $ = id => document.getElementById(id);
-  const manifest = await (await fetch('wiki.json')).json();
+  const manifest = await (await fetch('wiki.json', { cache: 'no-cache' })).json();
   const cache = {};
   const mdUrl = (slug, page) => `docs/${slug}/${encodeURIComponent(page)}.md`;
-  const getMd = async (slug, page) => cache[slug + '/' + page] ??= fetch(mdUrl(slug, page)).then(r => r.ok ? r.text() : null);
+  const getMd = async (slug, page) => cache[slug + '/' + page] ??= fetch(mdUrl(slug, page), { cache: 'no-cache' }).then(r => r.ok ? r.text() : null);
   const modBy = slug => manifest.mods.find(m => m.slug === slug);
 
   // Theme
