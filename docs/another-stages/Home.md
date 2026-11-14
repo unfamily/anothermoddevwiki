@@ -11,11 +11,11 @@ Stage gating for pack developers (items, blocks, recipes, GUIs, dimensions, and 
 
 ## Heritage
 
-Stage **item** gating did **not** start here:
+Stage gating did **not** start here, but before Another Stages it covered only **stage items** and **stage actions**, as **JSON only** (no KubeJS, no recipe / block / GUI locks):
 
-1. **Iskandert's Utilities** — original datapack surface (`iska_utils:stage_item`, …). Historical pages: [Stage-Items](#/iskandert-utilities/Stage-Items) (and other `Stage-*` on the [Utils wiki](#/iskandert-utilities/Home)).
+1. **Iskandert's Utilities** — original JSON datapack types `iska_utils:stage_item` and `iska_utils:stage_actions`. Historical pages: [Stage-Items](#/iskandert-utilities/Stage-Items) (and other `Stage-*` on the [Utils wiki](#/iskandert-utilities/Home)).
 2. **Iskandert's Library** — shared stage registry / CRUD (`/iska_lib_stage`), free `load/` paths + `iska_lib:` type aliases (**Library `1.12.0.0.0+`**).
-3. **Another Stages** — owns item / recipe / block / GUI **gating** when installed; Library skips its item handler to avoid double-filter. Pre-AS JSON `type` values still work under any `data/<ns>/load/**`.
+3. **Another Stages** — takes over item gating when installed (Library skips its item handler to avoid double-filter) and adds new gating for recipes, blocks and GUIs, plus KubeJS APIs. Pre-AS JSON `type` values still work under any `data/<ns>/load/**`.
 
 Stage **CRUD** (add/remove/list/…) stays on Library. **JSON stage actions** are documented here: [Stage-Actions](Stage-Actions). This mod adds gating + packdev APIs (Kube managers, JEI, …).
 

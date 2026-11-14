@@ -8,7 +8,7 @@ When several rules match the same item, see **[Overlapping restrictions](Overlap
 
 ### Heritage
 
-Same feature as the old Utils / Library wiki ([Stage-Items](#/iskandert-utilities/Stage-Items)):
+Same feature as the old Utils / Library wiki (JSON only there) ([Stage-Items](#/iskandert-utilities/Stage-Items)):
 
 1. **Utilities** — `iska_utils:stage_item` (any `load/**`; recommended `load/iska_utils_stage_items/`).
 2. **Library `1.12.0.0.0+`** — alias `iska_lib:stage_item`.
