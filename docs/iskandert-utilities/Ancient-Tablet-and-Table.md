@@ -9,7 +9,7 @@ Two **sibling** features that share one datapack recipe list:
 | Portable crafter (item) | `iska_utils:ancient_tablet` | 64-slot bundle-style storage; manual left-click craft |
 | Automated crafter (block) | `iska_utils:ancient_table` | Same recipes; **Drop of Chaos** fuel; Factory-like redstone |
 | Shared recipe datapack `type` | `iska_utils:ancient_tab` | One `entries` list for **both** tablet and table |
-| Table fuel item | `iska_utils:drop_of_chaos` | Charge stack in fuel slot (`chaos_cost` per craft) |
+| Table fuel item | `iska_utils:drop_of_chaos` | Charge stack in fuel slot (`fuel_cost` per craft) |
 
 Registry IDs use the `iska_utils:ancient_tab*` family (`ancient_tablet` item, `ancient_table` block). Pack authors author datapack recipes with **`"type": "iska_utils:ancient_tab"`** (typically under `recipe/ancient_tab/`).
 
@@ -29,7 +29,7 @@ Registry IDs use the `iska_utils:ancient_tab*` family (`ancient_tablet` item, `a
 | Storage | 64 occupied slots, **one item per slot** (insertion order) | 63 input + 1 fuel + 63 output (GUI scroll) |
 | Ingredient order | `must_ordered` / `destroy_if_wrong` respected | **Always unordered**; never destroys on mismatch |
 | `destroy_if_wrong` | Honoured when `must_ordered: true` | **Ignored** |
-| `chaos_cost` | Ignored | Consumed from fuel per successful craft |
+| `fuel_cost` | Ignored | Consumed from fuel per successful craft |
 | Fuel | — | `drop_of_chaos` only |
 
 ---
@@ -127,7 +127,7 @@ One file, two recipes in `entries` (valid and common):
     {
       "must_ordered": false,
       "destroy_if_wrong": false,
-      "chaos_cost": 1,
+      "fuel_cost": 1,
       "require": [ "minecraft:rotten_flesh", "minecraft:rotten_flesh" ],
       "produce": [ "minecraft:bone" ]
     },
@@ -147,13 +147,17 @@ On tablet left-click (or table auto-craft), the mod tries each entry in order; t
 
 | Field | Default | Description |
 |-------|---------|-------------|
+| `id` | — | Optional metadata label only (does **not** set the RecipeManager id; split children remain `namespace:path_N`) |
 | `must_ordered` | `false` | First N tablet slots (by insertion order) must match `require` **in list order**. **Table:** ignored — always unordered |
 | `destroy_if_wrong` | `false` | Only with `must_ordered` on **tablet**. Wrong slot order: see **Wrong order** below. **Table:** ignored |
-| `chaos_cost` | `1` | Chaos charges consumed from **Ancient Table** fuel per craft. **Tablet:** ignored |
-| `require` | — | Inputs; **tags allowed** (`#namespace:path`) |
-| `produce` | — | Outputs; **items only** (no tags) |
-| `mods`, `mods_logic`, `stages`, `stages_logic` | — | **3.5.0.0.0+** Optional gates — see [Mod and stage gates](#mod-and-stage-gates-3500000) |
-| `if` | — | **3.5.0.0.0+** Deferred variant branches (DEF only) — see gates section |
+| `fuel_cost` | `1` | Chaos charges consumed from **Ancient Table** fuel per craft (values `< 1` clamp to `1`). **Tablet:** ignored |
+| `require` | `[]` | Inputs; **tags allowed** (`#namespace:path`) |
+| `produce` | `[]` | Outputs; **items only** (no tags) |
+| `stages` | `[]` | **3.5.0.0.0+** Stage conditions (`{ "stage_type": "player"\|"team"\|"world", "stage": "<id>", "is": true\|false }`; `stage_type` defaults to `"player"`, `is` defaults to `true`) — stage data is stored in **Iskandert's Library** |
+| `stages_logic` | `"AND"` | **3.5.0.0.0+** `"AND"`, `"OR"`, `"DEF_AND"` (alias `"DEF"`), or `"DEF_OR"` |
+| `mods` | `[]` | **3.5.0.0.0+** Mod conditions (`{ "mod": "<mod_id>", "is": true\|false }`; `is` defaults to `true`) |
+| `mods_logic` | `"AND"` | **3.5.0.0.0+** `"AND"`, `"OR"`, `"DEF_AND"` (alias `"DEF"`), or `"DEF_OR"` |
+| `if` | `[]` | **3.5.0.0.0+** Deferred variant branches (`DEF_*` only) — first matching branch wins; mutually exclusive with flat `require` / `produce` — see [Mod and stage gates](#mod-and-stage-gates-3500000) |
 
 ### Mod and stage gates (3.5.0.0.0+)
 
@@ -161,13 +165,15 @@ On tablet left-click (or table auto-craft), the mod tries each entry in order; t
 
 Two modes per entry:
 
-**A) Flat `AND` / `OR`** — add `mods` / `stages` on the entry. Craft/JEI only when `isFullyEligible` for the evaluating player.
+Stage data (`player`, `team`, and `world` stages) lives in **Iskandert's Library**. Both `stages_logic` and `mods_logic` default to `"AND"` when omitted.
+
+**A) Flat `AND` / `OR`** — add `mods` / `stages` on the entry. Craft/JEI only when all/any conditions pass for the evaluating player (stage group and mod group combine with `AND`).
 
 **B) `DEF_AND` / `DEF_OR`** — `stages[]` / `mods[]` form an indexed pool; top-level **`if[]`** lists branches (same layout as command items: each branch is `[ {conditions…}, { require, produce } ]`). Indices in a branch: `DEF_AND` needs all, `DEF_OR` any. The **first** branch whose `if` passes defines the active `require` / `produce`. A branch with empty `require` or empty `produce` is skipped even if its `if` would pass. No usable branch → entry does not match for that player.
 
 ```json
 {
-  "chaos_cost": 10,
+  "fuel_cost": 10,
   "stages_logic": "DEF_OR",
   "stages": [
     { "stage_type": "player", "stage": "early", "is": true },
@@ -233,7 +239,7 @@ Each array element is either a **string** or an **object**. Every logical slot i
 | `must_ordered: true` | Slot `0` → `require[0]`, slot `1` → `require[1]`, … | Treated as **unordered** |
 | Wrong order | See **Wrong order** below | Never detected |
 | Recipe scan | Entries in **load order**; stops on first `SUCCESS` **or** first `WRONG_ORDER` | First `SUCCESS` only |
-| On success | Matched slots removed; outputs to inventory (then ground drop). Sound: stonecutter take result | Inputs consumed; outputs to output slots; `chaos_cost` deducted from fuel |
+| On success | Matched slots removed; outputs to inventory (then ground drop). Sound: stonecutter take result | Inputs consumed; outputs to output slots; `fuel_cost` deducted from fuel |
 | Extra items | Unmatched items stay in the tablet | Unmatched inputs remain |
 
 ### Wrong order (tablet only, `must_ordered: true`)
@@ -438,7 +444,7 @@ Or compact:
 
 ---
 
-### 8. Higher table fuel cost (`chaos_cost`)
+### 8. Higher table fuel cost (`fuel_cost`)
 
 Optional per entry — only consumed on the **Ancient Table**:
 
@@ -447,7 +453,7 @@ Optional per entry — only consumed on the **Ancient Table**:
   "type": "iska_utils:ancient_tab",
   "entries": [
     {
-      "chaos_cost": 10,
+      "fuel_cost": 10,
       "require": [ "minecraft:blaze_rod", "minecraft:blaze_rod" ],
       "produce": [ "minecraft:blaze_powder" ]
     }
@@ -455,7 +461,7 @@ Optional per entry — only consumed on the **Ancient Table**:
 }
 ```
 
-Default `chaos_cost` is `1` if omitted.
+Default `fuel_cost` is `1` if omitted.
 
 ---
 
@@ -467,9 +473,11 @@ Add `data/mypack/recipe/ancient_tab/extra.json` with the same `type` (one or mor
 
 ## Single recipe (child format)
 
-A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** bundle array. It works both as a datapack file and with KubeJS `event.custom`.
+A **child** is one array element written as a standalone recipe: the element's fields at the root plus `"type": "iska_utils:ancient_tab"`, with **no** `entries` bundle array. Every field from [Fields per entry](#fields-per-entry) — including `stages`, `stages_logic`, `mods`, `mods_logic`, and `if` — works at root level in both standalone datapack files and KubeJS `event.custom`.
 
-Datapack file (e.g. `data/<ns>/recipe/dirt_to_diamond.json`):
+### Minimal child datapack JSON
+
+`data/<ns>/recipe/dirt_to_diamond.json`:
 
 ```json
 {
@@ -482,23 +490,155 @@ Datapack file (e.g. `data/<ns>/recipe/dirt_to_diamond.json`):
 }
 ```
 
+### Full gated child datapack JSON
+
+`data/<ns>/recipe/staged_ritual.json`:
+
+```json
+{
+  "type": "iska_utils:ancient_tab",
+  "id": "staged_ritual",
+  "must_ordered": true,
+  "destroy_if_wrong": false,
+  "fuel_cost": 5,
+  "stages_logic": "AND",
+  "stages": [
+    { "stage_type": "player", "stage": "tier_two", "is": true },
+    { "stage_type": "world", "stage": "boss_defeated", "is": true }
+  ],
+  "mods_logic": "AND",
+  "mods": [
+    { "mod": "kubejs", "is": true }
+  ],
+  "require": [
+    { "id": "#c:gems/amethyst", "count": 4 },
+    "minecraft:ender_pearl"
+  ],
+  "produce": [
+    { "id": "minecraft:diamond", "count": 2 }
+  ]
+}
+```
+
+(To use deferred `if[]` branches in a single-recipe file, set `stages_logic` / `mods_logic` to `"DEF_AND"` or `"DEF_OR"` and supply `"if": [...]` instead of top-level `require` / `produce`, just like in [Mod and stage gates](#mod-and-stage-gates-3500000).)
+
+---
+
 ## KubeJS
 
-- **KubeJS mirrors:** injected `results` / `ingredients` (from `produce` / `require`) + datapack `kubejs/recipe_schema`. Codec prefers those mirrors after `replaceOutput` / `replaceInput`.
-- **KubeJS examples:** `event.remove({ id: 'iska_utils:ancient_tab/ancient_tab_0' })` and `event.remove({ output: 'iska_utils:entropy_crystal' })`.
+See [Single recipe (child format)](#single-recipe-child-format) for the standalone JSON schema and [Mod and stage gates](#mod-and-stage-gates-3500000) for stage/mod evaluation details.
 
-`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object (see the child format above).
+`event.custom` runs **after** Iskandert's Library has split bundle files (NeoForge **26**: `ModifyRecipeJsonsEvent`; **1.21.1**: in-memory recipe bridge), so a bundle with `entries: [...]` passed to `event.custom` is **not** expanded. Always pass a **single child object** with `type: 'iska_utils:ancient_tab'`.
+
+### Minimal `event.custom` example
 
 ```js
 ServerEvents.recipes(event => {
   event.custom({
     type: 'iska_utils:ancient_tab',
-    fuel_cost: 1,
-    require: [{ id: 'minecraft:dirt', count: 1 }],
+    require: ['minecraft:dirt'],
     produce: ['minecraft:diamond']
   }).id('kubejs:ancient_tab/dirt_to_diamond')
 })
 ```
+
+### Full `event.custom` example (all flat fields + stages & mods)
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: 'iska_utils:ancient_tab',
+    id: 'staged_ritual',
+    must_ordered: true,
+    destroy_if_wrong: false,
+    fuel_cost: 5,
+    stages_logic: 'AND',
+    stages: [
+      { stage_type: 'player', stage: 'tier_two', is: true },
+      { stage_type: 'team', stage: 'team_magic', is: true },
+      { stage_type: 'world', stage: 'hardmode', is: false }
+    ],
+    mods_logic: 'AND',
+    mods: [
+      { mod: 'kubejs', is: true }
+    ],
+    require: [
+      { id: '#c:gems/amethyst', count: 4 },
+      'minecraft:stone_shovel[damage=10]',
+      'minecraft:ender_pearl'
+    ],
+    produce: [
+      { id: 'minecraft:diamond', count: 2 }
+    ]
+  }).id('kubejs:ancient_tab/staged_ritual')
+})
+```
+
+### Deferred `if[]` `event.custom` example (`DEF_OR` / `DEF_AND`)
+
+When using `DEF_AND` or `DEF_OR`, `stages[]` and `mods[]` act as indexed pools and the **first** matching branch in `if[]` supplies `require` and `produce` (do **not** set flat `require` / `produce` alongside `if`):
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: 'iska_utils:ancient_tab',
+    id: 'tiered_catalyst',
+    must_ordered: false,
+    destroy_if_wrong: false,
+    fuel_cost: 10,
+    stages_logic: 'DEF_OR',
+    stages: [
+      { stage_type: 'player', stage: 'early_game', is: true },
+      { stage_type: 'player', stage: 'late_game', is: true }
+    ],
+    mods_logic: 'DEF_AND',
+    mods: [
+      { mod: 'kubejs', is: true }
+    ],
+    if: [
+      [
+        { conditions: [1], mod_conditions: [0] },
+        {
+          require: [{ id: '#c:ingots/copper', count: 16 }],
+          produce: ['iska_utils:entropy_crystal']
+        }
+      ],
+      [
+        { conditions: [0] },
+        {
+          require: [{ id: '#c:gems/amethyst', count: 8 }],
+          produce: ['iska_utils:drop_of_entropy']
+        }
+      ]
+    ]
+  }).id('kubejs:ancient_tab/tiered_catalyst')
+})
+```
+
+### `event.custom` field reference
+
+| Field | Required | Default | Description |
+|-------|----------|---------|-------------|
+| `type` | Yes | — | Must be `'iska_utils:ancient_tab'` |
+| `id` | No | — | Optional metadata label only (does not set the KubeJS/RecipeManager recipe id; chain `.id('...')` on `event.custom(...)`) |
+| `must_ordered` | No | `false` | **Tablet:** requires exact slot insertion order; **Table:** ignored |
+| `destroy_if_wrong` | No | `false` | **Tablet:** wipes tablet contents on wrong order when `must_ordered: true`; **Table:** ignored |
+| `fuel_cost` | No | `1` | **Table:** Drop of Chaos charges per craft (clamped `>= 1`); **Tablet:** ignored |
+| `require` | Yes (unless `if`) | `[]` | Array of inputs: `'ns:item'`, `'#ns:tag'`, `'ns:item[damage=N]'`, `{ id: '...', count: N }`, `{ item: '...', count: N }`, or `{ tag: 'ns:tag', count: N }` |
+| `produce` | Yes (unless `if`) | `[]` | Array of outputs (items only, **no tags**): `'ns:item'` or `{ id: '...', count: N }` |
+| `stages` | No | `[]` | Array of `{ stage_type: 'player' \| 'team' \| 'world', stage: '<id>', is: true \| false }` (`stage_type` defaults to `'player'`, `is` defaults to `true`; stage data is managed by **Iskandert's Library**) |
+| `stages_logic` | No | `'AND'` | `'AND'`, `'OR'`, `'DEF_AND'` (alias `'DEF'`), or `'DEF_OR'` |
+| `mods` | No | `[]` | Array of `{ mod: '<mod_id>', is: true \| false }` (`is` defaults to `true`) |
+| `mods_logic` | No | `'AND'` | `'AND'`, `'OR'`, `'DEF_AND'` (alias `'DEF'`), or `'DEF_OR'` |
+| `if` | No (replaces flat `require`/`produce`) | `[]` | Array of `[ { conditions: [idx...], mod_conditions: [idx...] }, { require: [...], produce: [...] } ]` branches (`DEF_*` mode; first matching branch wins) |
+
+**Notes for KubeJS & gated recipes:**
+- **Same schema on 1.21.1 and 26.1.2:** all `iska_utils:ancient_tab` field names, defaults, and `#namespace:path` tag strings are identical in both versions.
+- **Ancient Table owner rule:** on the **Ancient Table**, any recipe with `stages`, `mods`, or `if` only crafts while the block's claimed owner (first player to open the GUI) is **online**.
+- **KubeJS mirrors & removal:** Library injects `results` / `ingredients` mirrors on split bundle recipes alongside `kubejs/recipe_schema`. In `AncientTabRecipe`, `produce` and `require` take priority and `results` / `ingredients` are only used as fallback if `produce` / `require` are empty (or modified via `replaceOutput` / `replaceInput`). Do not pass `results` / `ingredients` manually in `event.custom` — use `produce` and `require`.
+- **Removing/editing existing recipes:**
+  - `event.remove({ id: 'iska_utils:ancient_tab/ancient_tab_0' })`
+  - `event.remove({ output: 'iska_utils:entropy_crystal' })`
 
 ---
 
@@ -531,11 +671,11 @@ Both categories list the **same** datapack entries.
 | Category ID | Catalyst | Extra UI |
 |-------------|----------|----------|
 | `jei.iska_utils.ancient_tablet` | Ancient Tablet item | Up to **18** grouped input slots and **18** output slots; ordered/destroy warnings |
-| `jei.iska_utils.ancient_table` | Ancient Table block | Shows `chaos_cost` and automation note |
+| `jei.iska_utils.ancient_table` | Ancient Table block | Shows `fuel_cost` and automation note |
 
 Consecutive identical requirements are collapsed with a count badge (tablet category).
 
-**Tablet warning lines** (drawn under the recipe on **1.21.1** only; **1.26** category draws slots/background but not these strings yet):
+**Tablet warning lines** (drawn under the recipe in both **1.21.1** and **26.1.2**):
 
 | Shown when | Key | English | Italiano |
 |------------|-----|---------|----------|

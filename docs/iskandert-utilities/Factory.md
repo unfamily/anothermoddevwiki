@@ -71,19 +71,27 @@ Each `select` entry:
 
 | Field | Default | Description |
 |-------|---------|-------------|
-| `output` | — | Output item id |
-| `amount` | `1` | Output count per operation |
+| `output` | — | Output item id (`"id"` is also accepted as an alias) |
+| `amount` | `1` | Output count per operation (clamped `>= 1`) |
+| `stages`, `stages_logic`, `mods`, `mods_logic` | `[]` / `"AND"` | **3.5.0.0.0+** Optional per-output gate on this variant (`AND` / `OR` evaluation) |
 
 Output ids that are not registered (e.g. optional mod compat) are **skipped** at load time; the row is kept if at least one output remains.
 
+Row-level gate & branching fields:
+
 | Field | Default | Description |
 |-------|---------|-------------|
-| `mods`, `mods_logic`, `stages`, `stages_logic` | — | **3.5.0.0.0+** Gates — see [Mod and stage gates](#mod-and-stage-gates-3500000) |
-| `if` | — | **3.5.0.0.0+** DEF branches with `{ "select": [ … ] }` payload (mutually exclusive with flat `select[]`) |
+| `stages` | `[]` | **3.5.0.0.0+** Stage conditions (`{ "stage_type": "player"\|"team"\|"world", "stage": "<id>", "is": true\|false }`; `stage_type` defaults to `"player"`, `is` defaults to `true`) — stage data lives in **Iskandert's Library** |
+| `stages_logic` | `"AND"` | **3.5.0.0.0+** `"AND"`, `"OR"`, `"DEF_AND"` (alias `"DEF"`), or `"DEF_OR"` |
+| `mods` | `[]` | **3.5.0.0.0+** Mod conditions (`{ "mod": "<mod_id>", "is": true\|false }`; `is` defaults to `true`) |
+| `mods_logic` | `"AND"` | **3.5.0.0.0+** `"AND"`, `"OR"`, `"DEF_AND"` (alias `"DEF"`), or `"DEF_OR"` |
+| `if` | `[]` | **3.5.0.0.0+** DEF branches with `{ "select": [ … ] }` payload (first matching branch wins; mutually exclusive with flat `select[]`) |
 
 ### Mod and stage gates (3.5.0.0.0+)
 
 **Requires Iskandert's Utilities `3.5.0.0.0` or newer.**
+
+Stage data (`player`, `team`, and `world` stages) lives in **Iskandert's Library**. Both `stages_logic` and `mods_logic` default to `"AND"` when omitted.
 
 **A) Flat `AND` / `OR`** — optional `mods` / `stages` on the recipe row **or** on individual `select[]` entries (per-output gate).
 
@@ -120,15 +128,17 @@ Output ids that are not registered (e.g. optional mod compat) are **skipped** at
 
 No branch satisfied → input still matches the row but **no output variant** (empty GUI grid, no craft).
 
-**Ancient Table owner:** same rules as [Ancient Tablet gates](Ancient-Tablet-and-Table#mod-and-stage-gates-3500000) — first GUI open assigns owner for automated craft; owner cleared on break.
+**Factory owner:** first GUI open assigns the block owner UUID (cleared on break). Unlike Ancient Table, Factory evaluates `world` stages, offline `player` / `team` stages (via Iskandert's Library UUID lookup), and `mods` even while the owner is **offline**. Before any player opens the GUI, `if[]` branches do not match and player/team-gated outputs are skipped.
 
 **JEI:** shows `select[]` from the active DEF branch (or flat list); dynamic refresh on JEI / Factory GUI open. Missing mod → row hidden.
 
 ## Single recipe (child format)
 
-A **child** is one array element written as a standalone recipe: the element's fields plus `"type"`, with **no** bundle array. It works both as a datapack file and with KubeJS `event.custom`.
+A **child** is one array element written as a standalone recipe: the element's fields at root level plus `"type": "iska_utils:factory"`, with **no** `recipes` (or `sources`) bundle array. Every row field — including `energy_per_operation`, `stages`, `stages_logic`, `mods`, `mods_logic`, per-output gates in `select[]`, and `if[]` — works at root level in both standalone datapack files and KubeJS `event.custom`.
 
-Datapack file (e.g. `data/<ns>/recipe/cobble_to_gravel.json`):
+### Minimal child datapack JSON
+
+`data/<ns>/recipe/cobble_to_gravel.json`:
 
 ```json
 {
@@ -141,15 +151,46 @@ Datapack file (e.g. `data/<ns>/recipe/cobble_to_gravel.json`):
 }
 ```
 
+### Full gated child datapack JSON
+
+`data/<ns>/recipe/staged_crushing.json`:
+
+```json
+{
+  "type": "iska_utils:factory",
+  "id": "staged_crushing",
+  "input": "#c:cobblestones",
+  "amount": 2,
+  "energy_per_operation": 40,
+  "stages_logic": "AND",
+  "stages": [
+    { "stage_type": "player", "stage": "factory_tier_2", "is": true }
+  ],
+  "mods_logic": "AND",
+  "mods": [
+    { "mod": "kubejs", "is": true }
+  ],
+  "select": [
+    { "output": "minecraft:gravel", "amount": 2 },
+    {
+      "output": "minecraft:sand",
+      "amount": 2,
+      "stages": [{ "stage_type": "world", "stage": "desert_unlocked", "is": true }],
+      "stages_logic": "AND"
+    }
+  ]
+}
+```
+
+(To use deferred `if[]` branches in a single-recipe file, set `stages_logic` / `mods_logic` to `"DEF_AND"` or `"DEF_OR"` and supply `"if": [...]` instead of top-level `select[]`, just like in [Mod and stage gates](#mod-and-stage-gates-3500000).)
+
 ## KubeJS
 
-- **KubeJS mirrors:** after split, each child gets injected `results` / `ingredients` (from `select` / `input`) plus datapack `kubejs/recipe_schema` so generic filters work. Prefer those over relying on a single `getResultItem()`.
-- **KubeJS examples:**
-  - `event.remove({ id: 'iska_utils:factory/factory_sources_0' })`
-  - `event.remove({ output: 'iska_utils:drop_of_entropy' })`
-  - `event.replaceOutput({ type: 'iska_utils:factory' }, 'minecraft:white_dye', 'minecraft:blue_dye')`
+See [Single recipe (child format)](#single-recipe-child-format) for the standalone JSON schema and [Mod and stage gates](#mod-and-stage-gates-3500000) for stage/mod evaluation details.
 
-`event.custom` runs **after** Iskandert's Library has split the bundles, so a bundle passed to `event.custom` is **not** expanded: always pass a single child object (see the child format above).
+`event.custom` runs **after** Iskandert's Library has split bundle files (NeoForge **26**: `ModifyRecipeJsonsEvent`; **1.21.1**: in-memory recipe bridge), so a bundle with `recipes: [...]` passed to `event.custom` is **not** expanded. Always pass a **single child object** with `type: 'iska_utils:factory'` (do **not** use `'iska_utils:factory_sources'` in `event.custom` — only `iska_utils:factory` has a registered `RecipeSerializer`).
+
+### Minimal `event.custom` example
 
 ```js
 ServerEvents.recipes(event => {
@@ -162,9 +203,112 @@ ServerEvents.recipes(event => {
 })
 ```
 
+### Full `event.custom` example (all flat fields + row & per-output gates)
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: 'iska_utils:factory',
+    id: 'staged_crushing',
+    input: '#c:cobblestones',
+    amount: 2,
+    energy_per_operation: 40,
+    stages_logic: 'AND',
+    stages: [
+      { stage_type: 'player', stage: 'factory_tier_2', is: true },
+      { stage_type: 'team', stage: 'industry_team', is: true }
+    ],
+    mods_logic: 'AND',
+    mods: [
+      { mod: 'kubejs', is: true }
+    ],
+    select: [
+      { output: 'minecraft:gravel', amount: 2 },
+      {
+        output: 'minecraft:sand',
+        amount: 2,
+        stages_logic: 'AND',
+        stages: [{ stage_type: 'world', stage: 'desert_unlocked', is: true }],
+        mods_logic: 'AND',
+        mods: [{ mod: 'kubejs', is: true }]
+      }
+    ]
+  }).id('kubejs:factory/staged_crushing')
+})
+```
+
+### Deferred `if[]` `event.custom` example (`DEF_OR` / `DEF_AND`)
+
+When using `DEF_AND` or `DEF_OR`, `stages[]` and `mods[]` act as indexed pools and the **first** matching branch in `if[]` provides the active `select[]` list (do **not** set flat `select[]` alongside `if`):
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: 'iska_utils:factory',
+    id: 'tiered_dye_berry',
+    input: 'iska_utils:dye_berry',
+    amount: 3,
+    energy_per_operation: 10,
+    stages_logic: 'DEF_OR',
+    stages: [
+      { stage_type: 'player', stage: 'white_path', is: true },
+      { stage_type: 'player', stage: 'orange_path', is: true }
+    ],
+    mods_logic: 'DEF_AND',
+    mods: [
+      { mod: 'kubejs', is: true }
+    ],
+    if: [
+      [
+        { conditions: [0], mod_conditions: [0] },
+        {
+          select: [
+            { output: 'minecraft:white_dye', amount: 4 },
+            { output: 'minecraft:light_gray_dye', amount: 4 }
+          ]
+        }
+      ],
+      [
+        { conditions: [1] },
+        {
+          select: [
+            { output: 'minecraft:orange_dye', amount: 4 }
+          ]
+        }
+      ]
+    ]
+  }).id('kubejs:factory/tiered_dye_berry')
+})
+```
+
+### `event.custom` field reference
+
+| Field | Required | Default | Description |
+|-------|----------|---------|-------------|
+| `type` | Yes | — | Must be `'iska_utils:factory'` |
+| `id` | No | — | Optional metadata label only (does not set the KubeJS/RecipeManager recipe id; chain `.id('...')` on `event.custom(...)`) |
+| `input` | Yes | — | Input item id (`'namespace:path'`) or tag string (`'#namespace:path'`) |
+| `amount` | No | `1` | Input items consumed per operation (clamped `>= 1`) |
+| `energy_per_operation` | No | `1` | RF/FE cost per operation (clamped `>= 0`; ignored if the Factory energy buffer is disabled) |
+| `select` | Yes (unless `if` or legacy `colors`) | `[]` | Array of output variants `{ output: 'ns:item', amount?: N, stages?: [...], stages_logic?: 'AND'\|'OR', mods?: [...], mods_logic?: 'AND'\|'OR' }` (`id` alias for `output`; `amount` defaults to `1`) |
+| `stages` | No | `[]` | Array of `{ stage_type: 'player' \| 'team' \| 'world', stage: '<id>', is: true \| false }` (`stage_type` defaults to `'player'`, `is` defaults to `true`; stage data lives in **Iskandert's Library**) |
+| `stages_logic` | No | `'AND'` | `'AND'`, `'OR'`, `'DEF_AND'` (alias `'DEF'`), or `'DEF_OR'` |
+| `mods` | No | `[]` | Array of `{ mod: '<mod_id>', is: true \| false }` (`is` defaults to `true`) |
+| `mods_logic` | No | `'AND'` | `'AND'`, `'OR'`, `'DEF_AND'` (alias `'DEF'`), or `'DEF_OR'` |
+| `if` | No (replaces flat `select`) | `[]` | Array of `[ { conditions: [idx...], mod_conditions: [idx...] }, { select: [...] } ]` branches (`DEF_*` mode; first matching branch wins) |
+| `colors` | No | `[]` | Legacy fallback array `{ id: 'ns:item', amount?: N }` used only when `select` and `if` are both empty |
+
+**Notes for KubeJS:**
+- **Same schema on 1.21.1 and 26.1.2:** all `iska_utils:factory` field names, defaults, and `'#namespace:path'` tag strings are identical in both versions.
+- **Do not pass `results` or `ingredients` manually in `event.custom`:** Library injects `results` / `ingredients` mirrors onto split bundle children (alongside `kubejs/recipe_schema`) so `event.remove` and `event.replaceOutput` / `event.replaceInput` work. In `FactorySourcesRecipe`, if `results` is non-empty it overrides `select` with `amount: 1` per output and ignores per-output `stages` / `mods`.
+- **KubeJS removal / replacement examples:**
+  - `event.remove({ id: 'iska_utils:factory/factory_sources_0' })`
+  - `event.remove({ output: 'iska_utils:drop_of_entropy' })`
+  - `event.replaceOutput({ type: 'iska_utils:factory' }, 'minecraft:white_dye', 'minecraft:blue_dye')`
+
 ## Legacy schema (`iska_utils:factory_sources`)
 
-Older packs may use `"type": "iska_utils:factory_sources"` with a `sources` array and `colors` entries using `"id"` instead of `"output"`. Prefer `iska_utils:factory` + `recipes` + `select` for new datapacks.
+Older packs may use `"type": "iska_utils:factory_sources"` with a `sources` array and `colors` entries using `"id"` instead of `"output"`. Note that `iska_utils:factory_sources` has no registered `RecipeSerializer` — KubeJS `event.custom` must use `"type": "iska_utils:factory"`. Prefer `iska_utils:factory` + `recipes` + `select` for new datapacks.
 
 ## Machine behaviour
 
