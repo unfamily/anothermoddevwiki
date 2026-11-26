@@ -1,5 +1,8 @@
 # Turbine generation (`colossal_reactors:turbine_generation`)
 
+| [Bundle JSON](#root-document) | [Child JSON](#single-recipe-child-format-and-kubejs-eventcustom) | [KubeJS](#single-recipe-child-format-and-kubejs-eventcustom) |
+| --- | --- | --- |
+
 > **From version 2.2.0.0.0.**
 
 Loaded from **`data/<namespace>/recipe/**/*.json`** as `colossal_reactors:turbine_generation` recipes. Applied at reload by `ColossalRecipeData` from `RecipeManager` (**from 2.4.0.0.0**).

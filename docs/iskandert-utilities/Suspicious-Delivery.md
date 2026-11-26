@@ -1,5 +1,8 @@
 # Suspicious Delivery
 
+| [Bundle JSON](#json-format) |
+| --- |
+
 **Requires Iskandert's Utilities `3.4.0.0.0` or newer** (not present in earlier mod releases).
 
 ## Related

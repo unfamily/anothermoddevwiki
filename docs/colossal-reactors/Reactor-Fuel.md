@@ -1,5 +1,8 @@
 # Reactor fuel (`colossal_reactors:fuel`)
 
+| [Bundle JSON](#root-document) | [Child JSON](#single-recipe-child-format-and-kubejs-eventcustom) | [KubeJS](#single-recipe-child-format-and-kubejs-eventcustom) |
+| --- | --- | --- |
+
 Loaded from **`data/<namespace>/recipe/**/*.json`** as `colossal_reactors:fuel` recipes. Applied at reload by `ColossalRecipeData` from `RecipeManager` (**from 2.4.0.0.0**; any subdirectory under `recipe/` is valid).
 
 **Recipe ids:** each `entries[]` element becomes a progressive RecipeManager holder (`<filePath>_<index>`). Same id for KubeJS / JEI / EMI / REI — see [Home → Recipe ids](home#recipe-ids-kubejs--viewers--from-24000).

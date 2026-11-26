@@ -1,5 +1,8 @@
 # Command Macros
 
+| [Bundle JSON](#format) |
+| --- |
+
 This directory allows you to create command macros that can be executed directly in the game.
 
 > **Mod version:** Macros exist in older releases. **`message` steps** in macro `do` lists (same improved text format as command items and Suspicious Delivery) require **`3.4.0.0.0+`**. See [Command-Items](Command-Items#message-action).

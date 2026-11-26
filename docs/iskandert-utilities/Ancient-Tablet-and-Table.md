@@ -1,5 +1,8 @@
 # Ancient Tablet & Ancient Table
 
+| [Bundle JSON](#entry-schema) | [Child JSON](#single-recipe-child-format) | [KubeJS](#kubejs) |
+| --- | --- | --- |
+
 **Requires Iskandert's Utilities `3.4.0.0.0` or newer.**
 
 Two **sibling** features that share one datapack recipe list:

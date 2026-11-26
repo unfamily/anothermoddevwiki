@@ -1,3 +1,5 @@
+| [Bundle JSON](#root-document) | [Child JSON](#single-recipe-child-format-and-kubejs-eventcustom) | [KubeJS](#single-recipe-child-format-and-kubejs-eventcustom) |
+| --- | --- | --- |
 
 > **From 2.4.0.0.0:** primary path is **`data/<namespace>/recipe/**/*.json`** as `colossal_reactors:heating_coils` recipes (`entries` array after bundle split, or legacy top-level `coils`). Applied via `ColossalRecipeData` / `RecipeManager`. **`data/<namespace>/load/**/*.json`** is still scanned for **retrocompat** and merged on reload.
 

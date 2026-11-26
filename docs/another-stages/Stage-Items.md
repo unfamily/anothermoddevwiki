@@ -1,5 +1,8 @@
 # Stage Items
 
+| [KubeJS](#1-kubejs-preferred) | [JSON](#2-datapack-json) |
+| --- | --- |
+
 [← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions)
 
 Restrict items based on player, team, or world stages.

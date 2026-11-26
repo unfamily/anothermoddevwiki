@@ -1,5 +1,8 @@
 # Stage Guis
 
+| [KubeJS](#1-kubejs-preferred) | [JSON](#2-datapack-json) |
+| --- | --- |
+
 [← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions) · [KubeJS ↑](#1-kubejs-preferred) · [Datapack ↓](#2-datapack-json)
 
 Block opening machine / chest / merchant menus by stage, force-close when stages change, and optionally gate slots.

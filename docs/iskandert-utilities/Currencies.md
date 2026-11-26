@@ -1,5 +1,8 @@
 # Currencies (Iskandert's Library)
 
+| [Bundle JSON](#json-type) |
+| --- |
+
 Team shop currencies are owned by **Iskandert's Library**. The catalog (ids, names, symbols) loads from datapack JSON; balances live on teams via Library (`/iska_lib_team currency …`).
 
 **Iskandert's Utilities** still uses the same currency ids for shop prices, AutoShop, and the in-game shop editor. With Utils installed, the shop loader and editor share this catalog; without Utils, Library alone still exposes currencies for team balances and optional FTB Quests.

@@ -1,5 +1,8 @@
 # Command Items
 
+| [Bundle JSON](#format) |
+| --- |
+
 Command items are custom items defined by datapack JSON. Each item runs scripted actions on use, tick, entity hit, and other events. Registered items appear in the creative tab **Iskandert's Command Items** when `creative_tab` is true.
 
 > **Mod version:** Command items exist in older releases. The **improved `message` action** (hex `color`, `in`: `chat` / `action_bar` / `title`, `distance`, shared with Suspicious Delivery) requires **`3.4.0.0.0+`**. See [Message action](#message-action) and [Suspicious-Delivery](Suspicious-Delivery).

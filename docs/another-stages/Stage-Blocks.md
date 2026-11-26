@@ -1,5 +1,8 @@
 # Stage Blocks
 
+| [KubeJS](#1-kubejs-preferred) | [JSON](#2-datapack-json) |
+| --- | --- |
+
 [← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions)
 
 Lock blocks (break / look / loot) behind stages. Locked blocks can **mimic** another block for client appearance and/or loot. **Jade** (optional) disguises the looked-at block the same way.

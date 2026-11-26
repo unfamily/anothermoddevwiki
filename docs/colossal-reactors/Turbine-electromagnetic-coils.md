@@ -1,5 +1,8 @@
 # Turbine electromagnetic coils (`colossal_reactors:elec_coils`)
 
+| [Bundle JSON](#root-document) | [Child JSON](#single-recipe-child-format-and-kubejs-eventcustom) | [KubeJS](#single-recipe-child-format-and-kubejs-eventcustom) |
+| --- | --- | --- |
+
 > **From version 2.2.0.0.0.** Flow fields and dual builder coil materials: **from 2.6.0.0.0**.
 
 Loaded from **`data/<namespace>/recipe/**/*.json`** as `colossal_reactors:elec_coils` recipes. Applied at reload by `ColossalRecipeData` from `RecipeManager` (**from 2.4.0.0.0**).

@@ -1,5 +1,8 @@
 # Declare Duct
 
+| [Bundle JSON](#minimal-example) |
+| --- |
+
 **Type:** `another_dynamics:declare_duct`  
 **Path:** `data/<namespace>/load/**/*.json`  
 **Reload:** `/reload`

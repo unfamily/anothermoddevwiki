@@ -1,5 +1,8 @@
 # Reactor coolant (`colossal_reactors:coolant`)
 
+| [Bundle JSON](#root-document) | [Child JSON](#single-recipe-child-format-and-kubejs-eventcustom) | [KubeJS](#single-recipe-child-format-and-kubejs-eventcustom) |
+| --- | --- | --- |
+
 Loaded from **`data/<namespace>/recipe/**/*.json`** as `colossal_reactors:coolant` recipes. Applied at reload by `ColossalRecipeData` from `RecipeManager` (**from 2.4.0.0.0**).
 
 **Recipe ids:** each `entries[]` element becomes a progressive RecipeManager holder (`<filePath>_<index>`). Liquid/gas JEI-EMI-REI cards for the same entry share that id. See [Home → Recipe ids](home#recipe-ids-kubejs--viewers--from-24000).

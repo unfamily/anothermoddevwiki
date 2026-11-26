@@ -1,5 +1,8 @@
 ## Radiation scrubber catalysts (`colossal_reactors:radiation_scrubber_catalysts`)
 
+| [Bundle JSON](#root-document) | [Child JSON](#single-recipe-child-format-and-kubejs-eventcustom) | [KubeJS](#single-recipe-child-format-and-kubejs-eventcustom) |
+| --- | --- | --- |
+
 ## When this datapack matters (important)
 
 The **Radiation Scrubber** feature is meant for **Mekanism** integration (radiation / polonium gas handling, chemical capability on the block). In the mod, that path is wired when **Mekanism is loaded** (e.g. chemical capability registration uses reflection on Mekanism).

@@ -1,5 +1,8 @@
 # Stage Runtime
 
+| [KubeJS](#full-example-kube) | [JSON](#commands--call_action-json-only) |
+| --- | --- |
+
 [← Home](Home)
 
 Server-side **stage lifecycle** APIs owned by Another Stages (when installed): Kube event `stageChanged`, binding **query / mutate / registerStage**, and the mirrored **`call_action`** command. Full method catalog + classic JS `if`/`for`/`while`: **[Kube-Stage-API](Kube-Stage-API)**. JSON Stage Action *definitions* — see [Stage-Actions](Stage-Actions).

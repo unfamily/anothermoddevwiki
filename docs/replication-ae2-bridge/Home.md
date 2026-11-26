@@ -1,5 +1,8 @@
 # Replication AE2 Bridge — Dev Wiki
 
+| [Bundle JSON](#matter-foundry-recipes) | [Child JSON](#single-recipe-child-format-and-kubejs-eventcustom) | [KubeJS](#custom-matter-replication-kubejs) |
+| --- | --- | --- |
+
 Developer notes for datapack / KubeJS authors. In-game machines, GUIs, and player guides live in **GuideME**, not here.
 
 This page covers the **Matter Foundry** recipe format and how **custom Replication matter** is handled by the bridge.

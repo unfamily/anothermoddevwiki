@@ -1,5 +1,8 @@
 # Factory
 
+| [Bundle JSON](#recipe-schema-iska_utilsfactory) | [Child JSON](#single-recipe-child-format) | [KubeJS](#kubejs) |
+| --- | --- | --- |
+
 **Requires Iskandert's Utilities `3.3.0.0.0` or newer.**
 
 Datapack-driven processing machine (`iska_utils:factory`): one input stack, player-selected output variant, optional RF/FE per operation. Can also act as an **alternative Stonecutter** for vanilla `minecraft:stonecutting` recipes (runtime lookup; not datapack rows).

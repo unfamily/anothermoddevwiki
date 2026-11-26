@@ -1,5 +1,8 @@
 # Shop
 
+| [Bundle JSON](#configuration-files) |
+| --- |
+
 Shop with team support, multiple currencies, categories and stages.
 
 **Currencies** (catalog, defaults, Library types): **[Currencies](Currencies)**.

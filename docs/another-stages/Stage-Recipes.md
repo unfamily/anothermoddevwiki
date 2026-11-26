@@ -1,5 +1,8 @@
 # Stage Recipes
 
+| [KubeJS](#1-kubejs-preferred) | [JSON](#2-datapack-json) |
+| --- | --- |
+
 [← Home](Home) · [Overlapping restrictions](Overlapping-Restrictions) · [Full support ↓](#compatibility-list-full-support)
 
 ## What this system does

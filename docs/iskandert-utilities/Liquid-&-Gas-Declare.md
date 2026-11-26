@@ -1,5 +1,8 @@
 # Liquid & Gas JSON (Iskandert's Library)
 
+| [Bundle JSON](#shared-root-fields) |
+| --- |
+
 **Requires: Iskandert's Library `1.12.0.0.0+`**
 
 Define fluids via datapack JSON. **Gases are a special kind of liquid**: they do **not** spread horizontally — they rise and dissipate (“fly away”). They still use the fluid/bucket stack, but world behaviour and JSON fields differ where noted below.

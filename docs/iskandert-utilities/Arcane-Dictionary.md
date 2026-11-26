@@ -1,5 +1,8 @@
 # Arcane Dictionary (Arcane Tome)
 
+| [Bundle JSON](#json-format) |
+| --- |
+
 The **Arcane Dictionary** (`iska_utils:arcane_dictionary`) is a **cursed Curio** (belt or charm slot) that stores random **arcane traits** (levels I–V). Players reroll traits with **XP**; active traits consume **entropy charges** absorbed automatically from inventory while **exactly one** dictionary is equipped in **Curios**.
 
 Pack authors configure **which traits appear in the pool**, their **weights**, **luck bias**, **entropy consume**, and **reroll catalysts**. **How each trait behaves in gameplay is implemented in the mod** — datapacks cannot add new trait logic without a code update.

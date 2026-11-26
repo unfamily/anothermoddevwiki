@@ -1,5 +1,8 @@
 # Stage Actions
 
+| [JSON](#file-format) |
+| --- |
+
 When a stage is added or removed, actions in this directory can run commands.
 
 **Path:** any `data/<namespace>/load/…` file with matching `type` (namespace and subfolder are free) — **Library `1.12.0.0.0+`**. Recommended: `load/iska_utils_stage_actions/`.

@@ -1,5 +1,8 @@
 # Colossal Reactors PackDev Documentation
 
+| [Bundle JSON](#recipe-ids-kubejs--viewers--from-24000) | [Child JSON](#single-recipe-child-format) | [KubeJS](#kubejs) |
+| --- | --- | --- |
+
 From **2.4.0.0.0**, Colossal datapack JSON is registered as native Minecraft **RecipeType** entries under `data/<namespace>/recipe/**/*.json`. On reload, `ColossalRecipeData` reads `RecipeManager` and applies definitions into runtime loaders (gameplay, JEI, EMI, REI).
 
 | Source | Path | Purpose |
