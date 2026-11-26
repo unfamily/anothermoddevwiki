@@ -1,8 +1,5 @@
 # Potion Plates
 
-| [Bundle JSON](#configuration-format) |
-| --- |
-
 This directory contains configuration files for custom potion effect plates.
 
 ## Configuration Format

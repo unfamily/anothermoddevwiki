@@ -1,8 +1,5 @@
 # Kube Stage API (`AnotherStages.*`)
 
-| [KubeJS](#two-systems-do-not-confuse) |
-| --- |
-
 [← Home](Home) · [Stage-Runtime](Stage-Runtime) · [Stage-Items](Stage-Items)
 
 **Canonical catalog** of the KubeJS binding `AnotherStages`: **query**, **mutate**, and **registerStage** helpers. Use them with normal JavaScript control flow (`if` / `else` / `for` / `while` / …) in **`server_scripts`**.

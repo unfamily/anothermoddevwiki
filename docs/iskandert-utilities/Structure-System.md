@@ -1,8 +1,5 @@
 # Structure System
 
-| [Bundle JSON](#structure-definition-iska_utilsstructure) |
-| --- |
-
 **Requires Iskandert's Utilities `3.0.0.0.0` or newer** (datapack `load/` layout).
 
 Multi-block structures defined in JSON: place with Structure Placer items, the Structure Placer Machine, monouse reward items, or OP commands. Patterns use a 3D character grid; each character maps to block alternatives in `key`.

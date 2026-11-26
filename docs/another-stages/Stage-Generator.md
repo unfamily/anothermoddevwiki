@@ -1,8 +1,5 @@
 # Stage Generator
 
-| [KubeJS](#kubejs-file-format-canonical) |
-| --- |
-
 [← Home](Home)
 
 In-game GUI that **builds stage restrictions** (items / recipes / blocks / GUIs) and **writes them to fixed files** on the server game directory (JSON under Library datapack roots, or KubeJS scripts). Ready drafts **autosave** silently; closing shows a reload hint (Shop-style).

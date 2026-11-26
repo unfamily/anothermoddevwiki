@@ -1,8 +1,5 @@
 # Tool JSON (Iskandert's Library)
 
-| [Bundle JSON](#example) |
-| --- |
-
 **Requires: Iskandert's Library `1.12.0.0.0+`**
 
 JSON tools are **startup scripts**: each entry creates a Library item `iska_lib:<id>` and binds AOE behavior. **New ids require a full game restart** — `/reload` only refreshes AOE overlays for items already registered. Item stats are applied at registration (startup); changing them needs a restart.

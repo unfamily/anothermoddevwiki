@@ -1,8 +1,5 @@
 # Declare Module
 
-| [Bundle JSON](#minimal-example) |
-| --- |
-
 **Type:** `another_dynamics:declare_module`  
 **Legacy type (still accepted):** `another_dynamics:declare_upgrade`  
 **Path:** `data/<namespace>/load/**/*.json`  
