@@ -17,7 +17,7 @@ import os, re, glob, shutil, subprocess
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GIT_WIKI = os.path.expanduser('~/git_wiki')
 SITE = 'https://www.anothermoddevwiki.eu'
-# slug -> GitHub wiki repo name (folder = <repo>.wiki)
+# slug -> local git_wiki folder name without .wiki
 WIKIS = {
     'another-config-manager': 'AnotherConfigManager',
     'another-dynaimics': 'Another-Dynaimics',
@@ -26,10 +26,56 @@ WIKIS = {
     'iskandert-utilities': 'Iskandert_Utilities',
     'replication-ae2-bridge': 'Replication-AE2-Bridge',
 }
+ORG = 'Another-Mod-Dev-Team'
+# GitHub owner for each wiki slug (non-transferred repos stay on unfamily)
+GH_OWNER = {
+    'another-config-manager': ORG,
+    'another-dynaimics': ORG,
+    'another-stages': ORG,
+    'iskandert-utilities': ORG,
+    'colossal-reactors': 'unfamily',
+    'replication-ae2-bridge': 'unfamily',
+}
+# Real GitHub repo name in URLs when it differs from the local wiki folder
+GH_REPO = {
+    'iskandert-utilities': 'iskandert_utilities',
+}
+# Extra transferred repos that may appear as links but have no local wiki clone
+TRANSFERRED_REPOS = {
+    'anotherconfigmanager': (ORG, 'AnotherConfigManager'),
+    'another-dynaimics': (ORG, 'Another-Dynaimics'),
+    'another-stages': (ORG, 'Another-Stages'),
+    'iskandert_utilities': (ORG, 'iskandert_utilities'),
+    'iskandert-library': (ORG, 'Iskandert-Library'),
+    'anothermoddevwiki': (ORG, 'anothermoddevwiki'),
+}
+
+def gh_repo(slug):
+    return GH_REPO.get(slug, WIKIS[slug])
+
+def gh_wiki_url(slug, page, anc):
+    return f'https://github.com/{GH_OWNER[slug]}/{gh_repo(slug)}/wiki/{page}{anc}'
+
 REPO2SLUG = {r.lower(): s for s, r in WIKIS.items()}
+REPO2SLUG.update({gh_repo(s).lower(): s for s in WIKIS})
 # matches wiki links and bare repo-root links (repo root -> that wiki's Home)
-GH = re.compile(r'https?://github\.com/unfamily/([A-Za-z0-9_.-]+?)(?:\.wiki)?(?:/wiki(?:/([^)\s>"#]*))?)?/?(#[^)\s>"]*)?(?=[)\s>"]|$)', re.I)
+GH = re.compile(r'https?://github\.com/(?:unfamily|Another-Mod-Dev-Team)/([A-Za-z0-9_.-]+?)(?:\.wiki)?(?:/wiki(?:/([^)\s>"#]*))?)?/?(#[^)\s>"]*)?(?=[)\s>"]|$)', re.I)
 ST = re.compile(r'https?://(?:www\.)?anothermoddevwiki\.eu/#/([a-z0-9-]+)(?:/([^)\s>"#]*))?(#[^)\s>"]*)?', re.I)
+GH_REPO_LINK = re.compile(r'https?://github\.com/(?:unfamily|Another-Mod-Dev-Team)/([A-Za-z0-9_.-]+)', re.I)
+
+def retarget_repo_links(text):
+    """Rewrite leftover repo links (issues, releases, ...) to the current owner/name."""
+    def sub(m):
+        repo = m.group(1)
+        key = repo.lower()
+        slug = REPO2SLUG.get(key)
+        if slug:
+            return f'https://github.com/{GH_OWNER[slug]}/{gh_repo(slug)}'
+        info = TRANSFERRED_REPOS.get(key)
+        if info:
+            return f'https://github.com/{info[0]}/{info[1]}'
+        return m.group(0)
+    return GH_REPO_LINK.sub(sub, text)
 
 def banner(slug):
     u = f'{SITE}/#/{slug}/Home'
@@ -61,12 +107,12 @@ def fix_git(text, own):
         slug = REPO2SLUG.get(m.group(1).lower())
         if not slug: return m.group(0)
         s, p, a = target(slug, m.group(2), m.group(3))
-        return p + a if s == own else f'https://github.com/unfamily/{WIKIS[s]}/wiki/{p}{a}'
+        return p + a if s == own else gh_wiki_url(s, p, a)
     def st(m):
         s, p, a = target(m.group(1).lower(), m.group(2), m.group(3))
         if s not in WIKIS: return m.group(0)
-        return p + a if s == own else f'https://github.com/unfamily/{WIKIS[s]}/wiki/{p}{a}'
-    return ST.sub(st, GH.sub(gh, text))
+        return p + a if s == own else gh_wiki_url(s, p, a)
+    return retarget_repo_links(ST.sub(st, GH.sub(gh, text)))
 
 def fix_site(text, own):
     def conv(s, p, a):
@@ -79,7 +125,7 @@ def fix_site(text, own):
     def st(m):
         r = conv(*target(m.group(1).lower(), m.group(2), m.group(3)))
         return r or m.group(0)
-    return ST.sub(st, GH.sub(gh, text))
+    return retarget_repo_links(ST.sub(st, GH.sub(gh, text)))
 
 def main():
     for slug, repo in WIKIS.items():

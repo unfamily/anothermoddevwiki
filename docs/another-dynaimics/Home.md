@@ -2,7 +2,7 @@
 
 This wiki documents **datapack APIs**, tags, config, and version gates for pack makers and integrators. It is **not** a player guide (see the CurseForge / Modrinth description for that).
 
-Authors: Unfamily, Iskandert · Loader: **NeoForge only**.
+Authors: [Unfamily](https://github.com/unfamily), Iskandert · [Another-Mod-Dev-Team](https://github.com/Another-Mod-Dev-Team) · Loader: **NeoForge only**.
 
 ## Notices
 

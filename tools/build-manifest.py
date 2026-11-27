@@ -24,5 +24,5 @@ for slug in sorted(os.listdir(DOCS)):
     if os.path.exists(os.path.join(d, "logo.png")): entry["logo"] = f"docs/{slug}/logo.png"
     mods.append(entry)
 with open(os.path.join(ROOT, "wiki.json"), "w", encoding="utf-8") as fh:
-    json.dump({"title": "Another Mod Dev Wiki", "links": [{"label": "Wiki on GitHub", "url": "https://github.com/unfamily/anothermoddevwiki"}, {"label": "unfamily on GitHub", "url": "https://github.com/unfamily"}], "mods": mods}, fh, indent=2, ensure_ascii=False)
+    json.dump({"title": "Another Mod Dev Wiki", "links": [{"label": "Wiki on GitHub", "url": "https://github.com/Another-Mod-Dev-Team/anothermoddevwiki"}, {"label": "unfamily on GitHub", "url": "https://github.com/unfamily"}, {"label": "Another-Mod-Dev-Team on GitHub", "url": "https://github.com/Another-Mod-Dev-Team"}], "mods": mods}, fh, indent=2, ensure_ascii=False)
 print(f"wiki.json: {len(mods)} mod, {sum(len(m['pages']) for m in mods)} pages")

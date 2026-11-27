@@ -3,11 +3,15 @@
   "links": [
     {
       "label": "Wiki on GitHub",
-      "url": "https://github.com/unfamily/anothermoddevwiki"
+      "url": "https://github.com/Another-Mod-Dev-Team/anothermoddevwiki"
     },
     {
       "label": "unfamily on GitHub",
       "url": "https://github.com/unfamily"
+    },
+    {
+      "label": "Another-Mod-Dev-Team on GitHub",
+      "url": "https://github.com/Another-Mod-Dev-Team"
     }
   ],
   "mods": [
@@ -23,7 +27,7 @@
       "links": [
         {
           "label": "GitHub",
-          "url": "https://github.com/unfamily/AnotherConfigManager"
+          "url": "https://github.com/Another-Mod-Dev-Team/AnotherConfigManager"
         },
         {
           "label": "CurseForge",
@@ -60,7 +64,7 @@
       "links": [
         {
           "label": "GitHub",
-          "url": "https://github.com/unfamily/Another-Dynaimics"
+          "url": "https://github.com/Another-Mod-Dev-Team/Another-Dynaimics"
         },
         {
           "label": "CurseForge",
@@ -117,7 +121,7 @@
       "links": [
         {
           "label": "GitHub",
-          "url": "https://github.com/unfamily/Another-Stages"
+          "url": "https://github.com/Another-Mod-Dev-Team/Another-Stages"
         }
       ],
       "logo": "docs/another-stages/logo.png"
@@ -259,7 +263,7 @@
       "links": [
         {
           "label": "GitHub Utilities",
-          "url": "https://github.com/unfamily/Iskandert_Utilities"
+          "url": "https://github.com/Another-Mod-Dev-Team/iskandert_utilities"
         },
         {
           "label": "CurseForge Utilities",
@@ -267,7 +271,7 @@
         },
         {
           "label": "GitHub Library",
-          "url": "https://github.com/unfamily/Iskandert-Library"
+          "url": "https://github.com/Another-Mod-Dev-Team/Iskandert-Library"
         },
         {
           "label": "CurseForge Library",

@@ -276,7 +276,7 @@ Full method catalog: **[Kube-Stage-API](Kube-Stage-API)**.
 
 ## Compatibility list (full support)
 
-All craft/process machines of the mod are gated. **Since** = first Another Stages version. Vanilla+ mods (crafting table / furnace / stonecutter / smithing only) go here. Requests: [GitHub issues](https://github.com/unfamily/Another-Stages/issues).
+All craft/process machines of the mod are gated. **Since** = first Another Stages version. Vanilla+ mods (crafting table / furnace / stonecutter / smithing only) go here. Requests: [GitHub issues](https://github.com/Another-Mod-Dev-Team/Another-Stages/issues).
 
 | Mod ID | Display name | How | Since |
 |--------|--------------|-----|-------|
