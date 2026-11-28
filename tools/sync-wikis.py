@@ -33,7 +33,7 @@ GH_OWNER = {
     'another-dynaimics': ORG,
     'another-stages': ORG,
     'iskandert-utilities': ORG,
-    'colossal-reactors': 'unfamily',
+    'colossal-reactors': ORG,
     'replication-ae2-bridge': 'unfamily',
 }
 # Real GitHub repo name in URLs when it differs from the local wiki folder
@@ -48,6 +48,7 @@ TRANSFERRED_REPOS = {
     'iskandert_utilities': (ORG, 'iskandert_utilities'),
     'iskandert-library': (ORG, 'Iskandert-Library'),
     'anothermoddevwiki': (ORG, 'anothermoddevwiki'),
+    'colossal-reactors': (ORG, 'Colossal-Reactors'),
 }
 
 def gh_repo(slug):
